@@ -352,9 +352,7 @@
   },
   "libraries": {
     "pinned_footprint_libs": [],
-    "pinned_symbol_libs": [
-      "aaa"
-    ]
+    "pinned_symbol_libs": []
   },
   "meta": {
     "filename": "demiurge.kicad_pro",
