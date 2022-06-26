@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="OCD demiurge-stm" type="com.jetbrains.cidr.embedded.openocd.conf.type" factoryName="com.jetbrains.cidr.embedded.openocd.conf.factory" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="demiurge-stm" TARGET_NAME="demiurge-stm.elf" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="demiurge-stm" RUN_TARGET_NAME="demiurge-stm.elf">
-    <openocd gdb-port="3333" telnet-port="4444" board-config="$PROJECT_DIR$/aaa-dev-board.cfg" reset-type="INIT" download-type="ALWAYS" />
-    <method v="2">
-      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-    </method>
-  </configuration>
-</component>

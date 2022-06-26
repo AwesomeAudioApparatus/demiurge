@@ -19,6 +19,8 @@ See the License for the specific language governing permissions and
 #include "demi_asserts.h"
 #include "oscillator.h"
 #include "octave_per_volt.h"
+#include <math.h>
+#include <float.h>
 
 static bool sine_wave_initialized = false;
 static float *sine_wave;
@@ -28,7 +30,8 @@ void oscillator_init(oscillator_t *handle) {
       sine_wave = (float *) calloc(SINEWAVE_SAMPLES, sizeof(float));
       for (int i = 0; i < SINEWAVE_SAMPLES; i++) {
          double radians = M_TWOPI * ((double) i) / ((double) SINEWAVE_SAMPLES);
-         sine_wave[i] = arm_sin_f32(radians);
+//         sine_wave[i] = arm_sin_f32(radians);
+         sine_wave[i] = sinf(radians);
       }
       sine_wave_initialized = true;
    }
@@ -183,7 +186,8 @@ float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
       handle->last_calc = time_in_us;
       oscillator_t *osc = (oscillator_t *) handle->data;
       float x = angular_pos(osc, time_in_us);
-      float out = arm_sin_f32(M_TWOPI * x) * 10 * amplitude(osc, time_in_us);
+//      float out = arm_sin_f32(M_TWOPI * x) * 10 * amplitude(osc, time_in_us);
+      float out = sinf(M_TWOPI * x) * 10 * amplitude(osc, time_in_us);
       // Optimized
 //      int idx = (int) (x * SINEWAVE_SAMPLES);
 //      float out;

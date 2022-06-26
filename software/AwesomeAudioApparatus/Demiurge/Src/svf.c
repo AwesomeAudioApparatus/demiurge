@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 
 #include "svf.h"
 #include "clipping.h"
+#include <math.h>
 
 // TODO: Work in-progress. Not correctly implemented yet. Need to figure out sequence/ordering in diagram at;
 // https://www.musicdsp.org/en/latest/Filters/92-state-variable-filter-double-sampled-stable.html
@@ -50,7 +51,9 @@ float svf_read(signal_t *handle, uint64_t time) {
 
         float lastOut = handle->cached;
         float freq = frequencySignal->read_fn(frequencySignal, time);
-        float f = 2 * arm_sin_f32(PI * freq/demiurge_samplerate);
+//        float f = 2 * arm_sin_f32(PI * freq/demiurge_samplerate);
+        float f = 2 * sinf(M_PI * freq/demiurge_samplerate);
+
         float q = 1 / QSignal->read_fn(QSignal, time);
         float inp = input->read_fn(input, time);
         float q2 = svf->q2;

@@ -21,8 +21,6 @@ See the License for the specific language governing permissions and
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stm32f405xx.h>
-#include <arm_math.h>
 #include "clipping.h"
 #include "demi_asserts.h"
 

@@ -16,7 +16,6 @@ See the License for the specific language governing permissions and
 
 
 #include <stdint.h>
-#include <main.h>
 #include "octave_per_volt.h"
 
 #ifndef OCTAVE_LOOKUP_SIZE

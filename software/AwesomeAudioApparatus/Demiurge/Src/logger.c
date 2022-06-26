@@ -17,16 +17,16 @@ See the License for the specific language governing permissions and
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include "stm32f4xx_hal.h"
 
 #define PRINT_BUFFER_SIZE 500
 
-extern UART_HandleTypeDef *huart_log;
+//extern UART_HandleTypeDef *huart_log;
 
-/** Custom printf function in order to use HAL_UART_Transmit()
+/*
+ ** Custom printf function in order to use HAL_UART_Transmit()
  * @param *fmt String to print
  * @param argp Parameters list
- */
+ *
 void HAL_printf_valist(const char *fmt, va_list argp) {
    char string[PRINT_BUFFER_SIZE];
    if( huart_log != NULL ){
@@ -38,10 +38,10 @@ void HAL_printf_valist(const char *fmt, va_list argp) {
    }
 }
 
-/** Custom printf function, only translate to va_list arg HAL_UART.
+** Custom printf function, only translate to va_list arg HAL_UART.
  * @param *fmt String to print
  * @param ... Data
- */
+ *
 void HAL_printf(const char *fmt, ...) {
    va_list argp;
 
@@ -50,15 +50,16 @@ void HAL_printf(const char *fmt, ...) {
    va_end(argp);
 }
 
-/** Generic LOG procedure
+** Generic LOG procedure
  * @param Log level
  * @param *fmt String to print
  * @param argp Parameters list
- */
+ *
 static void log(uint8_t level, const char *fmt, va_list argp) {
    HAL_printf("%c - ", level);
    HAL_printf_valist(fmt, argp);
 }
+*/
 
 /** LOG procedure - Info
  * @param *fmt String to print
@@ -68,7 +69,9 @@ void logI(const char* fmt, ...) {
    va_list argp;
 
    va_start(argp, fmt);
-   log('I', fmt, argp);
+//   log('I', fmt, argp);
+   printf("I - " );
+   printf( fmt, argp);
    va_end(argp);
 }
 
@@ -80,6 +83,8 @@ void logE(const char* fmt, ...) {
    va_list argp;
 
    va_start(argp, fmt);
-   log('E', fmt, argp);
+//   log('E', fmt, argp);
+   printf("E - " );
+   printf( fmt, argp);
    va_end(argp);
 }

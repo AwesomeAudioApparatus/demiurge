@@ -59,6 +59,31 @@ extern float outputs[2];
 extern float inputs[8];
 extern float leds[4];
 
+extern uint32_t gpio_a;
+extern uint32_t gpio_b;
+extern uint32_t gpio_c;
+
+extern void read_gpio();
+extern void init_gpio();
+extern void start_gpio();
+extern void stop_gpio();
+
+extern void read_adc();
+extern void init_adc();
+extern void start_adc();
+extern void stop_adc();
+
+extern void update_dac();
+extern void init_dac();
+extern void start_dac();
+extern void stop_dac();
+
+extern void init_timer();
+extern void start_timer();
+extern void stop_timer();
+
+extern void update_leds();
+
 void demiurge_start();
 
 void demiurge_stop();
