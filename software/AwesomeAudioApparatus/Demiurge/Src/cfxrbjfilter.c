@@ -15,10 +15,13 @@ See the License for the specific language governing permissions and
 */
 
 #include "cfxrbjfilter.h"
+#include <math.h>
+
 
 // TODO: Work in-progress. Function check and testing are not done.
+// TODO: typesignal should change the type of filter used.
 
-void cfxrbjfilter_init(cfxrbjfilter_t *handle, int position) {
+void cfxrbjfilter_init(cfxrbjfilter_t *handle) {
 //    configASSERT(position > 0 && position <= 4)
     handle->me.read_fn = cfxrbjfilter_read;
     handle->me.data = handle;
@@ -45,7 +48,7 @@ void cfxrbjfilter_compute(signal_t *handle, uint64_t time) {
         handle->last_calc = time;
         cfxrbjfilter_t *filter = ((cfxrbjfilter_t *) handle->data);
         signal_t *input = filter->input;
-        signal_t *typesignal = filter->type;
+//        signal_t *typesignal = filter->type;
         int const type = (int) filter->type->read_fn(filter->type, time);
         double const frequency = filter->frequency->read_fn(filter->frequency, time);
         double const q = filter->Q->read_fn(filter->Q, time);
@@ -97,9 +100,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * tcos;
             a2 = 1.0 - alpha / A;
         }
-
         // lowshelf
-        if (type == 7) {
+        else if (type == 7) {
             b0 = A * ((A + 1.0) - (A - 1.0) * tcos + beta * tsin);
             b1 = 2.0 * A * ((A - 1.0) - (A + 1.0) * tcos);
             b2 = A * ((A + 1.0) - (A - 1.0) * tcos - beta * tsin);
@@ -107,9 +109,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * ((A - 1.0) + (A + 1.0) * tcos);
             a2 = (A + 1.0) + (A - 1.0) * tcos - beta * tsin;
         }
-
         // hishelf
-        if (type == 8) {
+        else /*if (type == 8)*/ {
             b0 = A * ((A + 1.0) + (A - 1.0) * tcos + beta * tsin);
             b1 = -2.0 * A * ((A - 1.0) + (A + 1.0) * tcos);
             b2 = A * ((A + 1.0) + (A - 1.0) * tcos - beta * tsin);
@@ -137,9 +138,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * tcos;
             a2 = 1.0 - alpha;
         }
-
         // hipass
-        if (type == 1) {
+        else if (type == 1) {
             b0 = (1.0 + tcos) / 2.0;
             b1 = -(1.0 + tcos);
             b2 = (1.0 + tcos) / 2.0;
@@ -147,9 +147,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * tcos;
             a2 = 1.0 - alpha;
         }
-
         // bandpass csg
-        if (type == 2) {
+        else if (type == 2) {
             b0 = tsin / 2.0;
             b1 = 0.0;
             b2 = -tsin / 2;
@@ -157,9 +156,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * tcos;
             a2 = 1.0 - alpha;
         }
-
         // bandpass czpg
-        if (type == 3) {
+        else if (type == 3) {
             b0 = alpha;
             b1 = 0.0;
             b2 = -alpha;
@@ -167,9 +165,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * tcos;
             a2 = 1.0 - alpha;
         }
-
         // notch
-        if (type == 4) {
+        else if (type == 4) {
             b0 = 1.0;
             b1 = -2.0 * tcos;
             b2 = 1.0;
@@ -177,9 +174,8 @@ void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double fre
             a1 = -2.0 * tcos;
             a2 = 1.0 - alpha;
         }
-
         // allpass
-        if (type == 5) {
+        else /* if (type == 5) */ {
             b0 = 1.0 - alpha;
             b1 = -2.0 * tcos;
             b2 = 1.0 + alpha;

@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 #include "signal.h"
 #include "adsr.h"
 #include "clipping.h"
+#include <math.h>
 
 void adsr_init(adsr_t *handle) {
    handle->me.read_fn = adsr_read;
@@ -56,7 +57,7 @@ float adsr_slopeTime(float voltage) {
    // Logarithmic response, so that;
    // -10V = 1 microsecond, 0V = 1 millisecond, +10V = 1 second
    // TODO:
-   float millis = powf(10, voltage / 3.33333f);
+   float millis = powf(10.0, voltage / 3.33333f);
    return millis * 1000;
 }
 

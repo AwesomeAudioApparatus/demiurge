@@ -260,7 +260,6 @@ void rt_object_init(struct rt_object         *object,
             node  = node->next)
     {
         struct rt_object *obj;
-
         obj = rt_list_entry(node, struct rt_object, list);
         RT_ASSERT(obj != object);
     }

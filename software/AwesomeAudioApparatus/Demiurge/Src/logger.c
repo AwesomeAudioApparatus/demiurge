@@ -65,13 +65,14 @@ static void log(uint8_t level, const char *fmt, va_list argp) {
  * @param *fmt String to print
  * @param ... Parameters list
  */
-void logI(const char* fmt, ...) {
+void logI(const char* tag, const char* fmt, ...) {
    va_list argp;
 
    va_start(argp, fmt);
 //   log('I', fmt, argp);
-   printf("I - " );
+   printf("I %s\t", tag );
    printf( fmt, argp);
+   printf("\n" );
    va_end(argp);
 }
 
@@ -79,12 +80,12 @@ void logI(const char* fmt, ...) {
  * @param *fmt String to print
  * @param .. Parameters list
  */
-void logE(const char* fmt, ...) {
+void logE(const char* tag, const char* fmt, ...) {
    va_list argp;
 
    va_start(argp, fmt);
 //   log('E', fmt, argp);
-   printf("E - " );
+   printf("E %s\t", tag );
    printf( fmt, argp);
    va_end(argp);
 }

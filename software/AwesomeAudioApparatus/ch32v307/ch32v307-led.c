@@ -14,11 +14,22 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demiurge-spi.h"
+#include "ch32v30x.h"
 
-#ifndef DEMIURGE_LOGGER_H
-#define DEMIURGE_LOGGER_H
+float leds[4];
 
-void logI(const char* tag, const char* fmt, ...);
-void logE(const char* tag, const char* fmt, ...);
+void update_leds() {
+   // TODO: on AW9523 via I2C
+}
 
-#endif
+void init_leds()
+{
+}
+
+void start_leds()
+{}
+
+void stop_leds()
+{
+}

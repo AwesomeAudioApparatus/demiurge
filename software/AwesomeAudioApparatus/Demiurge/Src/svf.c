@@ -62,7 +62,7 @@ float svf_read(signal_t *handle, uint64_t time) {
         float bandpass = highpass * f + q2;
 
         float out = q2 * f + svf->secondLastOut;
-        float notch = out + highpass;
+//        float notch = out + highpass;
         svf->secondLastOut = lastOut;
         out = handle->post_fn(out);
 

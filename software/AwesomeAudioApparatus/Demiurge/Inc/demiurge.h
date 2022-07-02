@@ -58,47 +58,24 @@ extern uint64_t demiurge_current_time;
 extern float outputs[2];
 extern float inputs[8];
 extern float leds[4];
+extern bool buttons[4];
+extern bool gates_in[4];
+extern bool gates_out[4];
+extern bool gates_dir[4];
 
-extern uint32_t gpio_a;
-extern uint32_t gpio_b;
-extern uint32_t gpio_c;
+extern void set_gate_to_input(int position);
+extern void set_gate_to_output(int position);
 
-extern void read_gpio();
-extern void init_gpio();
-extern void start_gpio();
-extern void stop_gpio();
-
-extern void read_adc();
-extern void init_adc();
-extern void start_adc();
-extern void stop_adc();
-
-extern void update_dac();
-extern void init_dac();
-extern void start_dac();
-extern void stop_dac();
-
-extern void init_timer();
-extern void start_timer();
-extern void stop_timer();
-
-extern void update_leds();
-
+void demiurge_init();
 void demiurge_start();
-
 void demiurge_stop();
 
-void demiurge_tick();
 
 void demiurge_registerSink(signal_t *processor);
-
 void demiurge_unregisterSink(signal_t *processor);
 
 void demiurge_set_output(int number, float value);
-
 void demiurge_set_led(int number, float value);
-
-bool demiurge_gpio(int i);
 
 void demiurge_print_overview(const char *tag, signal_t *signal);
 

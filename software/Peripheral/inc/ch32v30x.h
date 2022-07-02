@@ -19,11 +19,15 @@
   
 #define __MPU_PRESENT             0 /* Other CH32 devices does not provide an MPU */
 #define __Vendor_SysTickConfig    0 /* Set to 1 if different SysTick Config is used */	 
-	 
-#define HSE_VALUE    ((uint32_t)8000000) /* Value of the External oscillator in Hz */
+
+#ifndef HSE_VALUE
+#define HSE_VALUE    ((uint32_t)16000000) /* Value of the External oscillator in Hz */
+#endif
 
 /* In the following line adjust the External High Speed oscillator (HSE) Startup Timeout value */
+#ifndef HSE_STARTUP_TIMEOUT
 #define HSE_STARTUP_TIMEOUT   ((uint16_t)0x1000) /* Time out for HSE start up */
+#endif
 
 #define HSI_VALUE    ((uint32_t)8000000) /* Value of the Internal oscillator in Hz */
 

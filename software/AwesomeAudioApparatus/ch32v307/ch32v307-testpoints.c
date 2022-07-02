@@ -14,11 +14,30 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demiurge-spi.h"
+#include "ch32v30x.h"
 
-#ifndef DEMIURGE_LOGGER_H
-#define DEMIURGE_LOGGER_H
+void init_testpoints()
+{
+}
 
-void logI(const char* tag, const char* fmt, ...);
-void logE(const char* tag, const char* fmt, ...);
+void start_testpoints()
+{
+}
 
-#endif
+void stop_testpoints()
+{
+}
+
+void set_testpoint(int point)
+{
+    if( point == 0)
+        GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+}
+
+void clear_testpoint(int point)
+{
+    if( point == 0)
+        GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_RESET);
+}
+

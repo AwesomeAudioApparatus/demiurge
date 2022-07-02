@@ -28,7 +28,7 @@ void pushbutton_init(pushbutton_t *handle, int position) {
 float pushbutton_read(signal_t *handle, uint64_t time) {
    if( time > handle->last_calc ){
       pushbutton_t *button = (pushbutton_t *) handle->data;
-      float result = handle->post_fn(demiurge_gpio(button->position));
+      float result = handle->post_fn(buttons[button->position]);
       handle->cached = result;
       return result;
    }

@@ -16,13 +16,14 @@ See the License for the specific language governing permissions and
 
 //#include "stm32f4xx_hal.h"
 #include "demiurge.h"
+#include "demiurge-spi.h"
 #include "logger.h"
 #include "rtthread.h"
 #include <rtdevice.h>
 
 //#include "main.h"
 
-#define TAG "SOUND"
+#define TAG "CORE"
 
 uint32_t demiurge_samplerate;
 uint64_t demiurge_current_time;
@@ -35,27 +36,16 @@ static volatile uint64_t tick_duration = 0;
 static volatile uint64_t tick_interval = 0;
 #endif
 
+static demiurge_driver_info_t *driver_info;
+
 static volatile signal_t *sinks[DEMIURGE_MAX_SINKS];
-float inputs[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-float outputs[2] = {0.0f, 0.0f};
-float leds[4] = {0.0f, 0.0f};
-uint32_t gpio_a;
-uint32_t gpio_b;
-uint32_t gpio_c;
-
-
-// Overrun increments means that the tick() took longer than the sample time.
-// If you see this happening, either decrease the sample rate or optimize the tick()
-// evaluation to take less time.
-static uint32_t overrun = -3;  // 3 overruns happen during startup, and that is ok. Let's compensate for that.
 
 void demiurge_registerSink(signal_t *processor) {
    logI(TAG, "Registering Sink: %p", (void *) processor);
    configASSERT(processor != NULL)
-   for (int i = 0; i < DEMIURGE_MAX_SINKS; i++) {
+   for (uint32_t i = 0; i < DEMIURGE_MAX_SINKS; i++) {
       if (sinks[i] == NULL) {
          sinks[i] = processor;
-         logI(TAG, "Registering Sink: %d", i);
          break;
       }
    }
@@ -67,21 +57,10 @@ void demiurge_unregisterSink(signal_t *processor) {
    for (int i = 0; i < DEMIURGE_MAX_SINKS; i++) {
       if (sinks[i] == processor) {
          sinks[i] = NULL;
-         logI(TAG, "Unregistering Sink: %d, %p", i, (void *) processor);
+         logI(TAG, "Unregistering Sink: %lu, %p", i, (void *) processor);
          break;
       }
    }
-}
-
-bool demiurge_gpio(int pin) {
-   uint32_t gpios = 0;
-   if (pin >= 0 && pin < 16)
-      gpios = gpio_a;
-   else if (pin >= 16 && pin < 32)
-      gpios = gpio_b;
-   else if (pin >= 32 && pin < 48)
-      gpios = gpio_c;
-   return (gpios >> pin & 1) != 0;
 }
 
 void demiurge_set_output(int number, float value) {
@@ -94,9 +73,19 @@ void demiurge_set_led(int number, float value) {
    leds[number - 1] = value;
 }
 
+void set_gate_to_input(int position)
+{
+    direction_gate(position, false);
+}
+
+void set_gate_to_output(int position)
+{
+    direction_gate(position, true);
+}
+
 void demiurge_print_overview(const char *tag, signal_t *signal) {
 #ifdef DEMIURGE_TICK_TIMING
-   logI("TICK", "interval=%lld, duration=%lld, start=%lld, overrun=%d",
+   logI(tag, "interval=%lld, duration=%lld, start=%lld, overrun=%d",
             tick_interval, tick_duration, tick_start, overrun);
 #endif  //DEMIURGE_TICK_TIMING
 
@@ -149,7 +138,8 @@ void demiurge_tick() {
    // We are setting the outputs at the start of a cycle, to ensure that the interval is identical from cycle to cycle.
    update_dac();
    update_leds();
-   read_gpio();
+   update_gates();
+   read_gates();
    read_adc();
 
    for (int i = 0; i < DEMIURGE_MAX_SINKS; i++) {
@@ -167,31 +157,100 @@ void demiurge_tick() {
 #endif
 }
 
+void demiurge_init() {
+    octave_init();
+    micros_per_tick = 1000000 / demiurge_samplerate;
+    driver_info = demiurge_driver_info();
+
+    printf("Initializing Demiurge.\n" );
+    printf("Driver\n  Name: %s\n", driver_info->name);
+    printf("  Inputs: %d\n", driver_info->inputs);
+    printf("  Outputs: %d\n", driver_info->outputs);
+    printf("  LEDs: %d\n", driver_info->leds);
+    printf("  Buttons: %d\n", driver_info->buttons);
+    printf("  Potentiometers: %d\n", driver_info->potentionmeters);
+    printf("  USB: %s\n", driver_info->usb ? "yes" : "no");
+    printf("  SDcard: %s\n", driver_info->sdcard ? "yes" : "no");
+    printf("  Flash: %d MB\n", driver_info->flash);
+    printf("Sample rate: %ld microseconds\n", micros_per_tick);
+
+    for (int i = 0; i < DEMIURGE_MAX_SINKS; i++)
+       sinks[i] = NULL;
+
+    demiurge_driver_init();
+
+    init_testpoints();
+    if(driver_info->inputs > 0)
+        init_adc();
+    if( driver_info->buttons > 0)
+        init_buttons();
+    if(driver_info->outputs > 0)
+        init_dac();
+    if(driver_info->flash)
+        init_flash();
+    if(driver_info->gates > 0)
+        init_gates();
+    if( driver_info->leds > 0)
+        init_leds();
+    if( driver_info->potentionmeters > 0)
+        init_potentiometers();
+    if( driver_info->sdcard )
+        init_sdcard();
+    if(driver_info->usb)
+        init_usb();
+
+    init_timer(demiurge_samplerate);
+}
+
 void demiurge_start() {
-   octave_init();
-   micros_per_tick = 1000000 / demiurge_samplerate;
-   logI(TAG, "Starting Demiurge. Tick rate: %d microseconds\n", micros_per_tick);
 
-   for (int i = 0; i < DEMIURGE_MAX_SINKS; i++)
-      sinks[i] = NULL;
-
-   init_adc();
-   init_dac();
-   init_timer();
-
-   start_adc();
-   start_dac();
-   start_timer();
-
-   logI(TAG, "Demiurge Started.");
+    start_testpoints();
+    if(driver_info->inputs > 0)
+        start_adc();
+    if( driver_info->buttons > 0)
+        start_buttons();
+    if(driver_info->outputs > 0)
+        start_dac();
+    if(driver_info->flash)
+        start_flash();
+    if(driver_info->gates > 0)
+        start_gates();
+    if( driver_info->leds > 0)
+        start_leds();
+    if( driver_info->potentionmeters > 0)
+        start_potentiometers();
+    if( driver_info->sdcard )
+        start_sdcard();
+    if(driver_info->usb)
+        start_usb();
+    start_timer();
+    logI(TAG, "Demiurge Started.");
 }
 
 void demiurge_stop(uint64_t rate) {
-   for (int i = 0; i < DEMIURGE_MAX_SINKS; i++)
-      sinks[i] = NULL;
-   stop_timer();
-   stop_adc();
-   stop_dac();
+    for (int i = 0; i < DEMIURGE_MAX_SINKS; i++)
+        sinks[i] = NULL;
+    stop_timer();
+    if( driver_info->potentionmeters > 0)
+        stop_potentiometers();
+    if( driver_info->buttons > 0)
+        stop_buttons();
+    if(driver_info->usb)
+        stop_usb();
+    if( driver_info->sdcard )
+        stop_sdcard();
+    if(driver_info->inputs > 0)
+        stop_adc();
+    if(driver_info->outputs > 0)
+        stop_dac();
+    if(driver_info->flash)
+        stop_flash();
+    if(driver_info->gates > 0)
+        stop_gates();
+    if( driver_info->leds > 0)
+        stop_leds();
+    stop_testpoints();
+    logI(TAG, "Demiurge Stopped.");
 }
 
 #undef TAG

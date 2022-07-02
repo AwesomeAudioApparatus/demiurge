@@ -24,6 +24,7 @@ void gate_inport_init(gate_inport_t *handle, int position) {
    handle->me.data = handle;
    handle->me.post_fn = clip_gate;
    handle->position = position - 1;
+   set_gate_to_input(position);
 }
 
 float gate_inport_read(signal_t *handle, uint64_t time) {
@@ -39,7 +40,7 @@ float gate_inport_read(signal_t *handle, uint64_t time) {
          float input = inputs[port->position];
          result = handle->post_fn(input);
       } else {
-         bool state = demiurge_gpio(32);
+         bool state = gates_in[0];
          result = state ? DEMIURGE_GATE_HIGH : DEMIURGE_GATE_LOW;
       }
 #ifdef DEMIURGE_DEV

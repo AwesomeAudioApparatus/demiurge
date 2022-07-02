@@ -14,11 +14,24 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demiurge-spi.h"
+#include <stdbool.h>
 
-#ifndef DEMIURGE_LOGGER_H
-#define DEMIURGE_LOGGER_H
+bool buttons[4];
 
-void logI(const char* tag, const char* fmt, ...);
-void logE(const char* tag, const char* fmt, ...);
+void update_buttons()
+{
+}
 
-#endif
+void init_buttons()
+{
+}
+
+void start_buttons()
+{
+}
+
+void stop_buttons()
+{
+}
+

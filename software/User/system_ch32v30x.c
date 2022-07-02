@@ -15,10 +15,10 @@
 * reset the HSI is used as SYSCLK source).
 * If none of the define below is enabled, the HSI is used as System clock source. 
 */
-// #define SYSCLK_FREQ_HSE    HSE_VALUE
-/* #define SYSCLK_FREQ_24MHz  24000000  */ 
+//#define SYSCLK_FREQ_HSE    HSE_VALUE
+//#define SYSCLK_FREQ_24MHz  24000000
 //#define SYSCLK_FREQ_48MHz  48000000
-/* #define SYSCLK_FREQ_56MHz  56000000  */  
+//#define SYSCLK_FREQ_56MHz  56000000
 //#define SYSCLK_FREQ_72MHz  72000000
 //#define SYSCLK_FREQ_96MHz  96000000
 //#define SYSCLK_FREQ_120MHz  120000000
@@ -240,7 +240,7 @@ static void SetSysClockToHSE(void)
   if (HSEStatus == (uint32_t)0x01)
   {
     /* HCLK = SYSCLK */
-    RCC->CFGR0 |= (uint32_t)RCC_HPRE_DIV1;      
+    RCC->CFGR0 |= (uint32_t)RCC_HPRE_DIV1;
     /* PCLK2 = HCLK */
     RCC->CFGR0 |= (uint32_t)RCC_PPRE2_DIV1;
     /* PCLK1 = HCLK */
@@ -733,20 +733,25 @@ static void SetSysClockTo144(void)
   if (HSEStatus == (uint32_t)0x01)
   {
     /* HCLK = SYSCLK */
-    RCC->CFGR0 |= (uint32_t)RCC_HPRE_DIV1;
     /* PCLK2 = HCLK */
-    RCC->CFGR0 |= (uint32_t)RCC_PPRE2_DIV1;
     /* PCLK1 = HCLK */
-    RCC->CFGR0 |= (uint32_t)RCC_PPRE1_DIV2;
-
     /*  PLL configuration: PLLCLK = HSE * 18 = 144 MHz */
+
+    RCC->CFGR0 |= (uint32_t)RCC_HPRE_DIV1;	// bit 4-7, AHB clock source prescaler control: SYSCLK not divided;
+    RCC->CFGR0 |= (uint32_t)RCC_PPRE2_DIV1; // bit 11-13, APB2 clock source prescaler control: HCLK not divided
+    RCC->CFGR0 |= (uint32_t)RCC_PPRE1_DIV2; // bit 8-10,  APB1 clock source prescaler control: HCLK divided by 2
+
     RCC->CFGR0 &= (uint32_t)((uint32_t)~(RCC_PLLSRC | RCC_PLLXTPRE |
                                         RCC_PLLMULL));
 
 #ifdef CH32V30x_D8
         RCC->CFGR0 |= (uint32_t)(RCC_PLLSRC_HSE | RCC_PLLXTPRE_HSE | RCC_PLLMULL18);
 #else
-        RCC->CFGR0 |= (uint32_t)(RCC_PLLSRC_HSE | RCC_PLLXTPRE_HSE | RCC_PLLMULL18_EXTEN);
+        RCC->CFGR0 |= (uint32_t)(
+                RCC_PLLSRC_HSE          // bit 16, PLL entry clock source: HSE
+                | RCC_PLLXTPRE_HSE_Div2 // bit 17, HSE clock divided by 2.
+                | RCC_PLLMULL18_EXTEN   // bit 18-21, PLL input clock x 18
+        );
 #endif
 
     /* Enable PLL */
@@ -755,9 +760,11 @@ static void SetSysClockTo144(void)
     while((RCC->CTLR & RCC_PLLRDY) == 0)
     {
     }
+
     /* Select PLL as system clock source */
     RCC->CFGR0 &= (uint32_t)((uint32_t)~(RCC_SW));
-    RCC->CFGR0 |= (uint32_t)RCC_SW_PLL;
+    RCC->CFGR0 |= (uint32_t)RCC_SW_PLL;  // System clock source switch: PLL output used as the system clock;
+
     /* Wait till PLL is used as system clock source */
     while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08)
     {

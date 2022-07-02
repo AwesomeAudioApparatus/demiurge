@@ -57,7 +57,7 @@ typedef struct {
 
 } cfxrbjfilter_t;
 
-void cfxrbjfilter_init(cfxrbjfilter_t *handle, int position);
+void cfxrbjfilter_init(cfxrbjfilter_t *handle);
 
 void cfxrbjfilter_configure_input(cfxrbjfilter_t *handle, signal_t *input);
 

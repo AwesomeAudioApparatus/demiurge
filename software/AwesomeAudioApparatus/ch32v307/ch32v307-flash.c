@@ -14,11 +14,21 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demiurge-spi.h"
+#include "ch32v30x.h"
 
-#ifndef DEMIURGE_LOGGER_H
-#define DEMIURGE_LOGGER_H
+void update_flash()
+{
+}
 
-void logI(const char* tag, const char* fmt, ...);
-void logE(const char* tag, const char* fmt, ...);
+void init_flash()
+{
+}
 
-#endif
+void start_flash()
+{
+}
+
+void stop_flash()
+{
+}

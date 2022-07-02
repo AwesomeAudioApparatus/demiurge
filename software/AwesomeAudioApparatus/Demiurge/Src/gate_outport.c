@@ -25,6 +25,7 @@ void gate_outport_init(gate_outport_t *handle, int position) {
    handle->me.post_fn = clip_gate;
    handle->position = position;
    handle->registered = false;
+   set_gate_to_output(position);
 }
 
 void gate_outport_configure_input(gate_outport_t *handle, signal_t *input) {

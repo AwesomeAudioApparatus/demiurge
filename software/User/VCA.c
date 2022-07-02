@@ -30,7 +30,7 @@ static mixer_t mixer;           // Declaration of a Mixer block
 /*
  * A two port Mixer, with CV control
  */
-void setup() {
+void vca_setup() {
    // Initialize the hardware configuration
    control_pair_init(&pair1, 1);       // CV+Pot at the top of Demiurge
    control_pair_init(&pair2, 2);       // CV+Pot at the second position from the top of Demiurge
@@ -55,5 +55,5 @@ void setup() {
    audio_outport_configure_input(&out2, &mixer.me);
 }
 
-void loop() {
+void vac_loop() {
 }
