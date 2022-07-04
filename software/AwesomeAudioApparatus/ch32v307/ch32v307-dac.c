@@ -22,17 +22,17 @@ static uint16_t dac_counter = 0;
 static uint16_t dac_state = 0;
 
 void update_dac() {
-	GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
     uint16_t ch1 = (uint16_t) ((outputs[0] + 10.0f) * 204.7f);
     uint16_t ch2 = (uint16_t) ((outputs[1] + 10.0f) * 204.7f);
 
     DAC->RD12BDHR = ch1 + (ch2 << 16);
-	GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
 }
 
 void init_dac() {
 
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE );
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE );
 
     DAC_InitTypeDef initialization={0};
     initialization.DAC_Trigger=DAC_Trigger_None;
