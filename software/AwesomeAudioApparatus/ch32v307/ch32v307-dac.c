@@ -18,42 +18,37 @@ See the License for the specific language governing permissions and
 #include "ch32v30x.h"
 
 float outputs[2];
-static uint16_t dac_test = 0;
+static uint16_t dac_counter = 0;
+static uint16_t dac_state = 0;
 
 void update_dac() {
-//   uint16_t ch1 = (uint16_t) ((10.0f - outputs[0]) * 204.7f);
-//   uint16_t ch2 = (uint16_t) ((10.0f - outputs[1]) * 204.7f);
-//   DAC_SetDualChannelData(DAC_Align_12b_R, ch1,ch2);
+	GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+    uint16_t ch1 = (uint16_t) ((outputs[0] + 10.0f) * 204.7f);
+    uint16_t ch2 = (uint16_t) ((outputs[1] + 10.0f) * 204.7f);
 
-   dac_test++;
-   DAC_SetDualChannelData(DAC_Align_12b_R, dac_test, dac_test);
-   if( dac_test > 2047)
-	   dac_test = 0;
+    DAC->RD12BDHR = ch1 + (ch2 << 16);
+	GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
 }
 
 void init_dac() {
-	DAC_InitTypeDef DAC_InitType={0};
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE );
 
+    DAC_InitTypeDef initialization={0};
+    initialization.DAC_Trigger=DAC_Trigger_None;
+    initialization.DAC_WaveGeneration=DAC_WaveGeneration_None;
+    initialization.DAC_OutputBuffer=DAC_OutputBuffer_Enable;
+    DAC_Init(DAC_Channel_1,&initialization);
+    DAC_Init(DAC_Channel_2,&initialization);
 
-	DAC_InitType.DAC_Trigger=DAC_Trigger_None;
-	DAC_InitType.DAC_WaveGeneration=DAC_WaveGeneration_None;
-	DAC_InitType.DAC_LFSRUnmask_TriangleAmplitude=DAC_LFSRUnmask_Bit0;
-	DAC_InitType.DAC_OutputBuffer=DAC_OutputBuffer_Disable ;
-    DAC_Init(DAC_Channel_1,&DAC_InitType);
-    DAC_Init(DAC_Channel_2,&DAC_InitType);
+}
 
+void start_dac() {
     DAC_Cmd(DAC_Channel_1, ENABLE);
     DAC_Cmd(DAC_Channel_2, ENABLE);
 }
 
-void start_dac() {
-//   HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
-//   HAL_DAC_Start(&hdac, DAC_CHANNEL_2);
-}
-
 void stop_dac() {
-//   HAL_DAC_Stop(&hdac, DAC_CHANNEL_1);
-//   HAL_DAC_Stop(&hdac, DAC_CHANNEL_2);
+    DAC_Cmd(DAC_Channel_1, DISABLE);
+    DAC_Cmd(DAC_Channel_2, DISABLE);
 }

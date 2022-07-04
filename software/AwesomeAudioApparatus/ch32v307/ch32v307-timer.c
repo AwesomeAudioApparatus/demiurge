@@ -21,8 +21,8 @@ See the License for the specific language governing permissions and
 __attribute__((interrupt("WCH-Interrupt-fast"))) void TIM7_IRQHandler() {
     GET_INT_SP();
     rt_interrupt_enter();
-	demiurge_tick();
-	TIM_ClearITPendingBit(TIM7, TIM_IT_Trigger);
+    demiurge_tick();
+    TIM7->INTFR = 0;
     rt_interrupt_leave();
     FREE_INT_SP();
 }
@@ -30,9 +30,9 @@ __attribute__((interrupt("WCH-Interrupt-fast"))) void TIM7_IRQHandler() {
 void init_timer(int samplerate) {
 
     uint32_t prescale = 0;
-    uint32_t period = (48000000 / samplerate) - 1;
+    uint32_t period = (144000000 / samplerate) - 1;
 
-    printf("prescale:%d, period:%d\n", prescale, period);
+    printf("Prescale:%d, period:%d\n", prescale, period);
 
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure={0};
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, ENABLE);
@@ -41,24 +41,19 @@ void init_timer(int samplerate) {
     TIM_TimeBaseStructure.TIM_Period = period;
     TIM_TimeBaseStructure.TIM_Prescaler = prescale;
     TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Down;
     TIM_TimeBaseInit(TIM7, &TIM_TimeBaseStructure);
-    TIM_PrescalerConfig(TIM7, prescale, TIM_PSCReloadMode_Immediate);
-    TIM_SetAutoreload( TIM7,TIM_PSCReloadMode_Immediate );
-    TIM_SelectMasterSlaveMode(TIM7, TIM_MasterSlaveMode_Disable);
-    TIM_SelectOutputTrigger(TIM7, TIM_TRGOSource_Update);
-    TIM_ITConfig(TIM7, TIM_IT_Update, ENABLE);
 
     NVIC_InitTypeDef NVIC_InitStructure = {0};
     NVIC_InitStructure.NVIC_IRQChannel = TIM7_IRQn;
+    // TODO: What priorities should we have? Surely the Audio stream has higher priority than system clock for slow stuff.
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+
     NVIC_Init(&NVIC_InitStructure);
     TIM7->DMAINTENR |= TIM_UIE;
     NVIC_EnableIRQ(TIM7_IRQn);
-
-    printf( "TIM7->DMAINTENR: %d", TIM7->DMAINTENR );
 }
 
 void start_timer() {

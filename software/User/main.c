@@ -14,8 +14,6 @@ int main(void)
     demiurge_samplerate = 48000;
 	demiurge_init();
 
-	demiurge_driver_start();
-
 	vco_setup();
 	demiurge_start();
 	while(1)

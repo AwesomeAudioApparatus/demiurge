@@ -38,79 +38,93 @@ typedef struct {
     const uint16_t recommended_frequency; // in kHz
     const bool usb;
     const bool sdcard;
+    const bool display;
+    const bool button_navigation;
 } demiurge_driver_info_t;
 
-extern void demiurge_driver_init();
-extern void demiurge_driver_start();
-extern demiurge_driver_info_t *demiurge_driver_info();
+void demiurge_driver_init(uint32_t samplerate);
+void demiurge_driver_start();
+void demiurge_driver_stop();
+demiurge_driver_info_t *demiurge_driver_info();
 
 // Gates
-extern void init_gates();
-extern void read_gates();
-extern void update_gates();
-extern void start_gates();
-extern void stop_gates();
-extern void direction_gate(int gate, bool output);
+void init_gates();
+void read_gates();
+void update_gates();
+void start_gates();
+void stop_gates();
+void direction_gate(int gate, bool output);
 
 // ADCs
-extern void init_adc();
-extern void read_adc();
-extern void start_adc();
-extern void stop_adc();
+void init_adc();
+void read_adc();
+void start_adc();
+void stop_adc();
 
 // DACs
-extern void init_dac();
-extern void update_dac();
-extern void start_dac();
-extern void stop_dac();
+void init_dac();
+void update_dac();
+void start_dac();
+void stop_dac();
 
 // Timer
-extern void init_timer(int samplerate);
-extern void start_timer();
-extern void stop_timer();
+void init_timer(int samplerate);
+void start_timer();
+void stop_timer();
 
 // LEDs
-extern void update_leds();
-extern void init_leds();
-extern void start_leds();
-extern void stop_leds();
+void update_leds();
+void init_leds();
+void start_leds();
+void stop_leds();
 
 // Buttons
-extern void update_buttons();
-extern void init_buttons();
-extern void start_buttons();
-extern void stop_buttons();
+void update_buttons();
+void init_buttons();
+void start_buttons();
+void stop_buttons();
 
 // Potentiometers
-extern void update_potentiometers();
-extern void init_potentiometers();
-extern void start_potentiometers();
-extern void stop_potentiometers();
+void update_potentiometers();
+void init_potentiometers();
+void start_potentiometers();
+void stop_potentiometers();
 
+// Display
+void update_display();
+void init_display();
+void start_display();
+void stop_display();
+
+// Button Navigation
+void read_navigation();
+void init_navigation();
+void start_navigation();
+void stop_navigation();
 
 // Test Points
-extern void init_testpoints();
-extern void start_testpoints();
-extern void stop_testpoints();
-extern void set_testpoint(int point);
-extern void clear_testpoint(int point);
+void init_testpoints();
+void start_testpoints();
+void stop_testpoints();
+void set_testpoint(int point);
+void clear_testpoint(int point);
 
 // USB
-extern void update_usb();
-extern void init_usb();
-extern void start_usb();
-extern void stop_usb();
+void update_usb();
+void init_usb();
+void start_usb();
+void stop_usb();
 
 // SDcard
-extern void update_sdcard();
-extern void init_sdcard();
-extern void start_sdcard();
-extern void stop_sdcard();
+void update_sdcard();
+void init_sdcard();
+void start_sdcard();
+void stop_sdcard();
 
 // Flash Memory
-extern void update_flash();
-extern void init_flash();
-extern void start_flash();
-extern void stop_flash();
+void update_flash();
+void init_flash();
+void start_flash();
+void stop_flash();
 
 #endif

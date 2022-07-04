@@ -31,13 +31,11 @@ void stop_testpoints()
 
 void set_testpoint(int point)
 {
-    if( point == 0)
-        GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
 }
 
 void clear_testpoint(int point)
 {
-    if( point == 0)
-        GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_RESET);
+    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_RESET);
 }
 

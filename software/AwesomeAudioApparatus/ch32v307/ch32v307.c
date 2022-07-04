@@ -29,31 +29,97 @@ static demiurge_driver_info_t driver_info = {
     .flash = 16,
     .sdcard = true,
 	.max_frequency = 48,
-	.recommended_frequency = 24
+	.recommended_frequency = 24,
+	.display = false,
+	.button_navigation = false
 };
 
-void demiurge_driver_init()
+void demiurge_driver_init(uint32_t samplerate)
 {
-    USART_Printf_Init(57600);
+    USART_Printf_Init(230400);
     printf("SystemClk:%d\r\n", SystemCoreClock);
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE );
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE );
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+
+    init_testpoints();
+    init_adc();
+    init_buttons();
+    init_dac();
+    init_flash();
+    init_gates();
+    init_leds();
+    init_potentiometers();
+    init_sdcard();
+    init_usb();
+
+    init_timer(samplerate);
+
 }
 
 void demiurge_driver_start()
 {
+    start_testpoints();
+
+    set_testpoint(0);
+	clear_testpoint(0);
+
+	start_adc();
+    start_buttons();
+    start_dac();
+    start_flash();
+    start_gates();
+    start_leds();
+    start_potentiometers();
+    start_sdcard();
+    start_usb();
+
 	set_testpoint(0);
 	clear_testpoint(0);
 	set_testpoint(0);
 	clear_testpoint(0);
+
+    start_timer();
+}
+
+void demiurge_driver_stop()
+{
+    stop_timer();
+
+    set_testpoint(0);
+	clear_testpoint(0);
+
+	stop_potentiometers();
+    stop_buttons();
+    stop_usb();
+    stop_sdcard();
+    stop_adc();
+    stop_dac();
+    stop_flash();
+    stop_gates();
+    stop_leds();
+
 	set_testpoint(0);
 	clear_testpoint(0);
+
+	stop_testpoints();
 }
 
 demiurge_driver_info_t *demiurge_driver_info()
 {
 	return &driver_info;
 }
+
+// Display - doesn't exist
+void update_display(){}
+void init_display(){}
+void start_display(){}
+void stop_display(){}
+
+// Button Navigation - doesn't exist
+void read_navigation(){}
+void init_navigation(){}
+void start_navigation(){}
+void stop_navigation(){}

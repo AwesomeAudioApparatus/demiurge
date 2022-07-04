@@ -43,7 +43,8 @@ void vco_setup() {
    offset_configure_control(&offset_freq, &pair2.me); // Second Pot+CV is the tuning of that frequency.
 
    // Set up the Oscillator to TRIANGLE wave form
-   oscillator_configure_mode(&oscillator, TRIANGLE);
+//   oscillator_configure_mode(&oscillator, TRIANGLE);
+   oscillator_configure_mode(&oscillator, SINE);
    oscillator_configure_frequency(&oscillator, &offset_freq.me);     // offset_freq block is controlling the frequency
    oscillator_configure_amplitude(&oscillator, &pair3.me);        // pair3 block is controlling the amplitude
 
