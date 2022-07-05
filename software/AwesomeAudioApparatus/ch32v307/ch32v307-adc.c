@@ -52,8 +52,8 @@ int16_t ADC_Function_Init(ADC_TypeDef *adc)
     initialize_gpio_ai_pin(GPIOB, GPIO_Pin_1);
     initialize_gpio_ai_pin(GPIOA, GPIO_Pin_0);
     initialize_gpio_ai_pin(GPIOA, GPIO_Pin_1);
-//    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_2);  used for usart debug right now
-//    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_3);  used for usart debug right now
+    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_2);
+    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_3);
 
     ADC_DeInit(adc);
     ADC_InitTypeDef ADC_InitStructure={0};
