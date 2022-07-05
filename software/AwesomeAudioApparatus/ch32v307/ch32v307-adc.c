@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 
 #define NUMBER_OF_AI 8
 
-float inputs[16];
+float inputs[8];
 
 uint16_t buffer[8];
 
@@ -32,20 +32,20 @@ static void initialize_gpio_ai_pin(GPIO_TypeDef *port, uint16_t pin){
     GPIO_Init(port, &GPIO_InitStructure);
 }
 
-int16_t ADC_Function_Init(ADC_TypeDef *adc)
+int16_t initialize_and_calibrate_adc(ADC_TypeDef *adc)
 {
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE );
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 
-    // CV4 -> AD0 -> PC4 -> ADC_IN14
-    // CV3 -> AD1 -> PC5 -> ADC_IN15
-    // CV2 -> AD2 -> PB0 -> ADC_IN8
     // CV1 -> AD3 -> PB1 -> ADC_IN9
-    // RV4 -> AD4 -> PA0 -> ADC_IN0
-    // RV3 -> AD5 -> PA1 -> ADC_IN1
-    // RV2 -> AD6 -> PA2 -> ADC_IN2
+    // CV2 -> AD2 -> PB0 -> ADC_IN8
+    // CV3 -> AD1 -> PC5 -> ADC_IN15
+    // CV4 -> AD0 -> PC4 -> ADC_IN14
     // RV1 -> AD7 -> PA3 -> ADC_IN3
+    // RV2 -> AD6 -> PA2 -> ADC_IN2
+    // RV3 -> AD5 -> PA1 -> ADC_IN1
+    // RV4 -> AD4 -> PA0 -> ADC_IN0
     initialize_gpio_ai_pin(GPIOC, GPIO_Pin_4);
     initialize_gpio_ai_pin(GPIOC, GPIO_Pin_5);
     initialize_gpio_ai_pin(GPIOB, GPIO_Pin_0);
@@ -65,7 +65,6 @@ int16_t ADC_Function_Init(ADC_TypeDef *adc)
     ADC_InitStructure.ADC_NbrOfChannel = NUMBER_OF_AI;
     ADC_Init(adc, &ADC_InitStructure);
 
-    ADC_DMACmd(adc, ENABLE);
     ADC_Cmd(adc, ENABLE);
 
     ADC_BufferCmd(adc, DISABLE);
@@ -76,6 +75,7 @@ int16_t ADC_Function_Init(ADC_TypeDef *adc)
     int16_t calibration = Get_CalibrationValue(adc);
 
     ADC_BufferCmd(adc, ENABLE);
+    ADC_DMACmd(adc, ENABLE);
     return calibration;
 }
 
@@ -129,13 +129,14 @@ static void init_adc_timers() {
 
     TIM3->DMAINTENR |= TIM_UIE;
 }
-int64_t count1 = 0;
-int64_t count2 = 0;
-int64_t snap1 = 0;
-int64_t snap2 = 0;
+uint32_t debug1 = 0;
+uint32_t debug2 = 0;
+uint32_t debug3 = 0;
 
 void read_adc() {
-	count1 = snap1 - TIM7->CNT ;
+	debug1 = ADC1->RSQR1;
+	debug2 = ADC1->RSQR2;
+	debug3 = ADC1->RSQR3;
     inputs[0] = ((float) buffer[0]) / 204.8f - 10.0f;
     inputs[1] = ((float) buffer[1]) / 204.8f - 10.0f;
     inputs[2] = ((float) buffer[2]) / 204.8f - 10.0f;
@@ -144,34 +145,50 @@ void read_adc() {
     inputs[5] = ((float) buffer[5]) / 204.8f - 10.0f;
     inputs[6] = ((float) buffer[6]) / 204.8f - 10.0f;
     inputs[7] = ((float) buffer[7]) / 204.8f - 10.0f;
-	snap1 = TIM7->CNT;
 }
 
 void init_adc() {
-    calibration_adc = ADC_Function_Init(ADC1);
-    printf("ADC1 calibration: %d\n", calibration_adc);
+    calibration_adc = initialize_and_calibrate_adc(ADC1);
+    printf("ADC1 calibration value: %d\n", calibration_adc);
 
     init_adc_timers();
     init_adc_dma();
 
-    // CV
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 1, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 2, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_15, 3, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 4, ADC_SampleTime_55Cycles5);
+    // The out of order in the "Rank" is due to DMA start transfer when
+    // the ADC converts the first value. So when the first ADC is completed
+    // the DMA is ready to transfer that to buffer[1], and so on until
+    // the 8th ADC conversion is completed and the DMA has reset its memory
+    // destination pointer back to buffer[0]
+
+    // CV1 -> AD3 -> PB1 -> ADC_IN9  -> buffer[0]
+    // CV2 -> AD2 -> PB0 -> ADC_IN8  -> buffer[1]
+    // CV3 -> AD1 -> PC5 -> ADC_IN15 -> buffer[2]
+    // CV4 -> AD0 -> PC4 -> ADC_IN14 -> buffer[3]
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 8, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_15, 2, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 3, ADC_SampleTime_239Cycles5);
 
     // RV
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 5, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 6, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 7, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_3, 8, ADC_SampleTime_55Cycles5);
+    // RV1 -> AD7 -> PA3 -> ADC_IN3  -> buffer[4]
+    // RV2 -> AD6 -> PA2 -> ADC_IN2  -> buffer[5]
+    // RV3 -> AD5 -> PA1 -> ADC_IN1  -> buffer[6]
+    // RV4 -> AD4 -> PA0 -> ADC_IN0  -> buffer[7]
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_3, 4, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 5, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 6, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 7, ADC_SampleTime_239Cycles5);
 
-    DMA_Cmd( DMA1_Channel1, ENABLE );
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 }
 
 void start_adc() {
+    DMA_Cmd( DMA1_Channel1, ENABLE );
 }
 
 void stop_adc() {
+    DMA_Cmd( DMA1_Channel1, DISABLE );
 }
+
+
+
+

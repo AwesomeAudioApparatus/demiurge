@@ -34,8 +34,8 @@ void vco_setup() {
    // Initialize the hardware configuration
    control_pair_init(&pair1, 1);     // FREQUENCY = CV+Pot at the top
    control_pair_init(&pair2, 2);     // AMPLITUDE = CV+Pot at the second position from the top
-   control_pair_init(&pair3, 1);     // FREQUENCY = CV+Pot at the third position from top
-   control_pair_init(&pair4, 2);     // AMPLITUDE = CV+Pot at the bottom
+   control_pair_init(&pair3, 3);     // FREQUENCY = CV+Pot at the third position from top
+   control_pair_init(&pair4, 4);     // AMPLITUDE = CV+Pot at the bottom
    audio_outport_init(&out1, 1);     // Audio Out on left output channel
    audio_outport_init(&out2, 2);     // Audio Out on right output channel
 

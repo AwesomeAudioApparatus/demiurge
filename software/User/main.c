@@ -4,8 +4,6 @@
 #include <rthw.h>
 #include "demiurge.h"
 
-
-
 extern void vco_setup();
 extern void vco_loop();
 
