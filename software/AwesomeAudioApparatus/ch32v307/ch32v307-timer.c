@@ -34,9 +34,9 @@ void init_timer(int samplerate) {
 
     printf("Prescale:%d, period:%d\n", prescale, period);
 
-	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure={0};
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, ENABLE);
 
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure={0};
     TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
     TIM_TimeBaseStructure.TIM_Period = period;
     TIM_TimeBaseStructure.TIM_Prescaler = prescale;

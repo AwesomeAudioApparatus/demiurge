@@ -31,8 +31,7 @@ float cv_inport_read(signal_t *handle, uint64_t time) {
    cv_inport_t *cv = (cv_inport_t *) handle->data;
    if (time > handle->last_calc) {
       handle->last_calc = time;
-      float in = inputs[cv->position];
-      float result = handle->post_fn(in);
+      float result = handle->post_fn(inputs[cv->position]/2 + 10);
       handle->cached = result;
       return result;
    }

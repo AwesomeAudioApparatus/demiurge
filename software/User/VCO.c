@@ -19,38 +19,44 @@ See the License for the specific language governing permissions and
 #define TAG "VCO"
 
 static control_pair_t pair1;  // frequency
-static control_pair_t pair2;  // frequency offset
-static control_pair_t pair3;  // amplitude
-static offset_t offset_freq;
+static control_pair_t pair2;  // amplitude
+
+static control_pair_t pair3;  // frequency
+static control_pair_t pair4;  // amplitude
+
 static audio_outport_t out1;
 static audio_outport_t out2;
-static oscillator_t oscillator;
+static oscillator_t oscillator1;
+static oscillator_t oscillator2;
 
-/* Simple VCO with triangle wave on both outputs. */
+/* Simple 2 VCO with sine wave */
 void vco_setup() {
    // Initialize the hardware configuration
    control_pair_init(&pair1, 1);     // FREQUENCY = CV+Pot at the top
-   control_pair_init(&pair2, 2);     // FREQ TUNING = CV+Pot at the second position from the top
-   control_pair_init(&pair3, 3);     // AMPLITUDE = CV+Pot at the second position from the top
+   control_pair_init(&pair2, 2);     // AMPLITUDE = CV+Pot at the second position from the top
+   control_pair_init(&pair3, 1);     // FREQUENCY = CV+Pot at the third position from top
+   control_pair_init(&pair4, 2);     // AMPLITUDE = CV+Pot at the bottom
    audio_outport_init(&out1, 1);     // Audio Out on left output channel
    audio_outport_init(&out2, 2);     // Audio Out on right output channel
 
-   // Initialize internal blocks
-   offset_init(&offset_freq);                // FREQ TUNING needs to adjust offset
-   oscillator_init(&oscillator);             // Initialize the oscillator
+   // Initialize the oscillators
+   oscillator_init(&oscillator1);
+   oscillator_init(&oscillator2);
 
-   offset_configure_input(&offset_freq, &pair1.me);   // Top Pot+CV is the changing frequency
-   offset_configure_control(&offset_freq, &pair2.me); // Second Pot+CV is the tuning of that frequency.
+   // Set up the oscillators to SINE wave form
 
-   // Set up the Oscillator to TRIANGLE wave form
-//   oscillator_configure_mode(&oscillator, TRIANGLE);
-   oscillator_configure_mode(&oscillator, SINE);
-   oscillator_configure_frequency(&oscillator, &offset_freq.me);     // offset_freq block is controlling the frequency
-   oscillator_configure_amplitude(&oscillator, &pair3.me);        // pair3 block is controlling the amplitude
+   oscillator_configure_mode(&oscillator1, SINE);
+   oscillator_configure_mode(&oscillator2, SINE);
+
+   oscillator_configure_frequency(&oscillator1, &pair1.me);
+   oscillator_configure_frequency(&oscillator2, &pair3.me);
+
+   oscillator_configure_amplitude(&oscillator1, &pair2.me);
+   oscillator_configure_amplitude(&oscillator2, &pair4.me);
 
    // Connect Oscillator to outputs
-   audio_outport_configure_input(&out1, &oscillator.me);
-   audio_outport_configure_input(&out2, &oscillator.me);
+   audio_outport_configure_input(&out1, &oscillator1.me);
+   audio_outport_configure_input(&out2, &oscillator2.me);
 }
 
 void vco_loop() {
