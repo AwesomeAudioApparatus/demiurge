@@ -22,7 +22,9 @@ void cv_outport_init(cv_outport_t *handle, int position) {
    configASSERT(position > 0 && position <= 2)
    handle->me.read_fn = cv_outport_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_cv;
+#endif
    handle->position = position;
    handle->registered = false;
 }
@@ -40,8 +42,10 @@ float cv_outport_read(signal_t *handle, uint64_t time) {
    if( time > handle->last_calc ) {
       handle->last_calc = time;
       signal_t *upstream = port->input;
-      signal_fn fn = upstream->read_fn;
-      float result = handle->post_fn(fn(upstream, time));
+      float result = upstream->read_fn(upstream, time);
+#ifdef DEMIURGE_POST_FUNCTION
+      result = handle->post_fn(result);
+#endif
       handle->cached = result;
       return result;
    }

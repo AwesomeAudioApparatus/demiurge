@@ -155,7 +155,6 @@ void demiurge_tick() {
 }
 
 void demiurge_init() {
-    demiurge_driver_init(demiurge_samplerate);
 
     octave_init();
     micros_per_tick = 1000000 / demiurge_samplerate;

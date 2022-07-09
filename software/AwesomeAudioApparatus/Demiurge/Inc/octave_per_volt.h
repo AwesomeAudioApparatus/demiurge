@@ -19,22 +19,19 @@ See the License for the specific language governing permissions and
 
 #include <math.h>
 
-typedef struct {
-   union {
-      struct {
-         uint32_t mantissa: 23;
-         uint32_t exp: 8;
-         uint32_t sign: 1;
-      };
-      uint32_t intval;
-      float fval;
-   };
-} float_raw;
-
 void octave_init();
 
 float octave_frequency_of(float voltage);
 
 float octave_voltage_of(float frequency);
 
+/** Octave per Volt uses a lookup table to ensure speed in run time, as
+ * the 2^Volt is too slow. The table is populated with a -10V to +10V
+ * range, giving 4096 steps for ~1/15 Hz to 65kHz, which is way wider range
+ * than needed.
+ *
+ * It is up to the rest of the system to keep the input voltage to this
+ * function "block" within the reasonable range for the application.
+ */
+float digitize(float frequency);
 #endif

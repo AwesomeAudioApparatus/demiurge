@@ -21,7 +21,9 @@ See the License for the specific language governing permissions and
 void scale_init(scale_t *handle) {
    handle->me.read_fn = scale_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->scale = 1.0f;
    handle->scale_control = NULL;
 }
@@ -52,7 +54,9 @@ float scale_read(signal_t *handle, uint64_t time) {
       } else {
          new_output = input * scale->scale;
       }
+#ifdef DEMIURGE_POST_FUNCTION
       new_output = handle->post_fn(new_output);
+#endif
       handle->cached = new_output;
       return new_output;
    }

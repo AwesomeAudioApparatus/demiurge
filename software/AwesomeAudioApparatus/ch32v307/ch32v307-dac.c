@@ -18,19 +18,27 @@ See the License for the specific language governing permissions and
 #include "ch32v30x.h"
 
 float outputs[2];
-static uint16_t dac_counter = 0;
-static uint16_t dac_state = 0;
+float dac1_scale;
+float dac2_scale;
+float dac1_offset;
+float dac2_offset;
 
 void update_dac() {
-    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
-    uint16_t ch1 = (uint16_t) ((outputs[0] + 10.0f) * 204.7f);
-    uint16_t ch2 = (uint16_t) ((outputs[1] + 10.0f) * 204.7f);
-
+    int32_t ch1 = (int32_t) ((outputs[0] + dac1_offset) * dac1_scale);
+    int32_t ch2 = (int32_t) ((outputs[1] + dac2_offset) * dac2_scale);
+    if( ch1 > 4095 ) ch1 = 4095;
+    if( ch2 > 4095 ) ch2 = 4095;
+    if( ch1 < 0 ) ch1 = 0;
+    if( ch2 < 0 ) ch2 = 0;
     DAC->RD12BDHR = ch1 + (ch2 << 16);
-    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
 }
 
-void init_dac() {
+void init_dac(float *scales, float *offsets) {
+
+	dac1_scale = scales[0];
+	dac2_scale = scales[1];
+	dac1_offset = offsets[0];
+	dac2_offset = offsets[1];
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE );
 

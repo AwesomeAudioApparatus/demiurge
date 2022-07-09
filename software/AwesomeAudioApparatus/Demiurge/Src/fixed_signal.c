@@ -20,12 +20,16 @@ See the License for the specific language governing permissions and
 void fixed_signal_init(fixed_signal_t *handle, float value) {
    handle->me.read_fn = fixed_signal_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
-#ifdef DEMIURGE_DEV
-   handle->me.extra1 = value;
 #endif
+   handle->me.extra1 = value;
 }
 
 float fixed_signal_read(signal_t *handle, uint64_t time) {
+#ifdef DEMIURGE_POST_FUNCTION
    return handle->post_fn(handle->extra1);
+#else
+   return handle->extra1;
+#endif
 }

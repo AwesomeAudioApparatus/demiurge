@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demiurge.h"
 #include "control_pair.h"
 #include "clipping.h"
 #include "demi_asserts.h"
@@ -22,22 +23,24 @@ void control_pair_init(control_pair_t *handle, int position) {
    configASSERT(position > 0 && position <= 4)
    handle->me.read_fn = control_pair_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_cv;
-   potentiometer_init(&handle->potentiometer, position);
-   cv_inport_init(&handle->cv, position);
+#endif
+   handle->pot_position = position - 1 + DEMIURGE_POTENTIOMETER_OFFSET;
+   handle->cv_position =  position - 1 + DEMIURGE_CVINPUT_OFFSET;
 }
 
 float control_pair_read(signal_t *handle, uint64_t time) {
    control_pair_t *control = (control_pair_t *) handle->data;
    if (time > handle->last_calc) {
       handle->last_calc = time;
-
-      signal_t *pot = &control->potentiometer.me;
-      float pot_in = pot->read_fn(pot, time);
-
-      signal_t *cv = &control->cv.me;
-      float cv_in = cv->read_fn(cv, time);
-      float result = handle->post_fn((pot_in + cv_in) / 2.0f);
+      float cv_in = inputs[control->cv_position];
+      float pot_in = inputs[control->pot_position];
+#ifdef DEMIURGE_POST_FUNCTION
+      float result = handle->post_fn((pot_in + cv_in));
+#else
+      float result = pot_in + cv_in;
+#endif
       handle->cached = result;
       return result;
    }

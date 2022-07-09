@@ -22,7 +22,9 @@ void gate_outport_init(gate_outport_t *handle, int position) {
    configASSERT(position > 0 && position <= 2)
    handle->me.read_fn = gate_outport_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_gate;
+#endif
    handle->position = position;
    handle->registered = false;
    set_gate_to_output(position);
@@ -41,8 +43,10 @@ float gate_outport_read(signal_t *handle, uint64_t time) {
       gate_outport_t *port = (gate_outport_t *) handle->data;
       handle->last_calc = time;
       signal_t *upstream = port->input;
-      signal_fn fn = upstream->read_fn;
-      float result = handle->post_fn(fn(upstream, time));
+      float result = upstream->read_fn(upstream, time);
+#ifdef DEMIURGE_POST_FUNCTION
+      result = handle->post_fn(fn);
+#endif
       handle->cached = result;
       return result;
    }

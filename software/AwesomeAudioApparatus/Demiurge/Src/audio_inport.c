@@ -23,7 +23,9 @@ void audio_inport_init(audio_inport_t *handle, int position) {
    configASSERT(position > 0 && position <= 4)
    handle->me.read_fn = audio_inport_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_audio;
+#endif
    handle->position = position - 1;
 }
 
@@ -31,7 +33,10 @@ float audio_inport_read(signal_t *handle, uint64_t time) {
    audio_inport_t *port = (audio_inport_t *) handle->data;
    if (time > handle->last_calc) {
       handle->last_calc = time;
-      float result = handle->post_fn(inputs[port->position]);
+      float result = inputs[port->position];
+#ifdef DEMIURGE_POST_FUNCTION
+      float result = handle->post_fn(result);
+#endif
       handle->cached = result;
       return result;
    }

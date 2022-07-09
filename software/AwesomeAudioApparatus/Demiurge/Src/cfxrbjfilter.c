@@ -25,7 +25,9 @@ void cfxrbjfilter_init(cfxrbjfilter_t *handle) {
 //    configASSERT(position > 0 && position <= 4)
     handle->me.read_fn = cfxrbjfilter_read;
     handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
     handle->me.post_fn = clip_none;
+#endif
     handle->input = NULL;
     handle->a1a0 = 0;
     handle->a2a0 = 0;

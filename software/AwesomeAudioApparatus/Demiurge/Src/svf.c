@@ -24,7 +24,9 @@ See the License for the specific language governing permissions and
 void svf_init(svf_t *handle) {
     handle->me.read_fn = svf_read;
     handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
     handle->me.post_fn = clip_none;
+#endif
     handle->frequency = NULL;
     handle->input = NULL;
     handle->Q = NULL;
@@ -64,8 +66,9 @@ float svf_read(signal_t *handle, uint64_t time) {
         float out = q2 * f + svf->secondLastOut;
 //        float notch = out + highpass;
         svf->secondLastOut = lastOut;
+#ifdef DEMIURGE_POST_FUNCTION
         out = handle->post_fn(out);
-
+#endif
         svf->q2 = bandpass;
         handle->cached = out;
         return out;

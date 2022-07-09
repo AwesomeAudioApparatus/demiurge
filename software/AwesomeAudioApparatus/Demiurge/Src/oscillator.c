@@ -22,22 +22,25 @@ See the License for the specific language governing permissions and
 #include <math.h>
 #include <float.h>
 
-static bool sine_wave_initialized = false;
-static float *sine_wave;
+// static bool sine_wave_initialized = false;
+// static float *sine_wave;
 
 void oscillator_init(oscillator_t *handle) {
-   if (!sine_wave_initialized) {
-      sine_wave = (float *) calloc(SINEWAVE_SAMPLES, sizeof(float));
-      for (int i = 0; i < SINEWAVE_SAMPLES; i++) {
-         double radians = M_TWOPI * ((double) i) / ((double) SINEWAVE_SAMPLES);
+// Lookup of sine wave function from a table is slower than simply execute sinf();
+//   if (!sine_wave_initialized) {
+//      sine_wave = (float *) calloc(SINEWAVE_SAMPLES, sizeof(float));
+//      for (int i = 0; i < SINEWAVE_SAMPLES; i++) {
+//         double radians = M_TWOPI * ((double) i) / ((double) SINEWAVE_SAMPLES);
 //         sine_wave[i] = arm_sin_f32(radians);
-         sine_wave[i] = sinf(radians);
-      }
-      sine_wave_initialized = true;
-   }
+//         sine_wave[i] = sinf(radians);
+//      }
+//      sine_wave_initialized = true;
+//   }
    handle->me.read_fn = oscillator_saw;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->frequency = NULL;
    handle->amplitude = NULL;
    handle->trigger = NULL;
@@ -63,6 +66,18 @@ void oscillator_configure_mode(oscillator_t *handle, oscillator_mode mode) {
          break;
       case TRIANGLE:
          handle->me.read_fn = oscillator_triangle;
+         break;
+      case SAW_DIGITIZED:
+         handle->me.read_fn = oscillator_saw_digitized;
+         break;
+      case SINE_DIGITIZED:
+         handle->me.read_fn = oscillator_sine_digitized;
+         break;
+      case SQUARE_DIGITIZED:
+         handle->me.read_fn = oscillator_square_digitized;
+         break;
+      case TRIANGLE_DIGITIZED:
+         handle->me.read_fn = oscillator_triangle_digitized;
          break;
       default:
          break;
@@ -123,13 +138,12 @@ static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
 // TODO: Should amplitude really be linear?? log2? log10?
 static inline float amplitude(oscillator_t *osc, uint64_t time_in_us) {
    signal_t *amplitudeControl = osc->amplitude;
-   float amplitude = 1.0f;
+   float amplitude = 10.0f;
    if (amplitudeControl) {
       float voltage = amplitudeControl->read_fn(amplitudeControl, time_in_us);
-      // TODO: This is temporary, since current set up doesn't have pot+cv inputs
       amplitude = (10 - voltage) / 10.0f;
-      // should probably be
-//      amplitude = voltage / 10.0f;
+      // should perhaps be the following, so slow saw tooth can be inverted? Or maybe it should be selectable by programmer.
+      //  amplitude = voltage / 10.0f;
 #ifdef DEMIURGE_DEV
       handle->extra6 = voltage;
    }
@@ -140,13 +154,19 @@ static inline float amplitude(oscillator_t *osc, uint64_t time_in_us) {
    return amplitude;
 }
 
+float oscillator_saw_digitized(signal_t *handle, uint64_t time_in_us) {
+    return digitize(oscillator_saw(handle, time_in_us));
+}
+
 float oscillator_saw(signal_t *handle, uint64_t time_in_us) {
    if (time_in_us > handle->last_calc) {
       handle->last_calc = time_in_us;
       oscillator_t *osc = (oscillator_t *) handle->data;
       float x = angular_pos(osc, time_in_us);
       float out = (x * 20.0f - 10.0f) * amplitude(osc, time_in_us);
+#ifdef DEMIURGE_POST_FUNCTION
       out = handle->post_fn(out);
+#endif
 #ifdef DEMIURGE_DEV
       handle->extra1 = out;
       handle->extra2 = x;
@@ -156,6 +176,10 @@ float oscillator_saw(signal_t *handle, uint64_t time_in_us) {
       return out;
    }
    return handle->cached;
+}
+
+float oscillator_triangle_digitized(signal_t *handle, uint64_t time_in_us) {
+    return digitize(oscillator_triangle(handle, time_in_us));
 }
 
 float oscillator_triangle(signal_t *handle, uint64_t time_in_us) {
@@ -169,7 +193,10 @@ float oscillator_triangle(signal_t *handle, uint64_t time_in_us) {
       } else {
          out = x * 40.0f - 10.0f;
       }
-      out = handle->post_fn(out * amplitude(osc, time_in_us));
+      out = out * amplitude(osc, time_in_us);
+#ifdef DEMIURGE_POST_FUNCTION
+      out = handle->post_fn(out);
+#endif
 #ifdef DEMIURGE_DEV
       handle->extra1 = out;
       handle->extra2 = x;
@@ -181,6 +208,10 @@ float oscillator_triangle(signal_t *handle, uint64_t time_in_us) {
    return handle->cached;
 }
 
+float oscillator_sine_digitized(signal_t *handle, uint64_t time_in_us) {
+    return digitize(oscillator_sine(handle, time_in_us));
+}
+
 float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
    if (time_in_us > handle->last_calc) {
       handle->last_calc = time_in_us;
@@ -188,14 +219,16 @@ float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
       float x = angular_pos(osc, time_in_us);
 //      float out = arm_sin_f32(M_TWOPI * x) * 10 * amplitude(osc, time_in_us);
       float out = sinf(M_TWOPI * x) * 10 * amplitude(osc, time_in_us);
-      // Optimized
+      // Below is SLOWER on ch32v307
 //      int idx = (int) (x * SINEWAVE_SAMPLES);
 //      float out;
 //      if (idx >= SINEWAVE_SAMPLES)
-//         out = osc->scale;
+//         out = amplitude(osc, time_in_us);
 //      else
-//         out = sine_wave[idx] * osc->scale;
+//         out = sine_wave[idx] * amplitude(osc, time_in_us);
+#ifdef DEMIURGE_POST_FUNCTION
       out = handle->post_fn(out);
+#endif
 #ifdef DEMIURGE_DEV
       handle->extra1 = out;
       handle->extra2 = x;
@@ -205,6 +238,10 @@ float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
       return out;
    }
    return handle->cached;
+}
+
+float oscillator_square_digitized(signal_t *handle, uint64_t time_in_us) {
+    return digitize(oscillator_square(handle, time_in_us));
 }
 
 float oscillator_square(signal_t *handle, uint64_t time_in_us) {
@@ -217,7 +254,10 @@ float oscillator_square(signal_t *handle, uint64_t time_in_us) {
          out = 10.0f;
       else
          out = -10.0f;
-      out = handle->post_fn(out * amplitude(osc, time_in_us));
+      out = out * amplitude(osc, time_in_us);
+#ifdef DEMIURGE_POST_FUNCTION
+      out = handle->post_fn(out);
+#endif
 #ifdef DEMIURGE_DEV
       handle->extra1 = out;
       handle->extra2 = x;

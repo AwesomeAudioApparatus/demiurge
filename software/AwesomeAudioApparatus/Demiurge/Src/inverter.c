@@ -21,7 +21,9 @@ See the License for the specific language governing permissions and
 void inverter_init(inverter_t *handle) {
    handle->me.read_fn = inverter_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->midpoint = NULL;
    handle->input = NULL;
    handle->scale = NULL;
@@ -56,7 +58,9 @@ float inverter_read(signal_t *handle, uint64_t time) {
       if (scaleSignal != NULL) {
          out = out * scaleSignal->read_fn(scaleSignal, time);
       }
+#ifdef DEMIURGE_POST_FUNCTION
       out = handle->post_fn(out);
+#endif
       handle->cached = out;
       return out;
    }

@@ -42,7 +42,7 @@ typedef struct {
     const bool button_navigation;
 } demiurge_driver_info_t;
 
-void demiurge_driver_init(uint32_t samplerate);
+void demiurge_driver_init();
 void demiurge_driver_start();
 void demiurge_driver_stop();
 demiurge_driver_info_t *demiurge_driver_info();
@@ -56,13 +56,13 @@ void stop_gates();
 void direction_gate(int gate, bool output);
 
 // ADCs
-void init_adc();
+void init_adc(float *scales, float *offsets);
 void read_adc();
 void start_adc();
 void stop_adc();
 
 // DACs
-void init_dac();
+void init_dac(float *scales, float *offsets);
 void update_dac();
 void start_dac();
 void stop_dac();

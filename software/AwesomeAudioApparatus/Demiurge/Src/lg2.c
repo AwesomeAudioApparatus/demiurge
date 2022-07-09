@@ -22,7 +22,9 @@ See the License for the specific language governing permissions and
 void lg2_init(lg2_t *handle) {
    handle->me.read_fn = lg2_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
 }
 
 void lg2_configure_input(lg2_t *handle, signal_t *input) {
@@ -34,7 +36,10 @@ float lg2_read(signal_t *handle, uint64_t time){
       handle->last_calc = time;
       lg2_t *lg2 = (lg2_t *) handle->data;
       float input = lg2->input->read_fn(lg2->input, time);
-      float  new_output = handle->post_fn(log2f(input));
+      float new_output = log2f(input);
+#ifdef DEMIURGE_POST_FUNCTION
+      new_output = handle->post_fn(new_output);
+#endif
       handle->cached = new_output;
       return new_output;
    }

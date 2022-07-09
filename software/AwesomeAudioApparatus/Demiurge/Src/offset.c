@@ -22,7 +22,9 @@ See the License for the specific language governing permissions and
 void offset_init(offset_t *handle) {
    handle->me.read_fn = offset_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->offset = 0;
    handle->offset_control = NULL;
    handle->input = NULL;
@@ -57,9 +59,15 @@ float offset_read(signal_t *handle, uint64_t time){
          handle->extra1 = input_value;
          handle->extra2 = new_offset;
 #endif
-         new_output = handle->post_fn(input_value + new_offset);
+          new_output = input_value + new_offset;
+#ifdef DEMIURGE_POST_FUNCTION
+          new_output = handle->post_fn(new_output);
+#endif
       } else {
-         new_output = handle->post_fn(input_value + offset->offset);
+          new_output = input_value + offset->offset;
+#ifdef DEMIURGE_POST_FUNCTION
+          new_output = handle->post_fn(new_output);
+#endif
       }
       handle->cached = new_output;
       return new_output;

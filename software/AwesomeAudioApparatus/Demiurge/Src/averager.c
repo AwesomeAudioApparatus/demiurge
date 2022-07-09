@@ -22,7 +22,9 @@ See the License for the specific language governing permissions and
 void averager_init(averager_t *handle) {
    handle->me.read_fn = averager_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->update = 0.1;
    handle->keep = 0.9;
    handle->averaging_control = NULL;
@@ -60,7 +62,9 @@ float averager_read(signal_t *handle, uint64_t time){
       } else {
          new_output = old_avg * averager->keep + old_avg * averager->update;
       }
+#ifdef DEMIURGE_POST_FUNCTION
       new_output = handle->post_fn(new_output);
+#endif
       averager->rolling_avg = new_output;
       handle->cached = new_output;
       return new_output;

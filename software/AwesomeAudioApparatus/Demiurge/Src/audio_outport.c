@@ -22,7 +22,9 @@ void audio_outport_init(audio_outport_t *handle, int position) {
    configASSERT(position > 0 && position <= 2)
    handle->me.read_fn = audio_outport_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_audio;
+#endif
    handle->position = position - 1;
    handle->registered = false;
 }
@@ -42,7 +44,11 @@ float audio_outport_read(signal_t *handle, uint64_t time) {
       signal_t *upstream = port->input;
       signal_fn fn = upstream->read_fn;
       float raw = fn(upstream, time);
+#ifdef DEMIURGE_POST_FUNCTION
       float result = handle->post_fn(raw);
+#else
+      float result = raw;
+#endif
 #ifdef DEMIURGE_DEV
       handle->extra1 = raw;
       handle->extra2 = result;

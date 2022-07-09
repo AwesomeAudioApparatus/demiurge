@@ -21,7 +21,9 @@ See the License for the specific language governing permissions and
 void volume_init(volume_t *handle) {
    handle->me.read_fn = volume_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
 }
 
 void volume_configure(volume_t *handle, signal_t *input, signal_t *control) {
@@ -49,7 +51,10 @@ float volume_read(signal_t *handle, uint64_t time) {
       signal_t *input = vol->input;
       float in = input->read_fn(input, time);
       float factor = 0.05 * gain + 0.5;
-      float result = handle->post_fn(in * factor);
+      float result = in * factor;
+#ifdef DEMIURGE_POST_FUNCTION
+      result = handle->post_fn(result);
+#endif
       handle->cached = result;
       return result;
    }

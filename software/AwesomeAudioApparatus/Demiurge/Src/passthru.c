@@ -20,7 +20,9 @@ See the License for the specific language governing permissions and
 void passthru_init(passthru_t *handle){
    handle->me.read_fn = passthru_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
 }
 
 void passthru_configure_input(passthru_t  *handle, signal_t *input) {
@@ -31,7 +33,10 @@ float passthru_read(signal_t *handle, uint64_t time) {
    if (time > handle->last_calc) {
       handle->last_calc = time;
       passthru_t *passthru = (passthru_t *) handle->data;
-      float input = handle->post_fn(passthru->input->read_fn(passthru->input, time));
+      float input = passthru->input->read_fn(passthru->input, time);
+#ifdef DEMIURGE_POST_FUNCTION
+      input = handle->post_fn(input);
+#endif
       handle->cached = input;
       return input;
    }

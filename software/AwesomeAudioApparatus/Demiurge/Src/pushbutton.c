@@ -21,14 +21,19 @@ void pushbutton_init(pushbutton_t *handle, int position) {
    configASSERT(position > 0 && position <= 4 )
    handle->me.read_fn = pushbutton_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_gate;
+#endif
    handle->position = position + DEMIURGE_PUSHBUTTON_OFFSET;
 }
 
 float pushbutton_read(signal_t *handle, uint64_t time) {
    if( time > handle->last_calc ){
       pushbutton_t *button = (pushbutton_t *) handle->data;
-      float result = handle->post_fn(buttons[button->position]);
+      float result = buttons[button->position];
+#ifdef DEMIURGE_POST_FUNCTION
+      result = handle->post_fn(result);
+#endif
       handle->cached = result;
       return result;
    }

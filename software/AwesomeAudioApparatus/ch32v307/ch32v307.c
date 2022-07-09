@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demiurge.h"
 #include "demiurge-spi.h"
 #include "ch32v30x.h"
 
@@ -34,7 +35,20 @@ static demiurge_driver_info_t driver_info = {
 	.button_navigation = false
 };
 
-void demiurge_driver_init(uint32_t samplerate)
+float adc_scales[] = {
+		-1/204.8, -1/204.8, -1/204.8, -1/204.8,  // CV1-CV4
+		-1/204.8, -1/204.8, -1/204.8, -1/204.8   // RV1-RV4
+};
+
+float adc_offsets[] = {
+		10.0, 10.0, 10.0, 10.0,    // CV1-CV4
+		10.0, 10.0, 10.0, 10.0     // RV1-RV4
+};
+
+float dac_scales[] = { 204.7f, 204.7f };
+float dac_offsets[] = { 10.0f, 10.0f };
+
+void demiurge_driver_init()
 {
     USART_Printf_Init(230400);
     printf("SystemClk:%d\r\n", SystemCoreClock);
@@ -42,12 +56,15 @@ void demiurge_driver_init(uint32_t samplerate)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE );
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE );
+
+    GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_SET);
+
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
     init_testpoints();
-    init_adc();
+    init_adc(adc_scales, adc_offsets);
     init_buttons();
-    init_dac();
+    init_dac(dac_scales, dac_offsets);
     init_flash();
     init_gates();
     init_leds();
@@ -55,8 +72,7 @@ void demiurge_driver_init(uint32_t samplerate)
     init_sdcard();
     init_usb();
 
-    init_timer(samplerate);
-
+    init_timer(demiurge_samplerate);
 }
 
 void demiurge_driver_start()

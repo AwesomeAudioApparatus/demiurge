@@ -36,7 +36,9 @@ typedef float (*signal_fn)(signal_t *, uint64_t);
 volatile typedef struct signal_struct {
    void *data;
    signal_fn read_fn;
+#ifdef DEMIURGE_POST_FUNCTION
    float_fn post_fn;
+#endif
    uint64_t last_calc;
    float cached;
 

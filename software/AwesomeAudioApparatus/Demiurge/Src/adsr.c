@@ -21,7 +21,9 @@ See the License for the specific language governing permissions and
 void adsr_init(adsr_t *handle) {
    handle->me.read_fn = adsr_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->stateMachine = 0;
    handle->doneAt = 0;
    handle->startedAt = 0;
@@ -130,7 +132,9 @@ float adsr_read(signal_t *handle, uint64_t time) {
       }
       adsr->currentGate = gateIn;
 
+#ifdef DEMIURGE_POST_FUNCTION
       output = handle->post_fn(output);
+#endif
       handle->cached = output;
 #ifdef DEMIURGE_DEV
       handle->extra4 = adsr->stateMachine;

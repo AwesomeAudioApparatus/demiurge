@@ -21,7 +21,9 @@ void led_init(led_t *handle, int position) {
    configASSERT(position > 0 && position <= 4)
    handle->me.read_fn = led_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->position = position - 1;
    handle->registered = false;
    handle->input = NULL;
@@ -48,9 +50,11 @@ float led_read(signal_t *handle, uint64_t time) {
       led_t *led = (led_t *) handle->data;
       signal_t *upstream = led->input;
       float out = upstream->read_fn(upstream, time);
-      float result = handle->post_fn(out);
-      leds[led->position] = result;
-      handle->cached = result;
+#ifdef DEMIURGE_POST_FUNCTION
+      out = handle->post_fn(out);
+#endif
+      leds[led->position] = out;
+      handle->cached = out;
       return 0.0f;
    }
    return 0.0f;

@@ -22,17 +22,23 @@ See the License for the specific language governing permissions and
 void pan_init(pan_t *handle){
    handle->me.read_fn = pan_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->left.hostInput = &handle->me;
    handle->right.hostInput = &handle->me;
 
    handle->left.me.read_fn = panchannel_read;
    handle->left.me.data = &handle->left;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->left.me.post_fn = clip_none;
+#endif
    handle->left.factor = 0.5;
    handle->right.me.read_fn = panchannel_read;
    handle->right.me.data = &handle->right;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->right.me.post_fn = clip_none;
+#endif
    handle->right.factor = -0.5;
 }
 
@@ -52,7 +58,10 @@ float pan_read(signal_t *handle, uint64_t time) {
       handle->last_calc = time;
       pan_t *pan = (pan_t *) handle->data;
       signal_t *input = pan->input;
-      float result = handle->post_fn(input->read_fn(input, time) );
+      float result = input->read_fn(input, time);
+#ifdef DEMIURGE_POST_FUNCTION
+      result = handle->post_fn(result);
+#endif
       handle->cached = result;
       return result;
    }
@@ -68,7 +77,10 @@ float panchannel_read(signal_t *handle, uint64_t time) {
       signal_t *hostInput = panchannel->hostInput;
       float input = hostInput->read_fn(hostInput, time);
       input = input * control;
-      float result = handle->post_fn(input * panchannel->factor);
+      float result = input * panchannel->factor;
+#ifdef DEMIURGE_POST_FUNCTION
+      result = handle->post_fn(result);
+#endif
       handle->cached = result;
       return result;
    }

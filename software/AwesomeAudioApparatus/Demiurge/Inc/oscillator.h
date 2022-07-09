@@ -17,7 +17,10 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_OSCILLATOR_H_
 #define _DEMIURGE_OSCILLATOR_H_
 
-typedef enum  { SINE, SQUARE, TRIANGLE, SAW } oscillator_mode;
+typedef enum  {
+	SINE, SQUARE, TRIANGLE, SAW,
+	SINE_DIGITIZED, SQUARE_DIGITIZED, TRIANGLE_DIGITIZED, SAW_DIGITIZED
+} oscillator_mode;
 
 #include "signal.h"
 
@@ -46,4 +49,9 @@ float oscillator_sine(signal_t *handle, uint64_t time_in_us);
 float oscillator_saw(signal_t *handle, uint64_t time_in_us);
 float oscillator_triangle(signal_t *handle, uint64_t time_in_us);
 float oscillator_square(signal_t *handle, uint64_t time_in_us);
+
+float oscillator_sine_digitized(signal_t *handle, uint64_t time_in_us);
+float oscillator_saw_digitized(signal_t *handle, uint64_t time_in_us);
+float oscillator_triangle_digitized(signal_t *handle, uint64_t time_in_us);
+float oscillator_square_digitized(signal_t *handle, uint64_t time_in_us);
 #endif

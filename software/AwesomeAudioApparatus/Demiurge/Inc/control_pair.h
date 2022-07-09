@@ -23,8 +23,8 @@ See the License for the specific language governing permissions and
 
 typedef struct {
    signal_t me;
-   cv_inport_t cv;
-   potentiometer_t potentiometer;
+   int pot_position;
+   int cv_position;
 } control_pair_t;
 
 void control_pair_init(control_pair_t *handle, int position);

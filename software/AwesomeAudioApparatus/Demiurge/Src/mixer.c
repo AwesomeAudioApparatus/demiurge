@@ -24,7 +24,9 @@ See the License for the specific language governing permissions and
 void mixer_init( mixer_t *handle, int channels) {
    handle->me.read_fn = mixer_read;
    handle->me.data = handle;
+#ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
+#endif
    handle->channels = channels;
    handle->inputs = (signal_t **) calloc(channels, sizeof(signal_t *));
    handle->volumes = (volume_t **) calloc(channels, sizeof(volume_t *));
@@ -57,7 +59,10 @@ float mixer_read(signal_t *handle, uint64_t time) {
             counter++;
          }
       }
-      output = handle->post_fn(output / counter);
+      output = output / counter;
+#ifdef DEMIURGE_POST_FUNCTION
+      output = handle->post_fn(output);
+#endif
       handle->cached = output;
       return output;
    }
