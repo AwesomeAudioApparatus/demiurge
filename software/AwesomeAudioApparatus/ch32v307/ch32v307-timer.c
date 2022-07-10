@@ -19,14 +19,10 @@ See the License for the specific language governing permissions and
 #include "rtthread.h"
 
 __attribute__((interrupt("WCH-Interrupt-fast"))) void TIM7_IRQHandler() {
-//    GET_INT_SP();
-//    rt_interrupt_enter();
-    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+    GET_INT_SP();
     demiurge_tick();
-    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_RESET);
     TIM7->INTFR = 0;
-//    rt_interrupt_leave();
-//    FREE_INT_SP();
+    FREE_INT_SP();
 }
 
 void init_timer(int samplerate) {
