@@ -50,6 +50,8 @@ float dac_offsets[] = { 10.0f, 10.0f };
 
 void demiurge_driver_init()
 {
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+
     USART_Printf_Init(230400);
     printf("SystemClk:%d\r\n", SystemCoreClock);
 

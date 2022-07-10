@@ -21,9 +21,9 @@ See the License for the specific language governing permissions and
 __attribute__((interrupt("WCH-Interrupt-fast"))) void TIM7_IRQHandler() {
 //    GET_INT_SP();
 //    rt_interrupt_enter();
-//    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
+    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_SET);
     demiurge_tick();
-//    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_RESET);
+    GPIO_WriteBit(GPIOA, GPIO_Pin_7, Bit_RESET);
     TIM7->INTFR = 0;
 //    rt_interrupt_leave();
 //    FREE_INT_SP();
@@ -48,8 +48,9 @@ void init_timer(int samplerate) {
 
     NVIC_InitTypeDef NVIC_InitStructure = {0};
     NVIC_InitStructure.NVIC_IRQChannel = TIM7_IRQn;
-    // TODO: What priorities should we have? Surely the Audio stream has higher priority than system clock for slow stuff.
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    // TODO: What priorities should we have? Surely the Audio stream has higher
+    //       priority than system clock for slow stuff.
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 
