@@ -50,24 +50,24 @@ float dac_offsets[] = { 10.0f, 10.0f };
 
 void demiurge_driver_init()
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
     USART_Printf_Init(230400);
     printf("SystemClk:%d\r\n", SystemCoreClock);
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE );
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE );
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE );
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE );
 
     GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_SET);
 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
+    init_flash();
     init_testpoints();
     init_adc(adc_scales, adc_offsets);
     init_buttons();
     init_dac(dac_scales, dac_offsets);
-    init_flash();
     init_gates();
     init_leds();
     init_potentiometers();

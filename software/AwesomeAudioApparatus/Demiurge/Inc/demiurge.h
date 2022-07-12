@@ -17,6 +17,8 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_DEMIURGE_H_
 #define _DEMIURGE_DEMIURGE_H_
 
+#include "lfs.h"
+
 // Demiurge Core
 #include "adsr.h"
 #include "audio_inport.h"
@@ -62,6 +64,9 @@ extern bool buttons[4];
 extern bool gates_in[4];
 extern bool gates_out[4];
 extern bool gates_dir[4];
+
+extern lfs_t demiurge_flash_fs;
+extern lfs_t demiurge_sdcard_fs;
 
 extern void set_gate_to_input(int position);
 extern void set_gate_to_output(int position);

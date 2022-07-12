@@ -14,13 +14,10 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
-//#include "stm32f4xx_hal.h"
 #include "demiurge.h"
 #include "demiurge-spi.h"
 #include "rtthread.h"
 #include <rtdevice.h>
-
-//#include "main.h"
 
 #define TAG "CORE"
 

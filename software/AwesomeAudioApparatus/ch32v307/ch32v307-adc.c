@@ -71,8 +71,8 @@ int16_t initialize_and_calibrate_adc()
     initialize_gpio_ai_pin(GPIOB, GPIO_Pin_1);
     initialize_gpio_ai_pin(GPIOA, GPIO_Pin_0);
     initialize_gpio_ai_pin(GPIOA, GPIO_Pin_1);
-    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_2);
-    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_3);
+//    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_2);
+//    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_3);
 
     ADC_DeInit(ADC1);
     ADC_InitTypeDef ADC_InitStructure={0};
@@ -122,24 +122,6 @@ void init_adc_dma()
     initialization.DMA_M2M = DMA_M2M_Disable;
     DMA_Init( DMA1_Channel1, &initialization );
 }
-
-//static void init_adc_timers() {
-//
-//    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-//
-//	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure={0};
-//
-//    TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
-//    TIM_TimeBaseStructure.TIM_Period = 1000;
-//    TIM_TimeBaseStructure.TIM_Prescaler = 0;
-//    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-//    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Down;
-//
-//    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-//    TIM_SelectOutputTrigger(TIM3, TIM_TRGOSource_Update);
-//
-//    TIM3->DMAINTENR |= TIM_UIE;
-//}
 
 uint32_t status;
 
