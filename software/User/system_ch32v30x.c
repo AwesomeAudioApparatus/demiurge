@@ -15,14 +15,14 @@
 * reset the HSI is used as SYSCLK source).
 * If none of the define below is enabled, the HSI is used as System clock source. 
 */
-//#define SYSCLK_FREQ_HSE    HSE_VALUE
+#define SYSCLK_FREQ_HSE    HSE_VALUE
 //#define SYSCLK_FREQ_24MHz  24000000
 //#define SYSCLK_FREQ_48MHz  48000000
 //#define SYSCLK_FREQ_56MHz  56000000
 //#define SYSCLK_FREQ_72MHz  72000000
 //#define SYSCLK_FREQ_96MHz  96000000
 //#define SYSCLK_FREQ_120MHz  120000000
-#define SYSCLK_FREQ_144MHz  144000000
+//#define SYSCLK_FREQ_144MHz  144000000
 
 /* Clock Definitions */
 #ifdef SYSCLK_FREQ_HSE
@@ -130,7 +130,7 @@ void SystemCoreClockUpdate (void)
     case 0x08: 
       pllmull = RCC->CFGR0 & RCC_PLLMULL;
       pllsource = RCC->CFGR0 & RCC_PLLSRC; 
-      pllmull = ( pllmull >> 18) + 2;
+      pllmull = (pllmull >> 18) + 2;
 
 #ifdef CH32V30x_D8
           if(pllmull == 17) pllmull = 18;

@@ -106,21 +106,21 @@ void init_adc_dma()
     RCC_AHBPeriphClockCmd( RCC_AHBPeriph_DMA1, ENABLE );
     DMA_DeInit(DMA1_Channel1);
 
-    DMA_InitTypeDef initialization={0};
-    initialization.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->RDATAR;
-    initialization.DMA_MemoryBaseAddr = (uint32_t)buffer;
-    initialization.DMA_DIR = DMA_DIR_PeripheralSRC;
-    initialization.DMA_BufferSize = NUMBER_OF_AI;
+    DMA_InitTypeDef init={0};
+    init.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->RDATAR;
+    init.DMA_MemoryBaseAddr = (uint32_t)buffer;
+    init.DMA_DIR = DMA_DIR_PeripheralSRC;
+    init.DMA_BufferSize = NUMBER_OF_AI;
 
-    initialization.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-    initialization.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-    initialization.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-    initialization.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    init.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+    init.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+    init.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    init.DMA_MemoryInc = DMA_MemoryInc_Enable;
 
-    initialization.DMA_Mode = DMA_Mode_Circular;
-    initialization.DMA_Priority = DMA_Priority_VeryHigh;
-    initialization.DMA_M2M = DMA_M2M_Disable;
-    DMA_Init( DMA1_Channel1, &initialization );
+    init.DMA_Mode = DMA_Mode_Circular;
+    init.DMA_Priority = DMA_Priority_VeryHigh;
+    init.DMA_M2M = DMA_M2M_Disable;
+    DMA_Init( DMA1_Channel1, &init );
 }
 
 uint32_t status;

@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 #include <stdio.h>
 
-void boot_counter() {
+int boot_counter() {
 
     lfs_file_t file;
 
@@ -34,6 +34,5 @@ void boot_counter() {
     // remember the storage is not updated until the file is closed successfully
     lfs_file_close(&demiurge_flash_fs, &file);
 
-    // print the boot count
-    printf("boot_count: %d\n", boot_count);
+    return boot_count;
 }

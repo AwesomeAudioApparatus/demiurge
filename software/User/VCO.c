@@ -16,7 +16,6 @@ See the License for the specific language governing permissions and
 
 #include <demiurge.h>
 
-#define TAG "VCO"
 
 static control_pair_t pair1;  // frequency
 static control_pair_t pair2;  // amplitude
@@ -45,8 +44,8 @@ void vco_setup() {
 
    // Set up the oscillators to SINE wave form
 
-   oscillator_configure_mode(&oscillator1, SINE);
-   oscillator_configure_mode(&oscillator2, SINE);
+   oscillator_configure_mode(&oscillator1, SAW);
+   oscillator_configure_mode(&oscillator2, SAW);
 
    oscillator_configure_frequency(&oscillator1, &pair1.me);
    oscillator_configure_frequency(&oscillator2, &pair3.me);
@@ -60,7 +59,7 @@ void vco_setup() {
 }
 
 void vco_loop() {
-
+   // handle buttons and LEDs
 }
 
 #undef TAG

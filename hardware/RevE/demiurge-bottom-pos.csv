@@ -1,9 +1,8 @@
 Ref,Val,Package,PosX,PosY,Rot,Side
-"D8","~","LED_D3.0mm",-96.261000,-83.312000,0.000000,bottom
-"D9","~","LED_D3.0mm",-96.261000,-100.330000,0.000000,bottom
-"D10","~","LED_D3.0mm",-96.261000,-117.475000,0.000000,bottom
-"D11","~","LED_D3.0mm",-96.266000,-134.620000,0.000000,bottom
-"D12","WS2812B","LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm",-95.885000,-65.405000,0.000000,bottom
+"D10","~","LED_D5.0mm-4_RGB",-97.536000,-84.582000,90.000000,bottom
+"D11","~","LED_D5.0mm-4_RGB",-97.536000,-101.854000,90.000000,bottom
+"D12","~","LED_D5.0mm-4_RGB",-97.536000,-118.872000,90.000000,bottom
+"D13","~","LED_D5.0mm-4_RGB",-97.536000,-136.144000,90.000000,bottom
 "J3","~","PJ301M-12",-111.760000,-85.725000,0.000000,bottom
 "J4","~","PJ301M-12",-111.760000,-102.870000,0.000000,bottom
 "J5","~","PJ301M-12",-111.760000,-120.015000,0.000000,bottom
@@ -11,6 +10,8 @@ Ref,Val,Package,PosX,PosY,Rot,Side
 "J7","~","PJ301M-12",-111.760000,-154.305000,0.000000,bottom
 "J8","~","PJ301M-12",-81.280000,-154.305000,0.000000,bottom
 "J9","~","PJ301M-12",-96.520000,-154.305000,0.000000,bottom
+"J11","~","USB_C_Receptacle_Vertical",-81.280000,-59.690000,0.000000,bottom
+"J12","Micro_SD_Card_Det_Hirose_DM3AT","microSD_HC_Hirose_DM3AT-SF-PEJM5",-95.728000,-59.817000,0.000000,bottom
 "RV1","~","Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",-86.346000,-93.345000,90.000000,bottom
 "RV2","~","Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",-86.360000,-110.490000,90.000000,bottom
 "RV3","~","Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",-86.360000,-127.635000,90.000000,bottom

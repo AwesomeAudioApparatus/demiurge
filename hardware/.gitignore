@@ -1,3 +1,4 @@
-*cache*
-/demiurge.xml
 demiurge-backups/
+_autosave*
+*-bak
+*cache
