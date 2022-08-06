@@ -21,7 +21,7 @@ See the License for the specific language governing permissions and
 
 #define USB_PRESENT
 #define SDCARD_PRESENT
-#define FLASH W25Q128
+#define FLASH_CHIP W25Q128
 #define FLASH_SIZE_BYTES 16777216  // 16MBytes of flash
 
 #define HSE_VALUE    ((uint32_t)16000000) // Value of the External oscillator in Hz

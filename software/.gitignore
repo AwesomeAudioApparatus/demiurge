@@ -1,3 +1,6 @@
-/obj/
+/build-*/
 .idea/
 .settings/
+/TxOut/
+/debug/
+/build-debug/

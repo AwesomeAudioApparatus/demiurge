@@ -14,6 +14,7 @@ PeripheralVersion=1.4
 
 
 
+
 Vendor=WCH
 MCU=CH32V307RCT6
 Mcu Type=CH32V30x

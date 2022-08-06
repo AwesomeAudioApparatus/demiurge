@@ -72,15 +72,18 @@ int16_t initialize_and_calibrate_adc()
     initialize_gpio_ai_pin(GPIOB, GPIO_Pin_1);
     initialize_gpio_ai_pin(GPIOA, GPIO_Pin_0);
     initialize_gpio_ai_pin(GPIOA, GPIO_Pin_1);
-//    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_2);
-//    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_3);
+
+#ifndef HW_BUG_RevE_TXOUT
+    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_2);
+    initialize_gpio_ai_pin(GPIOA, GPIO_Pin_3);
+#endif
 
     ADC_DeInit(ADC1);
     ADC_InitTypeDef ADC_InitStructure={0};
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     ADC_InitStructure.ADC_ScanConvMode = ENABLE;
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
-//    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T3_TRGO;
+
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     ADC_InitStructure.ADC_NbrOfChannel = NUMBER_OF_AI;
