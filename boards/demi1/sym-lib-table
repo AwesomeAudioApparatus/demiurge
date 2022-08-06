@@ -1,4 +1,4 @@
 (sym_lib_table
-  (lib (name "aaa")(type "Legacy")(uri "${KIPRJMOD}/../../libs/aaa.lib")(options "")(descr ""))
-  (lib (name "awesome")(type "KiCad")(uri "${KIPRJMOD}/../../libs/awesome.kicad_sym")(options "")(descr ""))
+  (lib (name "aaa")(type "KiCad")(uri "${KIPRJMOD}/../libs/aaa.kicad_sym")(options "")(descr ""))
+  (lib (name "awesome")(type "KiCad")(uri "${KIPRJMOD}/../libs/awesome.kicad_sym")(options "")(descr ""))
 )
