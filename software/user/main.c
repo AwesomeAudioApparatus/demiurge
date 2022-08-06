@@ -35,10 +35,10 @@ int main(void)
     vco_setup();                    // Set up the functionality
     demiurge_start();               // Start the audio processing
 
-	while(1)
-	{
-		vco_loop();                 // Give VCO time for LEDs and Buttons
-	}
+    while(1)
+    {
+        vco_loop();                 // Give VCO time for LEDs and Buttons
+    }
 }
 
 
