@@ -17,6 +17,7 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_DEMIURGE_H_
 #define _DEMIURGE_DEMIURGE_H_
 
+#include "demiurge-board.h"
 #include "lfs.h"
 
 #include "adsr.h"
@@ -50,30 +51,25 @@ See the License for the specific language governing permissions and
 #include "threshold.h"
 #include "volume.h"
 
-#ifndef DEMIURGE_MAX_SINKS
-#define DEMIURGE_MAX_SINKS 6
-#endif
-
 extern uint32_t micros_per_tick;
 extern uint64_t demiurge_current_time;
-extern float outputs[2];
-extern float inputs[8];
-extern float leds[4];
-extern bool buttons[4];
-extern bool gates_in[4];
-extern bool gates_out[4];
-extern bool gates_dir[4];
+extern float outputs[DEMIURGE_NUM_OUTPUTS];
+extern float inputs[DEMIURGE_NUM_INPUTS];
+extern float leds[DEMIURGE_NUM_LEDS];
+extern bool buttons[DEMIURGE_NUM_BUTTONS];
+
+extern bool gates_in[DEMIURGE_NUM_GATES];
+extern bool gates_out[DEMIURGE_NUM_GATES];
 
 extern lfs_t demiurge_flash_fs;
 extern lfs_t demiurge_sdcard_fs;
 
-extern void set_gate_to_input(int position);
-extern void set_gate_to_output(int position);
+void set_gate_to_input(int position);
+void set_gate_to_output(int position);
 
 void demiurge_init();
 void demiurge_start();
 void demiurge_stop();
-
 
 void demiurge_registerSink(signal_t *processor);
 void demiurge_unregisterSink(signal_t *processor);

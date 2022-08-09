@@ -15,25 +15,24 @@ See the License for the specific language governing permissions and
 */
 
 #include "ch32v30x.h"
+#include "demi1-ch32.h"
 #include <stdbool.h>
 
 #include "demiurge-spi.h"
 
-bool gates_in[1];
-bool gates_out[1];
-bool gates_dir[1];
+bool gates_in[DEMIURGE_NUM_GATES];
+bool gates_out[DEMIURGE_NUM_GATES];
+bool gates_dir[DEMIURGE_NUM_GATES];
 
 void init_gates(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
-
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-	GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_SET);
 }
 
 void read_gates() {
@@ -56,15 +55,34 @@ void stop_gates()
 
 }
 
-
-void demiurge_set_gate_input(int gate)
+static void __set_gate_input(int gate)
 {
-	gates_dir[0] = false;
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    gates_dir[0] = false;
     GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_RESET);
 }
 
-void demiurge_set_gate_output(int gate)
+static void __set_gate_output(int gate)
 {
-	gates_dir[0] = true;
+    gates_dir[0] = true;
     GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_SET);
+
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+}
+
+void direction_gate(int gate, bool output)
+{
+    if(output)
+        __set_gate_output(gate);
+    else
+        __set_gate_input(gate);
 }

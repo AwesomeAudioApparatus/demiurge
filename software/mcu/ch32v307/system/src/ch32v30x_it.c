@@ -9,11 +9,6 @@
 *******************************************************************************/
 #include "ch32v30x_it.h"
 
-#include "board.h"
-#include <rtthread.h>
-
-
-
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
@@ -27,9 +22,7 @@ void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void NMI_Handler(void)
 {
     GET_INT_SP();
-    rt_interrupt_enter();
-    rt_kprintf(" NMI Handler\r\n");
-    rt_interrupt_leave();
+    printf(" NMI Handler\r\n");
     FREE_INT_SP();
 }
 
@@ -43,9 +36,7 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
     GET_INT_SP();
-    rt_interrupt_enter();
-    rt_kprintf(" hardfault\r\n");
-    rt_interrupt_leave();
+    printf(" hardfault\r\n");
     FREE_INT_SP();
 
 }

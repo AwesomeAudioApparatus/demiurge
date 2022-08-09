@@ -16,8 +16,6 @@ See the License for the specific language governing permissions and
 
 #include "demiurge.h"
 
-//   float  setpoint = 0x2000;   // ~2.5V
-//   float  hysteresis = 0x800;  // ~0.625V
 void threshold_init(threshold_t *data, float setp, float hyst) {
    data->setpoint = setp;
    data->hysteresis = hyst;
@@ -29,7 +27,7 @@ bool threshold_compute(threshold_t *data, float input) {
    float hysteresis = data->hysteresis;
    bool out;
    if (data->output) {
-      out = input < setpoint - hysteresis;
+      out = input > setpoint - hysteresis;
    } else {
       out = input > setpoint + hysteresis;
    }

@@ -21,25 +21,26 @@ See the License for the specific language governing permissions and
 
 
 void cv_inport_init(cv_inport_t *handle, int position){
-   configASSERT(position > 0 && position <= 4)
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_CVINPUTS)
    handle->me.read_fn = cv_inport_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
 #endif
-   handle->position = position + DEMIURGE_CVINPUT_OFFSET - 1;
+   handle->input = &inputs[position - 1 + DEMIURGE_CVINPUT_OFFSET];
 }
 
 float cv_inport_read(signal_t *handle, uint64_t time) {
-   cv_inport_t *cv = (cv_inport_t *) handle->data;
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      float result = inputs[cv->position]/2 + 10;
+    cv_inport_t *cv = (cv_inport_t *) handle->data;
 #ifdef DEMIURGE_POST_FUNCTION
-      result = handle->post_fn(result);
+    if (time > handle->last_calc) {
+       handle->last_calc = time;
+       float result = cv->input;
+       result = handle->post_fn(result);
+       handle->cached = result;
+       return result;
+    }
+    return handle->cached;
 #endif
-      handle->cached = result;
-      return result;
-   }
-   return handle->cached;
+    return *cv->input;
 }

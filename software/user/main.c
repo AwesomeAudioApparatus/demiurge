@@ -25,16 +25,15 @@ extern float adc_offsets[];
 int main(void)
 {
     demiurge_samplerate = 48000;    // 48k samples/sec
-    adc_scales[4] = -10.0f/4095.0f; // Volt/octave scaling
+    adc_scales[4] = -8.0f/4095.0f;  // Volt/octave scaling
     adc_offsets[4] = 8.0f;          // to get from 1/15 Hz to 10kHz
-    adc_scales[6] = -10.0f/4095.0f;
+    adc_scales[6] = -8.0f/4095.0f;
     adc_offsets[6] = 8.0f;
     demiurge_driver_init();         // Initialize the hardware driver
     demiurge_init();                // Initialize the Demiurge platform
 
     vco_setup();                    // Set up the functionality
     demiurge_start();               // Start the audio processing
-
     while(1)
     {
         vco_loop();                 // Give VCO time for LEDs and Buttons

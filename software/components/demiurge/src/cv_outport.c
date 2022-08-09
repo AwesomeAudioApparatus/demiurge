@@ -20,13 +20,13 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 void cv_outport_init(cv_outport_t *handle, int position) {
-   configASSERT(position > 0 && position <= 2)
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_CVOUTPUTS)
    handle->me.read_fn = cv_outport_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_cv;
 #endif
-   handle->position = position;
+   handle->position = position - 1 + DEMIURGE_CVOUTPUT_OFFSET;
    handle->registered = false;
 }
 
@@ -48,6 +48,7 @@ float cv_outport_read(signal_t *handle, uint64_t time) {
       result = handle->post_fn(result);
 #endif
       handle->cached = result;
+      outputs[port->position] = result;
       return result;
    }
    return handle->cached;

@@ -21,22 +21,22 @@ See the License for the specific language governing permissions and
 #include "demi_asserts.h"
 
 void control_pair_init(control_pair_t *handle, int position) {
-   configASSERT(position > 0 && position <= 4)
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_CVINPUTS)
    handle->me.read_fn = control_pair_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_cv;
 #endif
-   handle->pot_position = position - 1 + DEMIURGE_POTENTIOMETER_OFFSET;
-   handle->cv_position =  position - 1 + DEMIURGE_CVINPUT_OFFSET;
+   handle->cv_input = &inputs[position - 1 + DEMIURGE_CVINPUT_OFFSET];
+   handle->pot_input = &inputs[position - 1 + DEMIURGE_POTENTIOMETER_OFFSET];
 }
 
 float control_pair_read(signal_t *handle, uint64_t time) {
    control_pair_t *control = (control_pair_t *) handle->data;
    if (time > handle->last_calc) {
       handle->last_calc = time;
-      float cv_in = inputs[control->cv_position];
-      float pot_in = inputs[control->pot_position];
+      float cv_in = *control->cv_input;
+      float pot_in = *control->pot_input;
 #ifdef DEMIURGE_POST_FUNCTION
       float result = handle->post_fn((pot_in + cv_in));
 #else

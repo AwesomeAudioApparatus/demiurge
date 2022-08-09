@@ -60,8 +60,6 @@ void demiurge_driver_init()
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE );
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE );
 
-    GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_SET);
-
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
     init_flash();

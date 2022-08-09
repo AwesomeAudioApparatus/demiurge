@@ -141,13 +141,13 @@ static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
     return x;
 }
 
-// TODO: Should amplitude really be linear?? log2? log10?
+// Returns 0-1
 static inline float amplitude(oscillator_t *osc, uint64_t time_in_us) {
     signal_t *amplitudeControl = osc->amplitude;
-    float amplitude = 10.0f;
+    float amplitude = 2.0f;
     if (amplitudeControl) {
         float voltage = amplitudeControl->read_fn(amplitudeControl, time_in_us);
-        amplitude = (10 - voltage) / 10.0f;
+        amplitude = (voltage + 10) / 20.0f;  // results in 0-1
         // should perhaps be the following, so slow saw tooth can be inverted? Or maybe it should be selectable by programmer.
         //  amplitude = voltage / 10.0f;
 #ifdef DEMIURGE_DEV
@@ -168,8 +168,8 @@ float oscillator_saw(signal_t *handle, uint64_t time_in_us) {
     if (time_in_us > handle->last_calc) {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
-        float x = angular_pos(osc, time_in_us);
-        float out = (x * 20.0f - 10.0f) * amplitude(osc, time_in_us);
+        float x = angular_pos(osc, time_in_us);  // 0 - 2PI
+        float out = x * 3.183098861f * amplitude(osc, time_in_us) - 10.0f; // multiply to a 0-20V range, subtract to -10V to 10V
 #ifdef DEMIURGE_POST_FUNCTION
         out = handle->post_fn(out);
 #endif
@@ -192,12 +192,12 @@ float oscillator_triangle(signal_t *handle, uint64_t time_in_us) {
     if (time_in_us > handle->last_calc) {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
-        float x = angular_pos(osc, time_in_us);
+        float x = angular_pos(osc, time_in_us);             // 0 to 2PI
         float out;
-        if (x > 0.5f) {
-            out = 30 - x * 40.0f;
+        if (x < M_PI) {
+            out = x * (10 / M_PI ) - 5.0f;
         } else {
-            out = x * 40.0f - 10.0f;
+            out = -x * (10 / M_PI) + 15.0f;
         }
         out = out * amplitude(osc, time_in_us);
 #ifdef DEMIURGE_POST_FUNCTION
@@ -256,10 +256,10 @@ float oscillator_square(signal_t *handle, uint64_t time_in_us) {
         oscillator_t *osc = (oscillator_t *) handle->data;
         float x = angular_pos(osc, time_in_us);
         float out;
-        if (x > 0.5f)
-            out = 10.0f;
+        if (x > M_PI)
+            out = 5.0f;
         else
-            out = -10.0f;
+            out = -5.0f;
         out = out * amplitude(osc, time_in_us);
 #ifdef DEMIURGE_POST_FUNCTION
         out = handle->post_fn(out);

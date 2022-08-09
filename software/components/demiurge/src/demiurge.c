@@ -15,10 +15,6 @@ See the License for the specific language governing permissions and
 */
 
 #include "demiurge.h"
-
-#include "rtthread.h"
-#include <rtdevice.h>
-
 #include "demiurge-spi.h"
 
 #define TAG "CORE"
@@ -68,16 +64,6 @@ void demiurge_set_output(int number, float value) {
 void demiurge_set_led(int number, float value) {
    configASSERT(number > 0 && number <= 4)
    leds[number - 1] = value;
-}
-
-void set_gate_to_input(int position)
-{
-    direction_gate(position, false);
-}
-
-void set_gate_to_output(int position)
-{
-    direction_gate(position, true);
 }
 
 void demiurge_print_overview(const char *tag, signal_t *signal) {
@@ -176,6 +162,16 @@ void demiurge_init() {
     for (int i = 0; i < DEMIURGE_MAX_SINKS; i++)
        sinks[i] = NULL;
 
+}
+
+void set_gate_to_input(int position)
+{
+	direction_gate(position, false);
+}
+
+void set_gate_to_output(int position)
+{
+	direction_gate(position, true);
 }
 
 void demiurge_start() {

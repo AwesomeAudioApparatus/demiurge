@@ -19,13 +19,13 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 void pushbutton_init(pushbutton_t *handle, int position) {
-   configASSERT(position > 0 && position <= 4 )
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_BUTTONS )
    handle->me.read_fn = pushbutton_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_gate;
 #endif
-   handle->position = position + DEMIURGE_PUSHBUTTON_OFFSET;
+   handle->position = position - 1;
 }
 
 float pushbutton_read(signal_t *handle, uint64_t time) {

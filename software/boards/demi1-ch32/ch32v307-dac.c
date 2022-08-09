@@ -31,7 +31,7 @@ void update_dac() {
     if( ch2 > 4095 ) ch2 = 4095;
     if( ch1 < 0 ) ch1 = 0;
     if( ch2 < 0 ) ch2 = 0;
-    DAC->RD12BDHR = ch1 + (ch2 << 16);
+    DAC->RD12BDHR = ch2 + (ch1 << 16);
 }
 
 void init_dac(float *scales, float *offsets) {

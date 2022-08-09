@@ -14,15 +14,14 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
+#include "demi1-ch32.h"
 #include "ch32v30x.h"
 
 #include "demiurge-spi.h"
 
-#define NUMBER_OF_AI 8
-
 float inputs[8];
 
-uint16_t buffer[8];
+uint16_t adc_buffer[8];
 
 int16_t calibration_adc;
 
@@ -86,7 +85,7 @@ int16_t initialize_and_calibrate_adc()
 
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-    ADC_InitStructure.ADC_NbrOfChannel = NUMBER_OF_AI;
+    ADC_InitStructure.ADC_NbrOfChannel = DEMIURGE_NUM_INPUTS;
     ADC_Init(ADC1, &ADC_InitStructure);
 
     ADC_Cmd(ADC1, ENABLE);
@@ -112,9 +111,9 @@ void init_adc_dma()
 
     DMA_InitTypeDef init={0};
     init.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->RDATAR;
-    init.DMA_MemoryBaseAddr = (uint32_t)buffer;
+    init.DMA_MemoryBaseAddr = (uint32_t)adc_buffer;
     init.DMA_DIR = DMA_DIR_PeripheralSRC;
-    init.DMA_BufferSize = NUMBER_OF_AI;
+    init.DMA_BufferSize = DEMIURGE_NUM_INPUTS;
 
     init.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
     init.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
@@ -131,14 +130,14 @@ uint32_t status;
 
 void read_adc() {
 
-    inputs[0] = ((float) buffer[0]) * scale_ch0 + offset_ch0;
-    inputs[1] = ((float) buffer[1]) * scale_ch1 + offset_ch1;
-    inputs[2] = ((float) buffer[2]) * scale_ch2 + offset_ch2;
-    inputs[3] = ((float) buffer[3]) * scale_ch3 + offset_ch3;
-    inputs[4] = ((float) buffer[4]) * scale_ch4 + offset_ch4;
-    inputs[5] = ((float) buffer[5]) * scale_ch5 + offset_ch5;
-    inputs[6] = ((float) buffer[6]) * scale_ch6 + offset_ch6;
-    inputs[7] = ((float) buffer[7]) * scale_ch7 + offset_ch7;
+    inputs[0] = ((float) adc_buffer[0]) * scale_ch0 + offset_ch0;
+    inputs[1] = ((float) adc_buffer[1]) * scale_ch1 + offset_ch1;
+    inputs[2] = ((float) adc_buffer[2]) * scale_ch2 + offset_ch2;
+    inputs[3] = ((float) adc_buffer[3]) * scale_ch3 + offset_ch3;
+    inputs[4] = ((float) adc_buffer[4]) * scale_ch4 + offset_ch4;
+    inputs[5] = ((float) adc_buffer[5]) * scale_ch5 + offset_ch5;
+    inputs[6] = ((float) adc_buffer[6]) * scale_ch6 + offset_ch6;
+    inputs[7] = ((float) adc_buffer[7]) * scale_ch7 + offset_ch7;
 
     // Trigger new read cycle
     ADC1->CTLR2 |= ((uint32_t)0x00500000);

@@ -17,14 +17,11 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_CVPORT_H_
 #define _DEMIURGE_CVPORT_H_
 
-#ifndef DEMIURGE_CVINPUT_OFFSET
-#define DEMIURGE_CVINPUT_OFFSET 0
-#endif
 
 #include "signal.h"
 
 typedef struct {
-   int position;
+   float *input;
    signal_t me;
 } cv_inport_t;
 

@@ -17,14 +17,6 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_GATEPORT_H_
 #define _DEMIURGE_GATEPORT_H_
 
-#ifndef DEMIURGE_GATE_HIGH
-#define DEMIURGE_GATE_HIGH 10.0f
-#endif
-
-#ifndef DEMIURGE_GATE_LOW
-#define DEMIURGE_GATE_LOW -10.0f
-#endif
-
 #include "signal.h"
 
 typedef struct {

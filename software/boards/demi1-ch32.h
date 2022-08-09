@@ -19,6 +19,79 @@ See the License for the specific language governing permissions and
 
 #define MCU CH32V307
 
+#ifndef DEMIURGE_MAX_SINKS
+#define DEMIURGE_MAX_SINKS 7
+#endif
+
+#ifndef DEMIURGE_NUM_OUTPUTS
+#define DEMIURGE_NUM_OUTPUTS 2
+#endif
+
+#ifndef DEMIURGE_NUM_INPUTS
+#define DEMIURGE_NUM_INPUTS 8
+#endif
+
+#ifndef DEMIURGE_NUM_LEDS
+#define DEMIURGE_NUM_LEDS 4
+#endif
+
+#ifndef DEMIURGE_NUM_BUTTONS
+#define DEMIURGE_NUM_BUTTONS 4
+#endif
+
+#ifndef DEMIURGE_NUM_GATES
+#define DEMIURGE_NUM_GATES 1
+#endif
+
+#ifndef DEMIURGE_NUM_AUDIOINPUTS
+#define DEMIURGE_NUM_AUDIOINPUTS 4
+#endif
+
+#ifndef DEMIURGE_NUM_AUDIOOUTPUTS
+#define DEMIURGE_NUM_AUDIOOUTPUTS 2
+#endif
+
+#ifndef DEMIURGE_NUM_CVINPUTS
+#define DEMIURGE_NUM_CVINPUTS 4
+#endif
+
+#ifndef DEMIURGE_NUM_CVOUTPUTS
+#define DEMIURGE_NUM_CVOUTPUTS 2
+#endif
+
+#ifndef DEMIURGE_NUM_POTS
+#define DEMIURGE_NUM_POTS 4
+#endif
+
+#ifndef DEMIURGE_AUDIOINPUT_OFFSET
+#define DEMIURGE_AUDIOINPUT_OFFSET 0
+#endif
+
+#ifndef DEMIURGE_AUDIOOUTPUT_OFFSET
+#define DEMIURGE_AUDIOOUTPUT_OFFSET 0
+#endif
+
+#ifndef DEMIURGE_CVINPUT_OFFSET
+#define DEMIURGE_CVINPUT_OFFSET 0
+#endif
+
+#define DEMIURGE_CVOUTPUT_OFFSET 0
+
+#ifndef DEMIURGE_POTENTIOMETER_OFFSET
+#define DEMIURGE_POTENTIOMETER_OFFSET 4
+#endif
+
+
+// If Gate Input is High, what will the signal value be internally
+#ifndef DEMIURGE_GATE_HIGH
+#define DEMIURGE_GATE_HIGH 10.0f
+#endif
+
+// If Gate Input is Low, what will the signal value be internally
+#ifndef DEMIURGE_GATE_LOW
+#define DEMIURGE_GATE_LOW -10.0f
+#endif
+
 #define USB_PRESENT
 #define SDCARD_PRESENT
 #define FLASH_CHIP W25Q128

@@ -32,13 +32,15 @@ typedef struct {
    int stateMachine;
    int64_t doneAt;
    int64_t startedAt;
+   float min;
+   float max;
+   float range;
    bool currentTrig;
-   bool currentGate;
    threshold_t gateThreshold;
    threshold_t trigThreshold;
 } adsr_t;
 
-void adsr_init(adsr_t *handle);
+void adsr_init(adsr_t *handle, float min, float max);
 void adsr_configure_attack(adsr_t *handle, signal_t *control);
 void adsr_configure_decay(adsr_t *handle, signal_t *control);
 void adsr_configure_sustain(adsr_t *handle, signal_t *control);

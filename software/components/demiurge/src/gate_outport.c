@@ -20,13 +20,13 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 void gate_outport_init(gate_outport_t *handle, int position) {
-   configASSERT(position > 0 && position <= 2)
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_GATES)
    handle->me.read_fn = gate_outport_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_gate;
 #endif
-   handle->position = position;
+   handle->position = position - 1;
    handle->registered = false;
    set_gate_to_output(position);
 }

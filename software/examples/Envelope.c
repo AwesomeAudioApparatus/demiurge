@@ -32,11 +32,12 @@ static cv_outport_t out2;
  * Envelope generator.
  */
 void envelope_setup() {
+
    control_pair_init(&attack, 1);
    control_pair_init(&decay, 2);
    control_pair_init(&sustain, 3);
    control_pair_init(&release, 4);
-   adsr_init(&adsr);
+   adsr_init(&adsr, -10.0f, 10.0f);
    gate_inport_init(&gate, 1);
    inverter_init(&invert);
    cv_outport_init(&out1, 1);
@@ -50,8 +51,8 @@ void envelope_setup() {
    adsr_configure_release(&adsr, &release.me);
 
    inverter_configure_input(&invert, &adsr.me);
-   cv_outport_configure_input(&out1, &invert.me);
-   cv_outport_configure_input(&out2, &adsr.me);
+   cv_outport_configure_input(&out1, &adsr.me);
+   cv_outport_configure_input(&out2, &invert.me);
 }
 
 void envelope_loop() {

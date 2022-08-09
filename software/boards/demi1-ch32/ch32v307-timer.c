@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 */
 
 #include "ch32v30x.h"
-#include "rtthread.h"
-
 #include "demiurge-spi.h"
+
+static int flag = 0;
 
 __attribute__((interrupt("WCH-Interrupt-fast"))) void TIM7_IRQHandler() {
     GET_INT_SP();

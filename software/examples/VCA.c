@@ -55,5 +55,5 @@ void vca_setup() {
    audio_outport_configure_input(&out2, &mixer.me);
 }
 
-void vac_loop() {
+void vca_loop() {
 }

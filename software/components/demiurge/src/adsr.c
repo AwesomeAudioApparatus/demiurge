@@ -20,17 +20,20 @@ See the License for the specific language governing permissions and
 #include "clipping.h"
 #include "signal.h"
 
-void adsr_init(adsr_t *handle) {
+void adsr_init(adsr_t *handle, float min, float max) {
    handle->me.read_fn = adsr_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_none;
 #endif
+   handle->min = min;
+   handle->max = max;
+   handle->range = max - min;
    handle->stateMachine = 0;
    handle->doneAt = 0;
    handle->startedAt = 0;
-   threshold_init(&handle->trigThreshold,0x2000, 0x800);
-   threshold_init(&handle->gateThreshold,0x2000, 0x800);
+   threshold_init(&handle->trigThreshold, 0.0f, 1.0f);
+   threshold_init(&handle->gateThreshold, 0.0f, 1.0f);
 }
 
 void adsr_configure_gate(adsr_t *handle, signal_t *control) {
@@ -59,10 +62,10 @@ void adsr_configure_trig(adsr_t *handle, signal_t *control) {
 
 float adsr_slopeTime(float voltage) {
    // Logarithmic response, so that;
-   // -10V = 1 microsecond, 0V = 1 millisecond, +10V = 1 second
+   // -10V = 10 millisecond, 0V = 1 second, +10V = 100 second
    // TODO:
-   float millis = powf(10.0, voltage / 3.33333f);
-   return millis * 1000;
+   float seconds = powf(10.0, voltage / 5.0f);
+   return seconds;
 }
 
 // TODO: without floating point, this code becomes VERY different, so let's postpone that/
@@ -85,16 +88,24 @@ float adsr_read(signal_t *handle, uint64_t time) {
       }
       adsr->currentTrig = trigIn;
 
-      if (adsr->currentGate) {
+      if (gateIn) {
          // Ongoing
          switch (adsr->stateMachine) {
             case 1:  // Attack
             {
                float attackIn = adsr->attack->read_fn(adsr->attack, time);
-               float k = 20.0 / adsr_slopeTime(attackIn);
-               float m = -10.0;
-               output = (time - adsr->startedAt) * k + m;
-               if (output >= 10.0) {
+               float slope_time = adsr_slopeTime(attackIn);                 // attack time in seconds.
+               float k = (adsr->range / slope_time) / 1000000;              // voltage change per microsecond
+               float m = adsr->min;
+               float duration_so_far = time - adsr->startedAt;           // time since trig in microseconds
+               if( duration_so_far == 0 ){
+                  output = 9.0f;
+               }
+               else {
+                  output = duration_so_far * k + m;
+               }
+               if (output >= adsr->max) {
+                  output = adsr->max;
                   adsr->startedAt = time;
                   adsr->stateMachine++;
                }
@@ -104,10 +115,12 @@ float adsr_read(signal_t *handle, uint64_t time) {
             {
                float sustainIn = adsr->sustain->read_fn(adsr->sustain, time);
                float decayIn = adsr->decay->read_fn(adsr->decay, time);
-               float k = -(10 - sustainIn) / adsr_slopeTime(decayIn);
-               float m = 10;
-               output = (time - adsr->startedAt) * k + m;
-               if (output >= 10.0) {
+               float k = (-(adsr->max - sustainIn) / adsr_slopeTime(decayIn)) / 1000000; // voltage change per microsecond
+               float m = sustainIn;
+               uint64_t duration_so_far = time - adsr->startedAt;    // in microseconds
+               output = duration_so_far * k + m;
+               if (output <= sustainIn) {
+                  output = sustainIn;
                   adsr->startedAt = time;
                   adsr->stateMachine++;
                }
@@ -116,23 +129,30 @@ float adsr_read(signal_t *handle, uint64_t time) {
             case 3:  // Sustain
             {
                output = adsr->sustain->read_fn(adsr->sustain, time);
+               adsr->startedAt = time;     // this will be frozen at the time the 'release' starts.
                break;
             }
             default:
-               output = -10;
+               output = -adsr->min;
          }
       } else {
          float releaseIn = adsr->release->read_fn(adsr->release, time);
          float sustainIn = adsr->sustain->read_fn(adsr->sustain, time);
-         float k = -sustainIn / adsr_slopeTime(releaseIn);
-         float m = sustainIn;
-         output = (time - adsr->startedAt) * k + m;
+         float k = (-(sustainIn-adsr->min) / adsr_slopeTime(releaseIn))/1000000; // voltage change per microsecond
+         float m = adsr->min;
+         uint64_t duration_so_far = time - adsr->startedAt;    // in microseconds
+         output = duration_so_far * k + m;
+         if( output < adsr->min ){
+        	 output = adsr->min;
+         }
+         if( output > adsr->max ){
+        	 output = adsr->max;
+         }
          if (gateIn) {
             // Start new cycle
             adsr->stateMachine = 0;
          }
       }
-      adsr->currentGate = gateIn;
 
 #ifdef DEMIURGE_POST_FUNCTION
       output = handle->post_fn(output);

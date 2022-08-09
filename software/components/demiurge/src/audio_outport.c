@@ -20,43 +20,43 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 void audio_outport_init(audio_outport_t *handle, int position) {
-   configASSERT(position > 0 && position <= 2)
-   handle->me.read_fn = audio_outport_read;
-   handle->me.data = handle;
+    configASSERT(position > 0 && position <= DEMIURGE_NUM_AUDIOOUTPUTS)
+    handle->me.read_fn = audio_outport_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_audio;
+    handle->me.post_fn = clip_audio;
 #endif
-   handle->position = position - 1;
-   handle->registered = false;
+    handle->position = position - 1 + DEMIURGE_AUDIOOUTPUT_OFFSET;
+    handle->registered = false;
 }
 
 void audio_outport_configure_input(audio_outport_t *handle, signal_t *input) {
-   if (!handle->registered) {
-      handle->input = input;
-      demiurge_registerSink(&handle->me);
-      handle->registered = true;
-   }
+    if (!handle->registered) {
+        handle->input = input;
+        demiurge_registerSink(&handle->me);
+        handle->registered = true;
+    }
 }
 
 float audio_outport_read(signal_t *handle, uint64_t time) {
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      audio_outport_t *port = (audio_outport_t *) handle->data;
-      signal_t *upstream = port->input;
-      signal_fn fn = upstream->read_fn;
-      float raw = fn(upstream, time);
+     if (time > handle->last_calc) {
+        handle->last_calc = time;
+        audio_outport_t *port = (audio_outport_t *) handle->data;
+        signal_t *upstream = port->input;
+        signal_fn fn = upstream->read_fn;
+        float raw = fn(upstream, time);
 #ifdef DEMIURGE_POST_FUNCTION
-      float result = handle->post_fn(raw);
+        float result = handle->post_fn(raw);
 #else
-      float result = raw;
+        float result = raw;
 #endif
 #ifdef DEMIURGE_DEV
-      handle->extra1 = raw;
-      handle->extra2 = result;
+        handle->extra1 = raw;
+        handle->extra2 = result;
 #endif
-      outputs[port->position] = result;
-      return 0.0f;
-   }
-   return 0.0f;
+        outputs[port->position] = result;
+        return 0.0f;
+    }
+    return 0.0f;
 }
 

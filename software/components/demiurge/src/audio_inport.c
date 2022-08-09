@@ -21,13 +21,13 @@ See the License for the specific language governing permissions and
 
 
 void audio_inport_init(audio_inport_t *handle, int position) {
-   configASSERT(position > 0 && position <= 4)
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_AUDIOINPUTS)
    handle->me.read_fn = audio_inport_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
    handle->me.post_fn = clip_audio;
 #endif
-   handle->position = position - 1;
+   handle->position = position - 1 + DEMIURGE_AUDIOINPUT_OFFSET;
 }
 
 float audio_inport_read(signal_t *handle, uint64_t time) {

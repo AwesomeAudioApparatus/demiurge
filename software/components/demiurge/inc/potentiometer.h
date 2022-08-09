@@ -17,14 +17,10 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_POTENTIOMETER_H_
 #define _DEMIURGE_POTENTIOMETER_H_
 
-#ifndef DEMIURGE_POTENTIOMETER_OFFSET
-#define DEMIURGE_POTENTIOMETER_OFFSET 4
-#endif
-
 #include "signal.h"
 
 typedef struct {
-   int position;
+   float *input;
    signal_t me;
 } potentiometer_t;
 

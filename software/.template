@@ -1,4 +1,4 @@
-Target Path=obj/demiurge.hex
+Target Path=build-debug/demiurge.hex
 Address=0x08000000
 Erase All=true
 Program=true

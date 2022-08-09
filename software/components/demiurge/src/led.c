@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 void led_init(led_t *handle, int position) {
-   configASSERT(position > 0 && position <= 4)
+   configASSERT(position > 0 && position <= DEMIURGE_NUM_LEDS)
    handle->me.read_fn = led_read;
    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION

@@ -53,7 +53,7 @@ void read_gates();
 void update_gates();
 void start_gates();
 void stop_gates();
-void direction_gate(int gate, bool output);
+extern void direction_gate(int gate, bool output);
 
 // ADCs
 void init_adc(float *scales, float *offsets);
