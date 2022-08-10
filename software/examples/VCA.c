@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 */
 
 #include "demiurge.h"
+#include "demiurge-board.h"
 
 static audio_inport_t in1;      // Declaration of Audio Input Ports
 static audio_inport_t in2;
@@ -25,34 +26,48 @@ static control_pair_t pair2;
 static audio_outport_t out1;    // Declaration of Audio Output Ports
 static audio_outport_t out2;
 
-static mixer_t mixer;           // Declaration of a Mixer block
+static scale_t scale1;
+static scale_t scale2;
 
 /*
- * A two port Mixer, with CV control
+ * Dual VCA.
  */
+void vca_prepare() {
+    demiurge_samplerate = 50000;     // 30000 samples/second
+    demiurge_set_inport_audio(1);
+    demiurge_set_inport_cv(2);
+    demiurge_set_inport_audio(3);
+    demiurge_set_inport_cv(4);
+
+    demiurge_set_potentiometer(2, 0.0f, 10.0f);
+    demiurge_set_potentiometer(4, 0.0f, 10.0f);
+
+    demiurge_set_outport_audio(1);
+    demiurge_set_outport_audio(2);
+}
+
 void vca_setup() {
-   // Initialize the hardware configuration
-   control_pair_init(&pair1, 1);       // CV+Pot at the top of Demiurge
-   control_pair_init(&pair2, 2);       // CV+Pot at the second position from the top of Demiurge
-   audio_inport_init(&in1, 3);         // Audio In on third input from the top
-   audio_inport_init(&in2, 4);         // Audio In on fourth input from the top
+
+   control_pair_init(&pair1, 2);       // CV+Pot at the second position from the top of Demiurge
+   control_pair_init(&pair2, 4);       // CV+Pot at the fourth position from the top of Demiurge
+   audio_inport_init(&in1, 1);         // Audio In on first input from the top
+   audio_inport_init(&in2, 3);         // Audio In on third input from the top
    audio_outport_init(&out1, 1);       // Audio Out on left output channel
    audio_outport_init(&out2, 2);       // Audio Out on right output channel
 
-   // Initialize Mixer with 2 channels.
-   mixer_init(&mixer, 2);
+   scale_init(&scale1);
+   scale_configure(&scale1, &in1.me, &pair1.me);  //
+   scale1.scale = 0.1f;
 
-   // Connect in1 on mixer channel 1, with pair1 as the volume control
-   mixer_configure_input(&mixer, 1, &in1.me, &pair1.me);
-
-   // Connect in2 on mixer channel 2, with pair2 as the volume control
-   mixer_configure_input(&mixer, 2, &in2.me, &pair2.me);
+   scale_init(&scale2);
+   scale_configure(&scale2, &in2.me, &pair2.me);
+   scale2.scale = 0.1f;
 
    // Connect mixer output to out1
-   audio_outport_configure_input(&out1, &mixer.me);
+   audio_outport_configure_input(&out1, &scale1.me);
 
    // Connect mixer output to out2
-   audio_outport_configure_input(&out2, &mixer.me);
+   audio_outport_configure_input(&out2, &scale2.me);
 }
 
 void vca_loop() {

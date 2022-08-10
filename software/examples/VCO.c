@@ -27,7 +27,19 @@ static audio_outport_t out2;
 static oscillator_t oscillator1;
 static oscillator_t oscillator2;
 
-/* Simple 2 VCO with sine wave */
+/* Simple 2 VCO. SAW on output 1 and SQUARE on output 2. */
+
+void vco_prepare() {
+    demiurge_samplerate = 48000;      // 48000 samples/second
+    demiurge_set_inport_cv(1);
+    demiurge_set_inport_cv(2);
+    demiurge_set_inport_cv(3);
+    demiurge_set_inport_cv(4);
+
+    demiurge_set_outport_audio(1);
+    demiurge_set_outport_audio(2);
+}
+
 void vco_setup() {
     // Initialize the hardware configuration
     control_pair_init(&pair1, 1);     // FREQUENCY = CV+Pot at the top
@@ -43,8 +55,8 @@ void vco_setup() {
 
     // Set up the oscillators to SINE wave form
 
-    oscillator_configure_mode(&oscillator1, TRIANGLE);
-    oscillator_configure_mode(&oscillator2, SAW);
+    oscillator_configure_mode(&oscillator1, SAW);
+    oscillator_configure_mode(&oscillator2, SQUARE);
 
     oscillator_configure_frequency(&oscillator1, &pair1.me);
     oscillator_configure_frequency(&oscillator2, &pair3.me);
@@ -56,8 +68,6 @@ void vco_setup() {
     audio_outport_configure_input(&out1, &oscillator1.me);
     audio_outport_configure_input(&out2, &oscillator2.me);
 }
-
-static uint64_t ticker = 0;
 
 void vco_loop() {
    // handle buttons and LEDs

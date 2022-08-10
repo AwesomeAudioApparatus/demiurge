@@ -12,7 +12,7 @@
 #include "ch32v30x.h"
 #include "demi1-ch32.h"
 
-/* 
+/*
 * Uncomment the line corresponding to the desired System clock (SYSCLK) frequency (after 
 * reset the HSI is used as SYSCLK source).
 * If none of the define below is enabled, the HSI is used as System clock source. 

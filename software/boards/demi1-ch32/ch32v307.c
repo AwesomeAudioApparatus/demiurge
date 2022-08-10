@@ -46,6 +46,11 @@ float adc_offsets[] = {
 		10.0, 10.0, 10.0, 10.0     // RV1-RV4
 };
 
+float calibration_cv[] = {
+		0.0, 0.0, 0.0, 0.0,    // CV1-CV4
+		0.0, 0.0, 0.0, 0.0     // RV1-RV4
+};
+
 float dac_scales[] = { 204.7f, 204.7f };
 float dac_offsets[] = { 10.0f, 10.0f };
 
@@ -140,3 +145,34 @@ void read_navigation(){}
 void init_navigation(){}
 void start_navigation(){}
 void stop_navigation(){}
+
+// Set ADC to a 0-10V range
+void demiurge_set_inport_cv(int position){
+    adc_scales[position + DEMIURGE_AUDIOINPUT_OFFSET - 1] = -1/204.8;
+    adc_offsets[position + DEMIURGE_AUDIOINPUT_OFFSET - 1] = 10.0f + calibration_cv[position];
+}
+
+// Set ADC to a -10V to +10V range
+void demiurge_set_inport_audio(int position){
+    adc_scales[position + DEMIURGE_AUDIOINPUT_OFFSET - 1] = -1/204.8;
+    adc_offsets[position + DEMIURGE_AUDIOINPUT_OFFSET - 1] = 10.0f;
+}
+
+void demiurge_set_potentiometer(int position, float min, float max) {
+	float k = (max - min) / 4095;
+    adc_scales[position + DEMIURGE_POTENTIOMETER_OFFSET- 1] = -k;
+    adc_offsets[position + DEMIURGE_POTENTIOMETER_OFFSET - 1] = max;
+}
+
+// Set DAC to a 0-10V range
+void demiurge_set_outport_cv(int position) {
+    dac_scales[position + DEMIURGE_AUDIOOUTPUT_OFFSET - 1] = 204.7f;
+    dac_offsets[position + DEMIURGE_AUDIOOUTPUT_OFFSET - 1] = 10.0f;
+}
+
+// Set DAC to a -10V to +10V range
+void demiurge_set_outport_audio(int position) {
+    dac_scales[position + DEMIURGE_AUDIOOUTPUT_OFFSET - 1] = 204.7f;
+    dac_offsets[position + DEMIURGE_AUDIOOUTPUT_OFFSET - 1] = 10.0f;
+}
+

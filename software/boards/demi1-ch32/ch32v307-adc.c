@@ -184,19 +184,19 @@ void init_adc(float *scales, float *offsets) {
     // CV2 -> AD2 -> PB0 -> ADC_IN8  -> buffer[1]
     // CV3 -> AD1 -> PC5 -> ADC_IN15 -> buffer[2]
     // CV4 -> AD0 -> PC4 -> ADC_IN14 -> buffer[3]
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 1, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 2, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_15, 3, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 4, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 1, ADC_SampleTime_28Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 2, ADC_SampleTime_28Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_15, 3, ADC_SampleTime_28Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 4, ADC_SampleTime_28Cycles5);
 
     // RV1 -> AD7 -> PA3 -> ADC_IN3  -> buffer[4]
     // RV2 -> AD6 -> PA2 -> ADC_IN2  -> buffer[5]
     // RV3 -> AD5 -> PA1 -> ADC_IN1  -> buffer[6]
     // RV4 -> AD4 -> PA0 -> ADC_IN0  -> buffer[7]
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_3, 5, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 6, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 7, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 8, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_3, 5, ADC_SampleTime_28Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 6, ADC_SampleTime_28Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 7, ADC_SampleTime_28Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 8, ADC_SampleTime_28Cycles5);
 
 }
 

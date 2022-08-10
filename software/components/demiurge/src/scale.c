@@ -49,8 +49,9 @@ float scale_read(signal_t *handle, uint64_t time) {
       float new_output;
 
       if (scale->scale_control != NULL) {
-         float new_scale = handle->read_fn(handle, time);
-         new_output = input * new_scale;
+         signal_t *ctrl = scale->scale_control;
+         float external_scale = ctrl->read_fn(ctrl, time);
+         new_output = input * external_scale * scale->scale;
       } else {
          new_output = input * scale->scale;
       }

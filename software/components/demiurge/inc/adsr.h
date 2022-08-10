@@ -29,6 +29,9 @@ typedef struct {
    signal_t *release;
    signal_t *gate;
    signal_t *trig;
+   float_fn attack_slope_fn;
+   float_fn decay_slope_fn;
+   float_fn release_slope_fn;
    int stateMachine;
    int64_t doneAt;
    int64_t startedAt;

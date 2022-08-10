@@ -24,4 +24,11 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 #include "demiurge-spi.h"
 
+void demiurge_set_inport_cv(int position);      // Set ADC to a 0-10V range
+void demiurge_set_inport_audio(int position);   // Set ADC to a -10V to +10V range
+void demiurge_set_potentiometer(int position, float min, float max);
+
+void demiurge_set_outport_cv(int position);     // Set DAC to a 0-10V range
+void demiurge_set_outport_audio(int position);  // Set DAC to a -10V to +10V range
+
 #endif

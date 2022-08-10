@@ -52,7 +52,7 @@ float offset_read(signal_t *handle, uint64_t time){
 
       float  new_output;
       if (offset->offset_control != NULL) {
-         signal_t *ctrl = offset->input;
+         signal_t *ctrl = offset->offset_control;
          float new_offset = ctrl->read_fn(ctrl, time);
 #ifdef DEMIURGE_DEV
          handle->extra1 = input_value;

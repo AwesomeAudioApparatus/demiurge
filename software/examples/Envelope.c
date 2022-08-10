@@ -31,13 +31,27 @@ static cv_outport_t out2;
 /*
  * Envelope generator.
  */
+void envelope_prepare() {
+    demiurge_samplerate = 5000;     // 5000 samples/sec
+    demiurge_set_inport_cv(1);
+    demiurge_set_inport_cv(2);
+    demiurge_set_inport_cv(3);
+    demiurge_set_inport_cv(4);
+
+    demiurge_set_potentiometer(2, 0.0f, 10.0f);
+    demiurge_set_potentiometer(4, 0.0f, 10.0f);
+
+    demiurge_set_outport_cv(1);
+    demiurge_set_outport_cv(2);
+}
+
 void envelope_setup() {
 
    control_pair_init(&attack, 1);
    control_pair_init(&decay, 2);
    control_pair_init(&sustain, 3);
    control_pair_init(&release, 4);
-   adsr_init(&adsr, -10.0f, 10.0f);
+   adsr_init(&adsr, 0.0f, 10.0f);
    gate_inport_init(&gate, 1);
    inverter_init(&invert);
    cv_outport_init(&out1, 1);
