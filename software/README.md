@@ -1,4 +1,4 @@
-# Demiure Sound Processing Engine
+# Demiurge Sound Processing Engine
 
 The Demiurge Sound Processing Engine (DSPE) is a zero-latency, streaming digital 
 sound, processing platform that handles the real-time aspect of the Demiurge
