@@ -64,6 +64,14 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-29.762917,-65.374722)">
+    <rect
+       style="opacity:1;fill:#ffffff;stroke:#ffffff;stroke-width:0.4;stroke-opacity:1"
+       id="rect1101"
+       width="172.05945"
+       height="69.779938"
+       x="29.962917"
+       y="65.574722"
+       ry="0.057517756" />
     <path
        style="fill:none;stroke:#00b800;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 76.932562,101.6168 h 10.49767 v 0.004"
@@ -205,13 +213,5 @@
          x="93.844162"
          y="95.213615"
          style="font-size:10.5833px;stroke-width:0.264583">volume</tspan></text>
-    <rect
-       style="opacity:0.3;fill:#ffffff;stroke:#ffffff;stroke-width:0.4;stroke-opacity:1"
-       id="rect1101"
-       width="172.05945"
-       height="69.779938"
-       x="29.962917"
-       y="65.574722"
-       ry="0.057517756" />
   </g>
 </svg>
