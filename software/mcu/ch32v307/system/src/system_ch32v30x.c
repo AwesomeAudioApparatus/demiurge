@@ -741,10 +741,9 @@ static void SetSysClockTo144(void)
 
     RCC->CFGR0 |= (uint32_t)RCC_HPRE_DIV1;	// bit 4-7, AHB clock source prescaler control: SYSCLK not divided;
     RCC->CFGR0 |= (uint32_t)RCC_PPRE2_DIV1; // bit 11-13, APB2 clock source prescaler control: HCLK not divided
-    RCC->CFGR0 |= (uint32_t)RCC_PPRE1_DIV2; // bit 8-10,  APB1 clock source prescaler control: HCLK divided by 2
+    RCC->CFGR0 |= (uint32_t)RCC_PPRE1_DIV1; // bit 8-10,  APB1 clock source prescaler control: HCLK divided by 2
 
-    RCC->CFGR0 &= (uint32_t)((uint32_t)~(RCC_PLLSRC | RCC_PLLXTPRE |
-                                        RCC_PLLMULL));
+    RCC->CFGR0 &= (uint32_t)((uint32_t)~(RCC_PLLSRC | RCC_PLLXTPRE | RCC_PLLMULL));
 
 #ifdef CH32V30x_D8
         RCC->CFGR0 |= (uint32_t)(RCC_PLLSRC_HSE | RCC_PLLXTPRE_HSE | RCC_PLLMULL18);

@@ -542,7 +542,7 @@ void init_flash()
     SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
     SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
     SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;
     SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
     SPI_InitStructure.SPI_CRCPolynomial = 7;
     SPI_Init(SPI2, &SPI_InitStructure);
@@ -557,7 +557,7 @@ void init_flash()
     printf("Model: %d\n", model);
     Delay_Ms(10);
 
-	int err = lfs_mount(&demiurge_flash_fs, &demiurge_flash_fs_config);
+    int err = lfs_mount(&demiurge_flash_fs, &demiurge_flash_fs_config);
     Delay_Ms(10);
 
     // reformat if we can't mount the filesystem

@@ -16,22 +16,21 @@ See the License for the specific language governing permissions and
 
 #include "demiurge-board.h"
 
-extern void vca_prepare();
-extern void vca_setup();
-extern void vca_loop();
+extern void vco_prepare();
+extern void vco_setup();
+extern void vco_loop();
 
 int main(void)
 {
-    vca_prepare();                  // Prepare the board for the functionality
+    vco_prepare();                  // Prepare the board for the functionality
 
     demiurge_driver_init();         // Initialize the hardware driver
     demiurge_init();                // Initialize the Demiurge platform
-
-    vca_setup();                    // Set up the functionality
+    vco_setup();                    // Set up the functionality
     demiurge_start();               // Start the audio processing
     while(1)
     {
-        vca_loop();                 // Give time for LEDs and Buttons
+        vco_loop();                 // Give time for LEDs and Buttons
     }
 }
 
