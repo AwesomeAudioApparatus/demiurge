@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 1122.5197 793.7008"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="aaa-logo-text.svg"
+   inkscape:export-filename="/home/niclas/dev/awesomeaudioapparatus/demiurge/artwork/aaa-logo-400x46.png"
+   inkscape:export-xdpi="72.069359"
+   inkscape:export-ydpi="72.069359"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="2"
+     inkscape:cx="336"
+     inkscape:cy="202"
+     inkscape:window-width="1920"
+     inkscape:window-height="1015"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="mm"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1054" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-103.10245,-99.942427)">
+    <g
+       id="g30393"
+       transform="translate(0.97373212)">
+      <g
+         id="g30378">
+        <path
+           style="fill:none;stroke:#d10024;stroke-width:8.86875;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 161.63908,298.21508 C 263.80082,245.13213 263.45715,245.31069 263.45715,245.31069"
+           id="path857" />
+        <path
+           style="fill:none;stroke:#d10024;stroke-width:8.86875;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 363.2752,298.21508 C 261.11347,245.13213 261.45715,245.31069 261.45715,245.31069"
+           id="path857-7" />
+      </g>
+      <g
+         id="g1511"
+         transform="matrix(0.37630623,0,0,0.37630623,420.46583,191.82279)"
+         style="stroke:#d10024;stroke-opacity:1">
+        <path
+           style="fill:none;stroke:#d10024;stroke-width:23.5679;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 5.7226185,282.72794 C 277.20823,141.66479 276.295,142.13931 276.295,142.13931"
+           id="path857-3" />
+        <path
+           style="fill:none;stroke:#d10024;stroke-width:23.5679;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 5.7226185,282.72794 C -265.76299,141.66479 -264.8497,142.1393 -264.8497,142.1393"
+           id="path857-7-5" />
+      </g>
+      <g
+         id="g30382">
+        <path
+           style="fill:none;stroke:#d10024;stroke-width:8.86875;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 479.96377,298.21508 C 582.12549,245.13213 581.78183,245.31069 581.78183,245.31069"
+           id="path857-6" />
+        <path
+           style="fill:none;stroke:#d10024;stroke-width:8.86875;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 681.59989,298.21508 C 579.43817,245.13213 579.78183,245.31069 579.78183,245.31069"
+           id="path857-7-3" />
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:37.3333px;line-height:1.25;font-family:Harabara;-inkscape-font-specification:Harabara"
+       x="154.61517"
+       y="355.19431"
+       id="text10530"><tspan
+         sodipodi:role="line"
+         id="tspan10528"
+         x="154.61517"
+         y="355.19431"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.3333px;font-family:Steve;-inkscape-font-specification:Steve;fill:#d10024;fill-opacity:1">Awesome Audio Apparatus</tspan></text>
+  </g>
+</svg>

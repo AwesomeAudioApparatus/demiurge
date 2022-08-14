@@ -1,7 +1,7 @@
 # Mental Model
-The mental model for the Demiurge Sound Processing Engine (DSPE) is tha of
+The mental model for the Demiurge Sound Processing Engine (DSPE) is that of
 blocks of computations that are wired together in the directed acyclical
-graph (DAG) where the wires represents audio, CV or gate voltage levels.
+graph (DAG) where the wires represents audio, CV or gate/trig voltage levels.
 
 The simple example can be seen in the [README file](../README.md), but a more
 explicit example is seen below.
