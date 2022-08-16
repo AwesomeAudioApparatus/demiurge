@@ -9,9 +9,9 @@
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="aaa-logo-text.svg"
-   inkscape:export-filename="/home/niclas/dev/awesomeaudioapparatus/demiurge/artwork/aaa-logo-400x46.png"
-   inkscape:export-xdpi="72.069359"
-   inkscape:export-ydpi="72.069359"
+   inkscape:export-filename="/home/niclas/dev/awesomeaudioapparatus/demiurge/artwork/aaa-logo-text-compressed-400x190.png"
+   inkscape:export-xdpi="144.99001"
+   inkscape:export-ydpi="144.99001"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -26,9 +26,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="2"
-     inkscape:cx="336"
-     inkscape:cy="202"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="438.4062"
+     inkscape:cy="336.58283"
      inkscape:window-width="1920"
      inkscape:window-height="1015"
      inkscape:window-x="0"
@@ -64,7 +64,7 @@
      transform="translate(-103.10245,-99.942427)">
     <g
        id="g30393"
-       transform="translate(0.97373212)">
+       transform="translate(234.76091,183.04407)">
       <g
          id="g30378">
         <path
@@ -104,13 +104,13 @@
     <text
        xml:space="preserve"
        style="font-size:37.3333px;line-height:1.25;font-family:Harabara;-inkscape-font-specification:Harabara"
-       x="154.61517"
-       y="355.19431"
+       x="388.40234"
+       y="538.2384"
        id="text10530"><tspan
          sodipodi:role="line"
          id="tspan10528"
-         x="154.61517"
-         y="355.19431"
+         x="388.40234"
+         y="538.2384"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.3333px;font-family:Steve;-inkscape-font-specification:Steve;fill:#d10024;fill-opacity:1">Awesome Audio Apparatus</tspan></text>
   </g>
 </svg>
