@@ -67,7 +67,7 @@ void octave_init() {
 float octave_frequency_of(float voltage) {
 // Too slow. Doing pre-calculated and lookup instead.
 //   float result = 65.40639133f * pow(2, voltage);
-    int pos = (voltage + 10.0) / octave_step;
+    int pos = (voltage + 8.0) / octave_step;
     if (pos >= OCTAVE_LOOKUP_SIZE)
         pos = OCTAVE_LOOKUP_SIZE - 1;
     if (pos < 0)
