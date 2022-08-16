@@ -30,6 +30,19 @@ typedef enum  {
 
 typedef struct {
    signal_t me;
+
+   /** Frequency control is according to the following table
+    * IN
+    * 0  -->  17.32 Hz (C0)
+    * 1  -->  32.70 Hz (C1)
+    * 2  -->  65.40 Hz (C2)
+    * 3  --> 131.81 Hz (C3)
+    * 4  --> 261.63 Hz (C4)
+    * 5  --> 523.25 Hz (C5)
+    * 6  --> 1046.5 Hz (C6)
+    * 7  --> 2093.0 Hz (C7)
+    * 8  --> 4186.0 Hz (C8)
+    */
    signal_t *frequency;
    signal_t *amplitude;
    signal_t *trigger;
