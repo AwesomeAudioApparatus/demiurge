@@ -23,7 +23,6 @@ static control_pair_t release;
 
 static adsr_t adsr;
 static gate_inport_t gate;
-static inverter_t invert;
 
 static cv_outport_t out1;
 static cv_outport_t out2;
@@ -32,7 +31,7 @@ static cv_outport_t out2;
  * Envelope generator.
  */
 void envelope_prepare() {
-    demiurge_samplerate = 5000;     // 5000 samples/sec
+    demiurge_samplerate = 15000;     // 15000 samples/sec
     demiurge_set_inport_cv(1);
     demiurge_set_inport_cv(2);
     demiurge_set_inport_cv(3);
@@ -53,7 +52,6 @@ void envelope_setup() {
    control_pair_init(&release, 4);
    adsr_init(&adsr, 0.0f, 10.0f);
    gate_inport_init(&gate, 1);
-   inverter_init(&invert);
    cv_outport_init(&out1, 1);
    cv_outport_init(&out2, 2);
 
@@ -64,9 +62,8 @@ void envelope_setup() {
    adsr_configure_sustain(&adsr, &sustain.me);
    adsr_configure_release(&adsr, &release.me);
 
-   inverter_configure_input(&invert, &adsr.me);
    cv_outport_configure_input(&out1, &adsr.me);
-   cv_outport_configure_input(&out2, &invert.me);
+   cv_outport_configure_input(&out2, &adsr.me);
 }
 
 void envelope_loop() {
