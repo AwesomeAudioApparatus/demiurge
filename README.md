@@ -2,7 +2,7 @@
 
 Demiurge is a combination of Hardware and Software for Digital Sound Processing in the Eurorack Modular Synthesizer environment.
 
-The "Demiurge 1" board is a 4 HP Eurorack compatible board, the functionality defined in software and custom front panel can either 
+The "Demiurge 1" board is an 8 HP Eurorack compatible board, the functionality defined in software and custom front panel can either 
 be made by hand, ordered from local mechanical shops or ordered from PCB manufacturers (KiCad template for front panel exists).
 
 The "Demiurge Sound Processing Engine" is a system to more easily create Eurorack module functionality. A simple VCO module may look like this;
