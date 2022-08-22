@@ -5,9 +5,15 @@ cmake_minimum_required(VERSION 3.17)
 option(CH32V307 "Build for CH32V307" ON)
 option(STM32F405 "Build for STM32F405" OFF)
 
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
 # project settings
 project(demiurge C ASM)
 set(CMAKE_C_STANDARD 99)
+set(PROJECT_BINARY_DIR CMakeFiles)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles)
 
 if(CH32V307)
     set(BOARD demi1-ch32)
@@ -25,7 +31,7 @@ if(CH32V307)
     add_link_options(-fmessage-length=0 -ffunction-sections -fdata-sections -fno-common -fno-inline-functions -Wunused -Wuninitialized)
     add_link_options(-g -T ${CMAKE_SOURCE_DIR}/mcu/ch32v307/link.ld -nostartfiles -Xlinker --gc-sections )
     add_link_options(-Wl,-Map,demiurge.map --specs=nano.specs --specs=nosys.specs)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} '-Wa,-anhlmsd=\"$(notdir $<)\"'")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wa,-anhlmsd=$@.lst")
 endif()
 
 #if(STM32F405)
@@ -76,14 +82,13 @@ else ()
     message(STATUS "Minimal optimization, debug info included")
 #    add_compile_options(-Og -g)
     add_compile_options(-g)
-endif ()
+endif()
 
 link_libraries(m)
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
 
-set(BIN_DIR ${PROJECT_NAME}_BINARY_DIR)
-set(HEX_FILE ${${BIN_DIR}}/${PROJECT_NAME}.hex)
-set(BIN_FILE ${${BIN_DIR}}/${PROJECT_NAME}.bin)
+set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
