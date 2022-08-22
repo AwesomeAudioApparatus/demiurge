@@ -81,7 +81,6 @@ case volume production is intended)
 # Continued Reading
    * [Setting Up Dev Environment](docs/devenv.md)
    * [Execution Model](docs/model.md)
-   * [Installation](docs/installation.md)
    * [Usage](docs/usage.md)
    * [Blocks](docs/blocks.md)
    * [Functions](docs/functions.md)

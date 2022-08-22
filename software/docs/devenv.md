@@ -1,26 +1,16 @@
 
 # Command-line
-`PATH` must be point to the RISC-V embedded `gcc` which is called `riscv-none-embed-gcc`. 
+Download the GNU C Compiler for RISC-V from [their GitHub repository](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases)
+and unzip/install somewhere on your system.
 
-If you have installed MounRiver, then just add its `bin/` directory to the `PATH`
-
-Otherwise,
-
-1. Download GNU GCC toolchain for Embedded RISC-V. We use; https://github.com/xpack-dev-tools/riscv-none-embed-gcc-xpack/releases/
-1. Unpack to some directory and set the PATH for the `xpack-riscv-none-embed-gcc-10.2.0-1.2/bin/` (or equiv).
+Set up `PATH`to point to the `bin/` directory of the above. 
 
 ## Build
-First time run;
-```shell
-cmake .
-```
-
-which will build the Make system, then simply run 
+Simply run 
 ```shell
 make
 ```
-And the output files will be in `?`
-
+And the output files will be in CMakeFiles/ in the form of `demiurge.bin` and `demiurge.hex` files.
 
 # MounRiver IDE
 We will try to keep the `.cproject`, `.project` and `.template` files current with development, but
@@ -30,4 +20,6 @@ When building with MounRiver, you have 2 Build Profiles available;
 1. release
 2. debug
 
-They will produce `.hex` and `.bin` files in `build-debug/` and `build-release` respectively.
+They will produce `.hex` and `.bin` files in `build-debug/` and `build-release/` respectively.
+
+NOTE: MounRiver will FAIL if the command-line build has been used.
