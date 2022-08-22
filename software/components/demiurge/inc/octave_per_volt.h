@@ -18,6 +18,7 @@ See the License for the specific language governing permissions and
 #define DEMIURGE_OCTAVEPERVOLT_H
 
 #include <math.h>
+#define TWO_PI (2 * M_PI)
 
 void octave_init();
 

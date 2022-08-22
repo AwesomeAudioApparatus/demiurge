@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 #include "ch32v30x.h"
 #include "demiurge-spi.h"
 
-__attribute__((interrupt("WCH-Interrupt-fast"))) void TIM7_IRQHandler() {
+__attribute__((interrupt("machine"))) void TIM7_IRQHandler() {
     GET_INT_SP();
     demiurge_tick();
     TIM7->INTFR = 0;

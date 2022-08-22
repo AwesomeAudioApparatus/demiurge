@@ -4,3 +4,8 @@
 /TxOut/
 /debug/
 /build-debug/
+/junk*.*
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile

@@ -33,7 +33,7 @@ static scale_t scale2;
  * Dual VCA.
  */
 void vca_prepare() {
-    demiurge_samplerate = 50000;     // 30000 samples/second
+    demiurge_samplerate = 48000;     // 48000 samples/second
     demiurge_set_inport_audio(1);    // set the first jack as Audio input.
     demiurge_set_inport_cv(2);       // set the second jack as Control Voltage input
     demiurge_set_inport_audio(3);    // set the third jack as Audio input.
@@ -63,10 +63,10 @@ void vca_setup() {
    scale_configure(&scale2, &input2.me, &pair2.me);
    scale2.scale = 0.1f;
 
-   // Connect mixer output to out1
+   // Connect scale output to out1
    audio_outport_configure_input(&out1, &scale1.me);
 
-   // Connect mixer output to out2
+   // Connect scale output to out2
    audio_outport_configure_input(&out2, &scale2.me);
 }
 

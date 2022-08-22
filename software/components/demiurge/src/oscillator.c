@@ -32,7 +32,7 @@ void oscillator_init(oscillator_t *handle) {
 //   if (!sine_wave_initialized) {
 //      sine_wave = (float *) calloc(SINEWAVE_SAMPLES, sizeof(float));
 //      for (int i = 0; i < SINEWAVE_SAMPLES; i++) {
-//         double radians = M_TWOPI * ((double) i) / ((double) SINEWAVE_SAMPLES);
+//         double radians = TWO_PI * ((double) i) / ((double) SINEWAVE_SAMPLES);
 //         sine_wave[i] = arm_sin_f32(radians);
 //         sine_wave[i] = sinf(radians);
 //      }
@@ -135,7 +135,7 @@ static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
 #endif
     float delta = freq / (float) demiurge_samplerate;
     float x = osc->angular_pos + delta;
-    if (x >= M_TWOPI)
+    if (x >= TWO_PI)
         x = 0.0f;
     osc->angular_pos = x;
     return x;
@@ -223,7 +223,7 @@ float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
         float x = angular_pos(osc, time_in_us);
-//      float out = arm_sin_f32(M_TWOPI * x) * 10 * amplitude(osc, time_in_us);
+//      float out = arm_sin_f32(TWO_PI * x) * 10 * amplitude(osc, time_in_us);
         float out = sinf(x) * 10 * amplitude(osc, time_in_us);
         // Below is SLOWER on ch32v307
 //      int idx = (int) (x * SINEWAVE_SAMPLES);
