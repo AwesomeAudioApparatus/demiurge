@@ -5506,7 +5506,7 @@
     (uuid fea6a04b-4bfd-450f-890a-ba5d162e31d9)
   )
 
-  (text "Designed for CH32V307, but both STM32F405/STM32F407 & STM32F730\nshould be possible to use, although some pins (pin 25-31) are on \ndifferent locations, such as PC5 doesn't exist and PB0, PB1, PB2, \nPB10, PB11 shifted one pin down."
+  (text "Designed for CH32V307, but STM32F405/STM32F407, STM32F446 & \nSTM32F730 should be possible to use, although some pins (pin 25-31)  \nare on different locations, such as PC5 doesn't exist and PB0, PB1,  \nPB2, PB10, PB11 shifted one pin down."
     (at 186.69 174.625 0)
     (effects (font (size 1.27 1.27) (thickness 0.254) bold) (justify left bottom))
     (uuid 1143479d-13b8-4458-9efc-0ece92f1b9e6)
@@ -5535,12 +5535,12 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid aa75e449-91ab-4f6f-ae46-97596caf0ed8)
   )
-  (text "CH32V307 - No need to mount\nSTM32F405 - No need to mount\nSTM32F730 - Required (VCAP_1)"
+  (text "CH32V307 - No need to mount\nSTM32F405 - No need to mount\nSTM32F446 - Required (VCAP_1)\nSTM32F730 - Required (VCAP_1)"
     (at 285.75 106.68 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid d9e513a6-ab1a-422f-b520-fd4d59b05abe)
   )
-  (text "CH32V307 - Mount 0R\nSTM32F405 - Mount 4.7uF (VCAP_n)\nSTM32F730 - Mount 0R"
+  (text "CH32V307 - Mount 0R\nSTM32F405 - Mount 4.7uF (VCAP_n)\nSTM32F446 - Mount 0R\nSTM32F730 - Mount 0R"
     (at 262.255 141.605 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid db2d4038-9a82-423a-8d31-53bdf91105a9)
