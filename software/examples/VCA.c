@@ -15,7 +15,6 @@ See the License for the specific language governing permissions and
 */
 
 #include "demiurge.h"
-#include "demiurge-board.h"
 
 static audio_inport_t input1;      // Declaration of Audio Input Ports
 static audio_inport_t input2;

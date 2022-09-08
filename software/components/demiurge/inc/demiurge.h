@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 #ifndef _DEMIURGE_DEMIURGE_H_
 #define _DEMIURGE_DEMIURGE_H_
 
-#include "demiurge-board.h"
+#include "demiurge-hardware.h"
 #include "lfs.h"
 
 #include "adsr.h"

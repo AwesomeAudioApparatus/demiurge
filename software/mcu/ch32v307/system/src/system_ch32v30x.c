@@ -10,7 +10,7 @@
 *********************************************************************************/
 
 #include "ch32v30x.h"
-#include "demi1-ch32.h"
+#include "demi1-ch32/hardware.h"
 
 /*
 * Uncomment the line corresponding to the desired System clock (SYSCLK) frequency (after 

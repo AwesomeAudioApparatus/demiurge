@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "demiurge-board.h"
-
+#include "demiurge-hardware.h"
 extern void vco_prepare();
 extern void vco_setup();
 extern void vco_loop();
@@ -28,10 +27,17 @@ int main(void)
     demiurge_init();                // Initialize the Demiurge platform
     vco_setup();                    // Set up the functionality
     demiurge_start();               // Start the audio processing
-    while(1)
-    {
-        vco_loop();                 // Give time for LEDs and Buttons
-    }
+//    int start = 10000000;
+//    int count = 10000000;
+//    int step = 0;
+//    while(1)
+//    {
+//        vco_loop();                 // Give time for LEDs and Buttons
+//
+//        /// Testing that interrupts are not interfering
+//        if( count-- < 0 ){
+//            printf("Hello: %d\n", step++);
+//            count = start;
+//        }
+//    }
 }
-
-

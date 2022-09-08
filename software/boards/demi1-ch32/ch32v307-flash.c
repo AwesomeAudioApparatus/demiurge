@@ -256,7 +256,7 @@ void SPI_Flash_Read(uint8_t *pBuffer, uint32_t ReadAddr, uint16_t size)
  *
  * @return  none
  */
-void SPI_Flash_Write_Page(uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
+void SPI_Flash_Write_Page(const uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
 {
     uint16_t i;
 
@@ -288,7 +288,7 @@ void SPI_Flash_Write_Page(uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
  *
  * @return  none
  */
-void SPI_Flash_Write_NoCheck(uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
+void SPI_Flash_Write_NoCheck(const uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
 {
     uint16_t pageremain;
 
@@ -330,7 +330,7 @@ void SPI_Flash_Write_NoCheck(uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size
  *
  * @return  none
  */
-void SPI_Flash_Write(uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
+void SPI_Flash_Write(const uint8_t *pBuffer, uint32_t WriteAddr, uint16_t size)
 {
     uint32_t secpos;
     uint16_t secoff;

@@ -8,9 +8,10 @@
 * SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
 #include "ch32v30x_it.h"
+#include "rtthread.h"
 
-void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void NMI_Handler(void) __attribute__((interrupt("machine")));
+void HardFault_Handler(void) __attribute__((interrupt("machine")));
 
 /*********************************************************************
  * @fn      NMI_Handler
@@ -22,7 +23,9 @@ void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void NMI_Handler(void)
 {
     GET_INT_SP();
+    rt_interrupt_enter();
     printf(" NMI Handler\r\n");
+    rt_interrupt_leave();
     FREE_INT_SP();
 }
 
@@ -36,7 +39,9 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
     GET_INT_SP();
-    printf(" hardfault\r\n");
+    rt_interrupt_enter();
+//    printf(" hardfault\r\n");
+    rt_interrupt_leave();
     FREE_INT_SP();
 
 }

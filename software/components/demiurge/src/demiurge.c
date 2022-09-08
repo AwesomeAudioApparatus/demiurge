@@ -119,8 +119,8 @@ void demiurge_tick() {
 #endif
    // We are setting the outputs at the start of a cycle, to ensure that the interval is identical from cycle to cycle.
    update_dac();
-   update_leds();
    update_gates();
+   update_leds();
    read_gates();
    read_adc();
 

@@ -608,7 +608,7 @@ rt_err_t ch32_pin_irq_enable(struct rt_device *device, rt_base_t pin,
         GPIO_InitStruct.GPIO_Pin = index->pin;
         GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 
-        EXTI_InitStructure.EXTI_Line=index->pin;/* Íâ²¿ÖÐ¶ÏÏßºÍÒý½ÅºÅ¶ÔÓ¦ */
+        EXTI_InitStructure.EXTI_Line=index->pin;/* ï¿½â²¿ï¿½Ð¶ï¿½ï¿½ßºï¿½ï¿½ï¿½ï¿½ÅºÅ¶ï¿½Ó¦ */
         EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
         EXTI_InitStructure.EXTI_LineCmd = ENABLE;
         switch (pin_irq_hdr_tab[irqindex].mode)
@@ -682,11 +682,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 }
 
 
-void EXTI0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void EXTI1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void EXTI3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void EXTI4_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void EXTI9_5_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void EXTI0_IRQHandler(void) __attribute__((interrupt("machine")));
+void EXTI1_IRQHandler(void) __attribute__((interrupt("machine")));
+void EXTI3_IRQHandler(void) __attribute__((interrupt("machine")));
+void EXTI4_IRQHandler(void) __attribute__((interrupt("machine")));
+void EXTI9_5_IRQHandler(void) __attribute__((interrupt("machine")));
 
 void EXTI0_IRQHandler(void)
 {

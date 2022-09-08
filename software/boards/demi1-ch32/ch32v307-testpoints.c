@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 */
 
 #include "ch32v30x.h"
-#include "demi1-ch32.h"
+#include "hardware.h"
 
 #include "demiurge-spi.h"
 
@@ -23,12 +23,19 @@ void init_testpoints()
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
+    // Set up MCO on PA8
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    // Put SysClk on MCO pin. ALTHOUGH, max 100MHz has been mentioned to be max frequency and we are running at 144MHz.
+    RCC_MCOConfig(RCC_MCO_PLLCLK_Div2);
 }
 
 void start_testpoints()

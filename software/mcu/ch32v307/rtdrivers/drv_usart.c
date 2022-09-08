@@ -199,7 +199,7 @@ struct rt_serial_device serial1;
 
 
 
-void USART1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void USART1_IRQHandler(void) __attribute__((interrupt("machine")));
 void USART1_IRQHandler(void)
 {
     GET_INT_SP();

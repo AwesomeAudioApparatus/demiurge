@@ -240,7 +240,6 @@ void rt_object_init(struct rt_object         *object,
                     const char               *name)
 {
     register rt_base_t temp;
-    struct rt_list_node *node = RT_NULL;
     struct rt_object_information *information;
 #ifdef RT_USING_MODULE
     struct rt_dlmodule *module = dlmodule_self();
@@ -254,6 +253,8 @@ void rt_object_init(struct rt_object         *object,
 
     /* enter critical */
     rt_enter_critical();
+#ifdef RT_DEBUG
+    struct rt_list_node *node = RT_NULL;
     /* try to find object */
     for (node  = information->object_list.next;
             node != &(information->object_list);
@@ -263,6 +264,7 @@ void rt_object_init(struct rt_object         *object,
         obj = rt_list_entry(node, struct rt_object, list);
         RT_ASSERT(obj != object);
     }
+#endif
     /* leave critical */
     rt_exit_critical();
 

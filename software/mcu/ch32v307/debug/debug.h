@@ -20,11 +20,8 @@
 #define DEBUG_UART3    3
 
 /* DEBUG UART Definition */
-#ifndef HW_BUG_RevE_TXOUT
 #define DEBUG   DEBUG_UART1
-#else
-#define DEBUG   DEBUG_UART2
-#endif
+//#define DEBUG   DEBUG_UART2
 //#define DEBUG   DEBUG_UART3
 
 

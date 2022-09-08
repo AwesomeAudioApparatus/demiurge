@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 */
 
 #include "ch32v30x.h"
-#include "demi1-ch32.h"
+#include "hardware.h"
 #include <stdbool.h>
 
 #include "demiurge-spi.h"

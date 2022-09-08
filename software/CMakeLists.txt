@@ -2,8 +2,6 @@ set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
 cmake_minimum_required(VERSION 3.17)
 
-option(CH32V307 "Build for CH32V307" ON)
-option(STM32F405 "Build for STM32F405" OFF)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
     set(CMAKE_BUILD_TYPE Debug)
@@ -15,15 +13,14 @@ set(CMAKE_C_STANDARD 99)
 set(PROJECT_BINARY_DIR CMakeFiles)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
-if(CH32V307)
-    set(BOARD demi1-ch32)
+if(BOARD STREQUAL demi1-ch32)
     # specify cross compilers and tools
-    set(CMAKE_C_COMPILER riscv-none-elf-gcc)
-    set(CMAKE_ASM_COMPILER riscv-none-elf-gcc)
-    set(CMAKE_AR riscv-none-elf-ar)
-    set(CMAKE_OBJCOPY riscv-none-elf-objcopy)
-    set(CMAKE_OBJDUMP riscv-none-elf-objdump)
-    set(SIZE riscv-none-elf-size)
+    set(CMAKE_C_COMPILER riscv-none-elf-gcc CACHE STRING "May be set by IDE")
+    set(CMAKE_ASM_COMPILER riscv-none-elf-gcc CACHE STRING "May be set by IDE")
+    set(CMAKE_AR riscv-none-elf-ar CACHE STRING "May be set by IDE")
+    set(CMAKE_OBJCOPY riscv-none-elf-objcopy CACHE STRING "May be set by IDE")
+    set(CMAKE_OBJDUMP riscv-none-elf-objdump CACHE STRING "May be set by IDE")
+    set(SIZE riscv-none-elf-size CACHE STRING "May be set by IDE")
 
     include_directories(boards mcu/ch32v307/debug components/demiurge/inc components/littlefs mcu/ch32v307/cpu mcu/ch32v307/rtthread/libcpu/risc-v/common mcu/ch32v307/rtthread mcu/ch32v307/rtthread/components/drivers/include mcu/ch32v307/rtthread/components/finsh mcu/ch32v307/system/inc mcu/ch32v307/peripherals/inc mcu/ch32v307/rtdrivers mcu/ch32v307/rtthread/include mcu/ch32v307/rtthread/include/libc )
     add_compile_options(-DBOARD=${BOARD} -MMD -MP -msmall-data-limit=8 -mstrict-align -msave-restore -march=rv32imafc -mabi=ilp32f -O0 -fno-common -fno-inline-functions -Wunused -Wuninitialized -g -fmessage-length=0 -ffunction-sections -fdata-sections)
@@ -93,5 +90,4 @@ set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
         COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
-        COMMENT "Building ${HEX_FILE}
-            Building ${BIN_FILE}")
+        COMMENT "\nBuilt ${HEX_FILE}\nBuilt ${BIN_FILE}")

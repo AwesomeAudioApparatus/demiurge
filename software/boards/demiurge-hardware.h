@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 #define BOARDS_BOARD_H_
 
 #if BOARD == demi1-ch32
-#include "demi1-ch32.h"
+#include "demi1-ch32/hardware.h"
 #endif
 
 #include "demiurge.h"
