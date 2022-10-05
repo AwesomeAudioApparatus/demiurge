@@ -6,6 +6,7 @@
 
   (title_block
     (title "AAA Demiurge 1")
+    (date "2022-10-02")
     (rev "G")
     (company "Awesome Audio Apparatus")
   )
@@ -10647,7 +10648,7 @@
     (property "Reference" "U13" (id 0) (at 259.8294 30.641 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "CH32V307RCT6" (id 1) (at 259.8294 33.1779 0)
+    (property "Value" "STM32F446" (id 1) (at 259.8294 33.1779 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Package_QFP:LQFP-64_10x10mm_P0.5mm" (id 2) (at 252.73 81.28 0)
@@ -10656,7 +10657,7 @@
     (property "Datasheet" "" (id 3) (at 252.73 81.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "LCSC" "CH32V307RCT6" (id 4) (at 252.73 81.28 0)
+    (property "LCSC" "C69336" (id 4) (at 252.73 81.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 5f4db5f5-f409-498e-bbb9-3426b6a32a16))
@@ -12511,7 +12512,7 @@
       (reference "U11") (unit 3) (value "TL072") (footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
     )
     (path "/656368b3-f557-4826-ae34-bd6d81988e01"
-      (reference "U13") (unit 1) (value "CH32V307RCT6") (footprint "Package_QFP:LQFP-64_10x10mm_P0.5mm")
+      (reference "U13") (unit 1) (value "STM32F446") (footprint "Package_QFP:LQFP-64_10x10mm_P0.5mm")
     )
     (path "/00000000-0000-0000-0000-00006068bd74"
       (reference "Y1") (unit 1) (value "16MHz") (footprint "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm")
