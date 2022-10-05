@@ -31,7 +31,7 @@ if(BOARD STREQUAL demi1-ch32)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wa,-anhlmsd=$@.lst")
 endif()
 
-#if(STM32F405)
+#if(BOARD STREQUAL demi1-stm32f405)
 #    # specify cross compilers and tools
 #    set(CMAKE_C_COMPILER arm-none-eabi-gcc)
 #    set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)

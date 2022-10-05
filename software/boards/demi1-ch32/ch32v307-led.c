@@ -126,6 +126,22 @@ static uint8_t page0[] = {
                           0x59,
                           0x80
 };
+
+static uint8_t led_reg[] = {
+                            0x00,0x01,0x02,  // LED 1; R, G, B
+                            0x0C,0x0D,0x0E,  // LED 2; R, G, B
+                            0x18,0x19,0x1A,  // LED 3; R, G, B
+                            0x03,0x04,0x05   // LED 4; R, G, B
+};
+
+static void test_led(int reg, int max) {
+    for( int j=0; j < max; j++){
+        setRegister(reg, j);
+        Delay_Ms(10);
+    }
+    setRegister(reg, 0x0);
+}
+
 void write_registers() {
     setRegister(0xF0, 0xC0);
     setRegister(0x1, 0x0);
@@ -138,7 +154,13 @@ void write_registers() {
     setRegister(0x35, 0x3F);
     setRegister(0x36, 0x3F);
     setRegister(0xF0, 0xC1);
-    setRegister(0x1, 0x3F);
+    for( int i=0; i < 36; i++)
+        setRegister(i, 0x3F);
+    setRegister(0xF0, 0xC2);
+    for( int i=0; i < sizeof(led_reg); i++) {
+        test_led(led_reg[i], 256);
+        Delay_Ms(1000);
+    }
 //    setRegister(0x00, rgb[0] >> 16);
 //    setRegister(0x01, rgb[0] >> 8);
 //    setRegister(0x02, rgb[0]);
