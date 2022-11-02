@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/software.iml" filepath="$PROJECT_DIR$/.idea/software.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/stm32-packs.iml" filepath="$PROJECT_DIR$/.idea/stm32-packs.iml" />
     </modules>
   </component>
 </project>
