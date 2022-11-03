@@ -5,6 +5,7 @@
     <description>Demiurge Sound Processing platform</description>
     <url>https://stm32world.com/packs/demiurge/</url>
     <releases>
+        <release date="2022-11-03" version="0.3.0">Demiurge Sound Processing platform</release>
         <release date="2022-11-01" version="0.2.0">Getting there.</release>
         <release date="2022-10-31" version="0.1.1">User's application file created</release>
         <release date="2022-10-31" version="0.1.0">Starting over</release>
@@ -25,13 +26,13 @@
         <description Cclass="Device">Device</description>
     </taxonomy>
     <components>
-        <component Cclass="Device" Cgroup="Application" Cvariant="SDK" Cversion="0.1.1" maxInstances="1">
+        <component Cclass="Device" Cgroup="Application" Cvariant="SDK" Cversion="0.1.2" maxInstances="1">
             <description>Demiurge Sound Processing platform</description>
             <files>
                 <file category="doc" name="Projects/User/Applications/SDK/docs/demiurge-sound-processing.doc"/>
             </files>
         </component>
-        <component Cclass="Audio" Cgroup="Demiurge" Cversion="0.1.1" maxInstances="1">
+        <component Cclass="Audio" Cgroup="Demiurge" Cversion="0.1.2" maxInstances="1">
             <description>Demiurge SDK and library files</description>
             <files>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/volume.h"/>
@@ -101,7 +102,7 @@
                 <file category="source" name="Middlewares/Third_Party/Demiurge/src/adsr.c"/>
             </files>
         </component>
-        <component Cclass="Board Support" Cgroup="Demiurge1" Csub="RevG" Cversion="0.1.1" maxInstances="1">
+        <component Cclass="Board Support" Cgroup="Demiurge1" Csub="RevG" Cversion="0.1.2" maxInstances="1">
             <description>Demiurge 1, Rev G sound processing board</description>
             <RTE_Components_h>#define BOARD demi1-stm32f4</RTE_Components_h>
             <files>

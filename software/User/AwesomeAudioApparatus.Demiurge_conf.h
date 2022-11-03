@@ -54,7 +54,7 @@
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ AWESOMEAUDIOAPPARATUS__DEMIURGE_CONF__H_H */
+#endif /*__AWESOMEAUDIOAPPARATUS__DEMIURGE_CONF__H__ */
 
 /**
   * @}

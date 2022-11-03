@@ -5,7 +5,7 @@
   * Description        : This file provides code for the configuration
   *                      of the ${name} instances.
   ******************************************************************************
-[@common.optinclude name=mxTmpFolder+"/license.tmp"/][#--include License text --]
+[@common.optinclude name="license.txt"/][#--include License text --]
   ******************************************************************************
   */
 [#assign s = name]
@@ -13,14 +13,13 @@
 [#assign dashReplace = toto?replace("-","_")]
 [#assign inclusion_protection = dashReplace?upper_case]
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __${inclusion_protection}__
-#define __${inclusion_protection}__
+#ifndef _${inclusion_protection}_
+#define _${inclusion_protection}_
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
-/* Includes ------------------------------------------------------------------*/
 [#if includes??]
 [#list includes as include]
 #include "${include}"
@@ -63,10 +62,4 @@ extern ${variable.value} ${variable.name};
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ ${inclusion_protection}_H */
-
-/**
-  * @}
-  */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+#endif /*_${inclusion_protection}_ */

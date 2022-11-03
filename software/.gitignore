@@ -2,3 +2,4 @@ cmake-build-*/**
 .idea/**
 stm32-pack/demiurge1/AwesomeAudioApparatus.Demiurge.0.1.0.pack
 stm32-pack/demiurge1/Files/
+junk*.*
