@@ -109,19 +109,4 @@ void stop_testpoints();
 void set_testpoint(int point);
 void clear_testpoint(int point);
 
-// USB
-void init_usb();
-void start_usb();
-void stop_usb();
-
-// SDcard
-void init_sdcard();
-void start_sdcard();
-void stop_sdcard();
-
-// Flash Memory
-void init_flash();
-void start_flash();
-void stop_flash();
-
 #endif

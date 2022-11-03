@@ -1,7 +1,7 @@
 #include "demiurge.h"
 #include "AwesomeAudioApparatus.Demiurge_conf.h"
 
-void Demiurge_Init(void)
+void MX_User_Init(void)
 {
     demiurge_samplerate = SAMPLERATE;
     demiurge_input_mode(1, TYPE_INPUT1);
@@ -18,7 +18,7 @@ void Demiurge_Init(void)
     demiurge_start();               // Start the audio processing
 }
 
-void Demiurge_Processing(void)
+void MX_User_Process(void)
 {
     loop();                         // Loop application slow code.
 }

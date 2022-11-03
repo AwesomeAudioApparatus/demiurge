@@ -20,7 +20,7 @@ See the License for the specific language governing permissions and
 #include "RTE_Components.h"
 
 #if BOARD == demi1-stm32f4
-#include "../../../../boards/demi1-stm32f4/hardware.h"
+#include "demi1-stm32f4/hardware.h"
 #endif
 
 #include "demiurge.h"

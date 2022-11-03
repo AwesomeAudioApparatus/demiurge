@@ -1,0 +1,1 @@
+../../stm32-packs/demiurge1/.project/STM32CubeMX/templates/app_Demiurge_c.ftl

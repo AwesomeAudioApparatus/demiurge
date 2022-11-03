@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 
 #include "demiurge-hardware.h"
 
-#define AW20036_ADDR (0x3A << 1)
+#define AW20036_ADDR (0x3A)
 
 #define I2C_TIMEOUT 100
 
