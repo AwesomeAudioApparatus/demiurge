@@ -29,8 +29,7 @@ void update_dac() {
     if( ch2 > 4095 ) ch2 = 4095;
     if( ch1 < 0 ) ch1 = 0;
     if( ch2 < 0 ) ch2 = 0;
-    HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, ch1);
-    HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, ch1);
+    HAL_DACEx_DualSetValue(&hdac, DAC_ALIGN_12B_R, ch2, ch1);
 }
 
 void init_dac(float *scales, float *offsets) {

@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 
 float inputs[8];
 
-uint32_t adc_buffer[8];
+uint16_t adc_buffer[8];
 
 int16_t calibration_adc;
 
@@ -62,8 +62,8 @@ void read_adc() {
     inputs[6] = ((float) adc_buffer[6]) * scale_ch6 + offset_ch6;
     inputs[7] = ((float) adc_buffer[7]) * scale_ch7 + offset_ch7;
 
-    // Trigger new read cycle
-//    ADC1->CTLR2 |= ((uint32_t)0x00500000);
+    // Clear the EOC (End-Of-Conversion) bit
+    ADC1->SR = 0;
 }
 
 void init_adc(float *scales, float *offsets) {
@@ -106,8 +106,8 @@ void init_adc(float *scales, float *offsets) {
 }
 
 void start_adc() {
-	HAL_ADC_Start(&hadc1);
-	HAL_ADC_Start_DMA(&hadc1, adc_buffer, 8);
+//	HAL_ADC_Start(&hadc1);
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adc_buffer, 8);
 }
 
 void stop_adc() {

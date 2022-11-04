@@ -20,6 +20,7 @@ void init_timer(int samplerate) {
 }
 
 void start_timer() {
+    HAL_TIM_Base_Start_IT(&htim3);
 }
 
 void stop_timer() {

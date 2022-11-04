@@ -33,7 +33,7 @@ add_compile_options($<$<COMPILE_LANGUAGE:ASM>:-x$<SEMICOLON>assembler-with-cpp>)
 
 add_definitions(-DSTM32F446xx -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DDEBUG)
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/linker/STM32F446RETX_FLASH.ld)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F446RETX_FLASH.ld)
 
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}-stm32f446.map)

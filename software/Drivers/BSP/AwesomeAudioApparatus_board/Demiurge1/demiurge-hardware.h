@@ -33,7 +33,6 @@ extern ADC_HandleTypeDef hadc1;
 extern DMA_HandleTypeDef hdma_adc1;
 extern DAC_HandleTypeDef hdac;
 extern I2C_HandleTypeDef hi2c1;
-extern SD_HandleTypeDef hsd;
 extern SPI_HandleTypeDef hspi2;
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart1;

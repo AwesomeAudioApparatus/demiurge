@@ -29,9 +29,9 @@ void setup()
     oscillator_configure_mode(&oscillator2, SQUARE);
 
     oscillator_configure_frequency(&oscillator1, &pair1.me);
-    oscillator_configure_frequency(&oscillator2, &pair3.me);
-
     oscillator_configure_amplitude(&oscillator1, &pair2.me);
+
+    oscillator_configure_frequency(&oscillator2, &pair3.me);
     oscillator_configure_amplitude(&oscillator2, &pair4.me);
 
     audio_outport_configure_input(&out1, &oscillator1.me);

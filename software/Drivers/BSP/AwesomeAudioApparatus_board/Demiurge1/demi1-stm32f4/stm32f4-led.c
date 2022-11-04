@@ -131,10 +131,10 @@ void write_registers() {
     for( int i=0; i < 36; i++)
         setRegister(i, 0x3F);
     setRegister(0xF0, 0xC2);
-    for( int i=0; i < sizeof(led_reg); i++) {
-        test_led(led_reg[i], 256);
-        HAL_Delay(1000);
-    }
+//    for( int i=0; i < sizeof(led_reg); i++) {
+//        test_led(led_reg[i], 256);
+//        HAL_Delay(1000);
+//    }
 //    setRegister(0x00, rgb[0] >> 16);
 //    setRegister(0x01, rgb[0] >> 8);
 //    setRegister(0x02, rgb[0]);
