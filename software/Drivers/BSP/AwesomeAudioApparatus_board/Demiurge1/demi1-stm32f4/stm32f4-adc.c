@@ -106,7 +106,6 @@ void init_adc(float *scales, float *offsets) {
 }
 
 void start_adc() {
-//	HAL_ADC_Start(&hadc1);
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adc_buffer, 8);
 }
 

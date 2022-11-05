@@ -25,7 +25,7 @@ void setup()
     oscillator_init(&oscillator1);
     oscillator_init(&oscillator2);
 
-    oscillator_configure_mode(&oscillator1, SAW);
+    oscillator_configure_mode(&oscillator1, SINE);
     oscillator_configure_mode(&oscillator2, SQUARE);
 
     oscillator_configure_frequency(&oscillator1, &pair1.me);

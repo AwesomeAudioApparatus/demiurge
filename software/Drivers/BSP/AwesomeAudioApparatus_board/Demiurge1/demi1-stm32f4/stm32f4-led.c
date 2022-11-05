@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 
 #include "demiurge-hardware.h"
 
-#define AW20036_ADDR (0x3A)
+#define AW20036_ADDR (0x3A << 1)
 
 #define I2C_TIMEOUT 100
 
@@ -37,14 +37,27 @@ static uint32_t (*convert)(float) = default_convert;
 static uint8_t readRegister(int regAddress)
 {
 	uint8_t data = 0;
-	HAL_I2C_Mem_Read(&hi2c1, AW20036_ADDR, regAddress, 1, &data, 1, I2C_TIMEOUT);
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, AW20036_ADDR, regAddress, 1, &data, 1, I2C_TIMEOUT);
+    if (status != HAL_OK) {
+        uint32_t errorCode = hi2c1.ErrorCode;
+        printf("I2C error: %d, %ld", status, errorCode);
+//    } else {
+//        printf("I2C: OK");
+    }
     return data;
 }
 
 static void setRegister(int regAddress, int value)
 {
 	uint8_t data = value;
-	HAL_I2C_Mem_Write(&hi2c1, AW20036_ADDR, regAddress, 1, &data, 1, I2C_TIMEOUT);
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, AW20036_ADDR, regAddress, 1, &data, 1, I2C_TIMEOUT);
+    if (status != HAL_OK) {
+        uint32_t errorCode = hi2c1.ErrorCode;
+        printf("I2C error: %d, %ld", status, errorCode);
+//    } else {
+//        printf("I2C: OK");
+    }
+
 }
 
 static void turnoff_AW20036()
@@ -131,10 +144,10 @@ void write_registers() {
     for( int i=0; i < 36; i++)
         setRegister(i, 0x3F);
     setRegister(0xF0, 0xC2);
-//    for( int i=0; i < sizeof(led_reg); i++) {
-//        test_led(led_reg[i], 256);
-//        HAL_Delay(1000);
-//    }
+    for( int i=0; i < sizeof(led_reg); i++) {
+        test_led(led_reg[i], 256);
+        HAL_Delay(1000);
+    }
 //    setRegister(0x00, rgb[0] >> 16);
 //    setRegister(0x01, rgb[0] >> 8);
 //    setRegister(0x02, rgb[0]);
@@ -174,7 +187,9 @@ void write_registers() {
 void init_leds()
 {
     turnoff_AW20036();
+    HAL_Delay(10);
     turnon_AW20036();
+    HAL_Delay(10);
 
     setRegister(0xF0, 0); // addressing page 0
 
