@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,45 +19,51 @@ See the License for the specific language governing permissions and
 #include "clipping.h"
 #include "demi_asserts.h"
 
-void volume_init(volume_t *handle) {
-   handle->me.read_fn = volume_read;
-   handle->me.data = handle;
+void volume_init(volume_t *handle)
+{
+    handle->me.read_fn = volume_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
 }
 
-void volume_configure(volume_t *handle, signal_t *input, signal_t *control) {
-   configASSERT(input != NULL && control != NULL)
-   handle->input = input;
-   handle->control = control;
+void volume_configure(volume_t *handle, signal_t *input, signal_t *control)
+{
+    configASSERT(input != NULL && control != NULL)
+    handle->input = input;
+    handle->control = control;
 }
 
-void volume_configure_input(volume_t *handle, signal_t *input) {
-   configASSERT(input != NULL)
-   handle->input = input;
+void volume_configure_input(volume_t *handle, signal_t *input)
+{
+    configASSERT(input != NULL)
+    handle->input = input;
 }
 
-void volume_configure_control(volume_t *handle, signal_t *control) {
-   configASSERT(control != NULL)
-   handle->control = control;
+void volume_configure_control(volume_t *handle, signal_t *control)
+{
+    configASSERT(control != NULL)
+    handle->control = control;
 }
 
-float volume_read(signal_t *handle, uint64_t time) {
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      volume_t *vol = (volume_t *) handle->data;
-      signal_t *ctrl = vol->control;
-      float gain = ctrl->read_fn(ctrl, time);
-      signal_t *input = vol->input;
-      float in = input->read_fn(input, time);
-      float factor = 0.05 * gain + 0.5;
-      float result = in * factor;
+float volume_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        volume_t *vol = (volume_t *) handle->data;
+        signal_t *ctrl = vol->control;
+        float gain = ctrl->read_fn(ctrl, time);
+        signal_t *input = vol->input;
+        float in = input->read_fn(input, time);
+        float factor = 0.05 * gain + 0.5;
+        float result = in * factor;
 #ifdef DEMIURGE_POST_FUNCTION
-      result = handle->post_fn(result);
+        result = handle->post_fn(result);
 #endif
-      handle->cached = result;
-      return result;
-   }
-   return handle->cached;
+        handle->cached = result;
+        return result;
+    }
+    return handle->cached;
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,13 +24,15 @@ void init_gates(void)
 {
 }
 
-void read_gates() {
-    gates_in[0] = HAL_GPIO_ReadPin(GPIOA, 7) == GPIO_PIN_SET;
+void read_gates()
+{
+    gates_in[0] = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) == GPIO_PIN_SET;
 }
 
-void update_gates() {
-	if(gates_dir[0])
-        HAL_GPIO_WritePin(GPIOA, 7, gates_out[0] ? GPIO_PIN_SET : GPIO_PIN_RESET);
+void update_gates()
+{
+    if (gates_dir[0])
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, gates_out[0] ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
 
 void start_gates()
@@ -43,22 +45,22 @@ void stop_gates()
     // nothing to stop
 }
 
-static void __set_gate_input(int gate)
+static void set_gate_input()
 {
     gates_dir[0] = false;
-    HAL_GPIO_WritePin(GPIOA, 6, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
 }
 
-static void __set_gate_output(int gate)
+static void set_gate_output()
 {
     gates_dir[0] = true;
-    HAL_GPIO_WritePin(GPIOA, 6, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
 }
 
 void direction_gate(int gate, bool output)
 {
-    if(output)
-        __set_gate_output(gate);
+    if (output)
+        set_gate_output();
     else
-        __set_gate_input(gate);
+        set_gate_input();
 }

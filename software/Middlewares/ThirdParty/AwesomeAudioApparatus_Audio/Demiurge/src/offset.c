@@ -18,58 +18,66 @@ See the License for the specific language governing permissions and
 
 #include "clipping.h"
 
-void offset_init(offset_t *handle) {
-   handle->me.read_fn = offset_read;
-   handle->me.data = handle;
+void offset_init(offset_t *handle)
+{
+    handle->me.read_fn = offset_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
-   handle->offset = 0;
-   handle->offset_control = NULL;
-   handle->input = NULL;
+    handle->offset = 0;
+    handle->offset_control = NULL;
+    handle->input = NULL;
 }
 
-void offset_configure_input(offset_t *handle, signal_t *input) {
-   handle->input = input;
+void offset_configure_input(offset_t *handle, signal_t *input)
+{
+    handle->input = input;
 }
 
-void offset_configure_control(offset_t *handle, signal_t *control) {
-   handle->offset_control = control;
+void offset_configure_control(offset_t *handle, signal_t *control)
+{
+    handle->offset_control = control;
 }
 
-void offset_configure(offset_t *handle, signal_t *input, signal_t *offset_control) {
-   handle->input = input;
-   handle->offset_control = offset_control;
+void offset_configure(offset_t *handle, signal_t *input, signal_t *offset_control)
+{
+    handle->input = input;
+    handle->offset_control = offset_control;
 }
 
-float offset_read(signal_t *handle, uint64_t time){
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      offset_t *offset = (offset_t *) handle->data;
+float offset_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        offset_t *offset = (offset_t *) handle->data;
 
-      signal_t *input = offset->input;
-      float input_value = input->read_fn(input, time);
+        signal_t *input = offset->input;
+        float input_value = input->read_fn(input, time);
 
-      float  new_output;
-      if (offset->offset_control != NULL) {
-         signal_t *ctrl = offset->offset_control;
-         float new_offset = ctrl->read_fn(ctrl, time);
+        float new_output;
+        if (offset->offset_control != NULL)
+        {
+            signal_t *ctrl = offset->offset_control;
+            float new_offset = ctrl->read_fn(ctrl, time);
 #ifdef DEMIURGE_DEV
-         handle->extra1 = input_value;
-         handle->extra2 = new_offset;
+            handle->extra1 = input_value;
+            handle->extra2 = new_offset;
 #endif
-          new_output = input_value + new_offset;
+            new_output = input_value + new_offset;
 #ifdef DEMIURGE_POST_FUNCTION
-          new_output = handle->post_fn(new_output);
+            new_output = handle->post_fn(new_output);
 #endif
-      } else {
-          new_output = input_value + offset->offset;
+        } else
+        {
+            new_output = input_value + offset->offset;
 #ifdef DEMIURGE_POST_FUNCTION
-          new_output = handle->post_fn(new_output);
+            new_output = handle->post_fn(new_output);
 #endif
-      }
-      handle->cached = new_output;
-      return new_output;
-   }
-   return handle->cached;
+        }
+        handle->cached = new_output;
+        return new_output;
+    }
+    return handle->cached;
 }

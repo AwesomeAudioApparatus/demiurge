@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,35 +21,43 @@ See the License for the specific language governing permissions and
 #include "threshold.h"
 
 
-typedef struct {
-   signal_t me;
-   signal_t *attack;
-   signal_t *decay;
-   signal_t *sustain;
-   signal_t *release;
-   signal_t *gate;
-   signal_t *trig;
-   float_fn attack_slope_fn;
-   float_fn decay_slope_fn;
-   float_fn release_slope_fn;
-   int stateMachine;
-   int64_t doneAt;
-   int64_t startedAt;
-   float min;
-   float max;
-   float range;
-   bool currentTrig;
-   threshold_t gateThreshold;
-   threshold_t trigThreshold;
+typedef struct
+{
+    signal_t me;
+    signal_t *attack;
+    signal_t *decay;
+    signal_t *sustain;
+    signal_t *release;
+    signal_t *gate;
+    signal_t *trig;
+    float_fn attack_slope_fn;
+    float_fn decay_slope_fn;
+    float_fn release_slope_fn;
+    int stateMachine;
+    int64_t doneAt;
+    int64_t startedAt;
+    float min;
+    float max;
+    float range;
+    bool currentTrig;
+    threshold_t gateThreshold;
+    threshold_t trigThreshold;
 } adsr_t;
 
 void adsr_init(adsr_t *handle, float min, float max);
+
 void adsr_configure_attack(adsr_t *handle, signal_t *control);
+
 void adsr_configure_decay(adsr_t *handle, signal_t *control);
+
 void adsr_configure_sustain(adsr_t *handle, signal_t *control);
+
 void adsr_configure_release(adsr_t *handle, signal_t *control);
+
 void adsr_configure_gate(adsr_t *handle, signal_t *control);
+
 void adsr_configure_trig(adsr_t *handle, signal_t *control);
+
 float adsr_read(signal_t *handle, uint64_t time);
 
 #endif

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,11 +19,13 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   signal_t me;
+typedef struct
+{
+    signal_t me;
 } fixed_signal_t;
 
 void fixed_signal_init(fixed_signal_t *handle, float value);
+
 float fixed_signal_read(signal_t *handle, uint64_t time);
 
 #endif

@@ -20,29 +20,33 @@ See the License for the specific language governing permissions and
 
 #include "clipping.h"
 
-void lg_init(lg_t *handle) {
-   handle->me.read_fn = lg_read;
-   handle->me.data = handle;
+void lg_init(lg_t *handle)
+{
+    handle->me.read_fn = lg_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
 }
 
-void lg_configure_input(lg_t *handle, signal_t *input) {
-   handle->input = input;
+void lg_configure_input(lg_t *handle, signal_t *input)
+{
+    handle->input = input;
 }
 
-float lg_read(signal_t *handle, uint64_t time) {
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      lg_t *lg = (lg_t *) handle->data;
-      float input = lg->input->read_fn(lg->input, time);
-      float new_output = logf(input);
+float lg_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        lg_t *lg = (lg_t *) handle->data;
+        float input = lg->input->read_fn(lg->input, time);
+        float new_output = logf(input);
 #ifdef DEMIURGE_POST_FUNCTION
-      new_output = handle->post_fn(new_output);
+        new_output = handle->post_fn(new_output);
 #endif
-      handle->cached = new_output;
-      return new_output;
-   }
-   return handle->cached;
+        handle->cached = new_output;
+        return new_output;
+    }
+    return handle->cached;
 }

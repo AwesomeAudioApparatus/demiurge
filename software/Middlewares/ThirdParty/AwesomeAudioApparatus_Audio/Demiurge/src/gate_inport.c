@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,34 +20,39 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 
-void gate_inport_init(gate_inport_t *handle, int position) {
-   configASSERT(position > 0 && position <= DEMIURGE_NUM_GATES)
-   handle->me.read_fn = gate_inport_read;
-   handle->me.data = handle;
-   handle->position = position - 1;
-   set_gate_to_input(handle->position);
+void gate_inport_init(gate_inport_t *handle, int position)
+{
+    configASSERT(position > 0 && position <= DEMIURGE_NUM_GATES)
+    handle->me.read_fn = gate_inport_read;
+    handle->me.data = handle;
+    handle->position = position - 1;
+    set_gate_to_input(handle->position);
 }
 
-float gate_inport_read(signal_t *handle, uint64_t time) {
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      gate_inport_t *port = (gate_inport_t *) handle->data;
+float gate_inport_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        gate_inport_t *port = (gate_inport_t *) handle->data;
 #ifdef DEMIURGE_DEV
-      handle->extra1 = port->position+1;
+        handle->extra1 = port->position+1;
 #endif
-      // if position == 0, then use digital input, otherwise use analog inputs.
-      float result;
-      if (port->position) {
-         float input = inputs[port->position];
-         result = clip_gate(input);
-      } else {
-         bool state = gates_in[0];
-         result = state ? DEMIURGE_GATE_HIGH : DEMIURGE_GATE_LOW;
-      }
+        // if position == 0, then use digital input, otherwise use analog inputs.
+        float result;
+        if (port->position)
+        {
+            float input = inputs[port->position];
+            result = clip_gate(input);
+        } else
+        {
+            bool state = gates_in[0];
+            result = state ? DEMIURGE_GATE_HIGH : DEMIURGE_GATE_LOW;
+        }
 #ifdef DEMIURGE_DEV
-      handle->extra2 = result;
+        handle->extra2 = result;
 #endif
-      handle->cached = result;
-   }
-   return handle->cached;
+        handle->cached = result;
+    }
+    return handle->cached;
 }

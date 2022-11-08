@@ -14,14 +14,34 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
-#include "led.h"
+#include "rgb.h"
 
 #include "demiurge.h"
 
-void led_init(led_t *handle, int position)
+static uint8_t values[20][3] = {
+    { 0,0,0 },
+    { 0,0,0x80 },
+    { 0,0x80,0 },
+    { 0,0x80,0x80 },
+    { 0x80,0,0 },
+    { 0x80,0,0x80 },
+    { 0x80,0x80,0 },
+    { 0x80,0x80,0x80 }
+};
+
+static void default_fn(float value, uint8_t* rgb)
+{
+    int index = ((int)(value + 0.5)) % 8;
+    uint8_t *leds = values[index];
+    rgb[0] = leds[0];
+    rgb[1] = leds[1];
+    rgb[2] = leds[2];
+}
+
+void rgb_init(rgb_t *handle, int position)
 {
     configASSERT(position > 0 && position <= DEMIURGE_NUM_LEDS)
-    handle->me.read_fn = led_read;
+    handle->me.read_fn = rgb_read;
     handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
     handle->me.post_fn = clip_none;
@@ -29,11 +49,17 @@ void led_init(led_t *handle, int position)
     handle->position = position - 1;
     handle->registered = false;
     handle->input = NULL;
-    handle->k = 5;
-    handle->m = 0;
+    handle->leds = rgb_leds(position);
+    handle->convert_fn = default_fn;
 }
 
-void led_configure_input(led_t *handle, signal_t *input)
+void rgb_configure_conversion( rgb_t *handle, void (*convert_fn)(float, uint8_t* rgb) )
+{
+    configASSERT(convert_fn != NULL)
+    handle->convert_fn = convert_fn;
+}
+
+void rgb_configure_input(rgb_t *handle, signal_t *input)
 {
     handle->input = input;
     if (!handle->registered)
@@ -43,13 +69,7 @@ void led_configure_input(led_t *handle, signal_t *input)
     }
 }
 
-void led_configure_sensitivity(led_t *handle, float k, float m)
-{
-    handle->k = k;
-    handle->m = k;
-}
-
-void led_release(led_t *handle)
+void rgb_release(rgb_t *handle)
 {
     if (!handle->registered)
     {
@@ -58,18 +78,18 @@ void led_release(led_t *handle)
     }
 }
 
-float led_read(signal_t *handle, uint64_t time)
+float rgb_read(signal_t *handle, uint64_t time)
 {
     if (time > handle->last_calc)
     {
         handle->last_calc = time;
-        led_t *led = (led_t *) handle->data;
-        signal_t *upstream = led->input;
+        rgb_t *rgb = (rgb_t *) handle->data;
+        signal_t *upstream = rgb->input;
         float out = upstream->read_fn(upstream, time);
 #ifdef DEMIURGE_POST_FUNCTION
         out = handle->post_fn(out);
 #endif
-        set_led(led->position, (uint8_t) (out * led->k + led->m));
+        rgb->convert_fn(out, rgb->leds);
         handle->cached = out;
         return 0.0f;
     }

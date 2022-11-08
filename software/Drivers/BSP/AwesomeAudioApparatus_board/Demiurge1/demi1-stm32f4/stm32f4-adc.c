@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -51,7 +51,8 @@ void init_adc_dma()
 
 uint32_t status;
 
-void read_adc() {
+void read_adc()
+{
 
     inputs[0] = ((float) adc_buffer[0]) * scale_ch0 + offset_ch0;
     inputs[1] = ((float) adc_buffer[1]) * scale_ch1 + offset_ch1;
@@ -66,25 +67,26 @@ void read_adc() {
     ADC1->SR = 0;
 }
 
-void init_adc(float *scales, float *offsets) {
-	scale_ch0 = scales[0];
-	scale_ch1 = scales[1];
-	scale_ch2 = scales[2];
-	scale_ch3 = scales[3];
-	scale_ch4 = scales[4];
-	scale_ch5 = scales[5];
-	scale_ch6 = scales[6];
-	scale_ch7 = scales[7];
-	offset_ch0 = offsets[0];
-	offset_ch1 = offsets[1];
-	offset_ch2 = offsets[2];
-	offset_ch3 = offsets[3];
-	offset_ch4 = offsets[4];
-	offset_ch5 = offsets[5];
-	offset_ch6 = offsets[6];
-	offset_ch7 = offsets[7];
+void init_adc(float *scales, float *offsets)
+{
+    scale_ch0 = scales[0];
+    scale_ch1 = scales[1];
+    scale_ch2 = scales[2];
+    scale_ch3 = scales[3];
+    scale_ch4 = scales[4];
+    scale_ch5 = scales[5];
+    scale_ch6 = scales[6];
+    scale_ch7 = scales[7];
+    offset_ch0 = offsets[0];
+    offset_ch1 = offsets[1];
+    offset_ch2 = offsets[2];
+    offset_ch3 = offsets[3];
+    offset_ch4 = offsets[4];
+    offset_ch5 = offsets[5];
+    offset_ch6 = offsets[6];
+    offset_ch7 = offsets[7];
     calibration_adc = initialize_and_calibrate_adc(ADC1);
-    printf("ADC1 calibration value: %d\n", (int)calibration_adc);
+    printf("ADC1 calibration value: %d\n", (int) calibration_adc);
 
     // The out of order in the "Rank" is due to DMA start transfer when
     // the ADC converts the first value. So when the first ADC is completed
@@ -105,13 +107,15 @@ void init_adc(float *scales, float *offsets) {
     init_adc_dma();
 }
 
-void start_adc() {
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adc_buffer, 8);
+void start_adc()
+{
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adc_buffer, 8);
 }
 
-void stop_adc() {
-	HAL_ADC_Stop(&hadc1);
-	HAL_ADC_Stop_DMA(&hadc1);
+void stop_adc()
+{
+    HAL_ADC_Stop(&hadc1);
+    HAL_ADC_Stop_DMA(&hadc1);
 }
 
 

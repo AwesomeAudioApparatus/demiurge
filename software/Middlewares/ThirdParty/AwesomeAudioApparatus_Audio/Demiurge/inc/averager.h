@@ -19,13 +19,14 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   float rolling_avg;
-   float keep;
-   float update;
-   signal_t me;
-   signal_t *input;
-   signal_t *averaging_control;
+typedef struct
+{
+    float rolling_avg;
+    float keep;
+    float update;
+    signal_t me;
+    signal_t *input;
+    signal_t *averaging_control;
 } averager_t;
 
 void averager_init(averager_t *handle);
@@ -36,7 +37,7 @@ void averager_configure_avg(averager_t *handle, signal_t *average_control);
 
 void averager_set_keep(averager_t *handle, float new_keep);
 
-void averager_set_update(averager_t *handle,float new_update);
+void averager_set_update(averager_t *handle, float new_update);
 
 float averager_read(signal_t *handle, uint64_t time);
 

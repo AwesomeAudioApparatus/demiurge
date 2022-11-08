@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ See the License for the specific language governing permissions and
 #include "audio_inport.h"
 #include "audio_outport.h"
 #include "averager.h"
+#include "button.h"
 #include "calculator.h"
 #include "clipping.h"
 #include "control_pair.h"
@@ -45,6 +46,7 @@ See the License for the specific language governing permissions and
 #include "passthru.h"
 #include "potentiometer.h"
 #include "pushbutton.h"
+#include "rgb.h"
 #include "scale.h"
 #include "signal.h"
 #include "threshold.h"
@@ -54,7 +56,6 @@ extern uint32_t micros_per_tick;
 extern uint64_t demiurge_current_time;
 extern float outputs[DEMIURGE_NUM_OUTPUTS];
 extern float inputs[DEMIURGE_NUM_INPUTS];
-extern float leds[DEMIURGE_NUM_LEDS];
 extern bool buttons[DEMIURGE_NUM_BUTTONS];
 
 extern bool gates_in[DEMIURGE_NUM_GATES];
@@ -62,21 +63,21 @@ extern bool gates_out[DEMIURGE_NUM_GATES];
 
 /* User application interface */
 void setup();
+
 void loop();
 
 void set_gate_to_input(int position);
+
 void set_gate_to_output(int position);
 
 void demiurge_init();
+
 void demiurge_start();
+
 void demiurge_stop();
 
 void demiurge_registerSink(signal_t *processor);
+
 void demiurge_unregisterSink(signal_t *processor);
-
-void demiurge_set_output(int number, float value);
-void demiurge_set_led(int number, float value);
-
-void demiurge_print_overview(const char *tag, signal_t *signal);
 
 #endif

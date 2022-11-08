@@ -18,48 +18,56 @@ See the License for the specific language governing permissions and
 
 #include "clipping.h"
 
-void scale_init(scale_t *handle) {
-   handle->me.read_fn = scale_read;
-   handle->me.data = handle;
+void scale_init(scale_t *handle)
+{
+    handle->me.read_fn = scale_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
-   handle->scale = 1.0f;
-   handle->scale_control = NULL;
+    handle->scale = 1.0f;
+    handle->scale_control = NULL;
 }
 
-void scale_configure(scale_t *handle, signal_t *input, signal_t *control) {
-   handle->input = input;
-   handle->scale_control = control;
+void scale_configure(scale_t *handle, signal_t *input, signal_t *control)
+{
+    handle->input = input;
+    handle->scale_control = control;
 }
 
-void scale_configure_input(scale_t *handle, signal_t *input) {
-   handle->input = input;
+void scale_configure_input(scale_t *handle, signal_t *input)
+{
+    handle->input = input;
 }
 
-void scale_configure_control(scale_t *handle, signal_t *control) {
-   handle->scale_control = control;
+void scale_configure_control(scale_t *handle, signal_t *control)
+{
+    handle->scale_control = control;
 }
 
-float scale_read(signal_t *handle, uint64_t time) {
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      scale_t *scale = (scale_t *) handle->data;
-      float input = scale->input->read_fn(scale->input, time);
-      float new_output;
+float scale_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        scale_t *scale = (scale_t *) handle->data;
+        float input = scale->input->read_fn(scale->input, time);
+        float new_output;
 
-      if (scale->scale_control != NULL) {
-         signal_t *ctrl = scale->scale_control;
-         float external_scale = ctrl->read_fn(ctrl, time);
-         new_output = input * external_scale * scale->scale;
-      } else {
-         new_output = input * scale->scale;
-      }
+        if (scale->scale_control != NULL)
+        {
+            signal_t *ctrl = scale->scale_control;
+            float external_scale = ctrl->read_fn(ctrl, time);
+            new_output = input * external_scale * scale->scale;
+        } else
+        {
+            new_output = input * scale->scale;
+        }
 #ifdef DEMIURGE_POST_FUNCTION
-      new_output = handle->post_fn(new_output);
+        new_output = handle->post_fn(new_output);
 #endif
-      handle->cached = new_output;
-      return new_output;
-   }
-   return handle->cached;
+        handle->cached = new_output;
+        return new_output;
+    }
+    return handle->cached;
 }

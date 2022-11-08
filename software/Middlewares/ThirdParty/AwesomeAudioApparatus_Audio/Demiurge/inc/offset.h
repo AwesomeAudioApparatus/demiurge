@@ -19,17 +19,22 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   float offset;
-   signal_t me;
-   signal_t *input;
-   signal_t *offset_control;
+typedef struct
+{
+    float offset;
+    signal_t me;
+    signal_t *input;
+    signal_t *offset_control;
 } offset_t;
 
 void offset_init(offset_t *handle);
+
 void offset_configure_input(offset_t *handle, signal_t *input);
+
 void offset_configure_control(offset_t *handle, signal_t *control);
+
 void offset_configure(offset_t *handle, signal_t *input, signal_t *offset_control);
+
 float offset_read(signal_t *handle, uint64_t time);
 
 #endif

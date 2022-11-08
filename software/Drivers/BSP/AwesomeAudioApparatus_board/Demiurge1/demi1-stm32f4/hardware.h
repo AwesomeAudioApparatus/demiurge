@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -93,6 +93,19 @@ See the License for the specific language governing permissions and
 // If Gate Input is Low, what will the signal value be internally
 #ifndef DEMIURGE_GATE_LOW
 #define DEMIURGE_GATE_LOW -10.0f
+#endif
+
+#ifndef RED
+#define RED 0x800000
+#endif
+#ifndef GREEN
+#define GREEN 0x8000
+#endif
+#ifndef BLUE
+#define BLUE 0x80
+#endif
+#ifndef WHITE
+#define WHITE 0x808080
 #endif
 
 #endif

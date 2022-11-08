@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ See the License for the specific language governing permissions and
 #include "clipping.h"
 #include "demiurge.h"
 
-void audio_outport_init(audio_outport_t *handle, int position) {
+void audio_outport_init(audio_outport_t *handle, int position)
+{
     configASSERT(position > 0 && position <= DEMIURGE_NUM_AUDIOOUTPUTS)
     handle->me.read_fn = audio_outport_read;
     handle->me.data = handle;
@@ -30,16 +31,20 @@ void audio_outport_init(audio_outport_t *handle, int position) {
     handle->registered = false;
 }
 
-void audio_outport_configure_input(audio_outport_t *handle, signal_t *input) {
-    if (!handle->registered) {
+void audio_outport_configure_input(audio_outport_t *handle, signal_t *input)
+{
+    if (!handle->registered)
+    {
         handle->input = input;
         demiurge_registerSink(&handle->me);
         handle->registered = true;
     }
 }
 
-float audio_outport_read(signal_t *handle, uint64_t time) {
-     if (time > handle->last_calc) {
+float audio_outport_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
         handle->last_calc = time;
         audio_outport_t *port = (audio_outport_t *) handle->data;
         signal_t *upstream = port->input;

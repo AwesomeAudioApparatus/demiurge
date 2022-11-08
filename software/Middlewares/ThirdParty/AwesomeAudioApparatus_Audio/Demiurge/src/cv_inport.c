@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,17 +20,19 @@ See the License for the specific language governing permissions and
 #include "demiurge.h"
 
 
-void cv_inport_init(cv_inport_t *handle, int position){
-   configASSERT(position > 0 && position <= DEMIURGE_NUM_CVINPUTS)
-   handle->me.read_fn = cv_inport_read;
-   handle->me.data = handle;
+void cv_inport_init(cv_inport_t *handle, int position)
+{
+    configASSERT(position > 0 && position <= DEMIURGE_NUM_CVINPUTS)
+    handle->me.read_fn = cv_inport_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
-   handle->input = &inputs[position - 1 + DEMIURGE_CVINPUT_OFFSET];
+    handle->input = &inputs[position - 1 + DEMIURGE_CVINPUT_OFFSET];
 }
 
-float cv_inport_read(signal_t *handle, uint64_t time) {
+float cv_inport_read(signal_t *handle, uint64_t time)
+{
     cv_inport_t *cv = (cv_inport_t *) handle->data;
 #ifdef DEMIURGE_POST_FUNCTION
     if (time > handle->last_calc) {

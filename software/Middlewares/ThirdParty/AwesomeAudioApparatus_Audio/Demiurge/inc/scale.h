@@ -19,17 +19,22 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   float scale;
-   signal_t me;
-   signal_t *input;
-   signal_t *scale_control;
+typedef struct
+{
+    float scale;
+    signal_t me;
+    signal_t *input;
+    signal_t *scale_control;
 } scale_t;
 
 void scale_init(scale_t *handle);
-void scale_configure( scale_t *handle, signal_t *input, signal_t *control);
-void scale_configure_input( scale_t *handle, signal_t *input);
-void scale_configure_control( scale_t *handle, signal_t *control);
+
+void scale_configure(scale_t *handle, signal_t *input, signal_t *control);
+
+void scale_configure_input(scale_t *handle, signal_t *input);
+
+void scale_configure_control(scale_t *handle, signal_t *control);
+
 float scale_read(signal_t *handle, uint64_t time);
 
 #endif

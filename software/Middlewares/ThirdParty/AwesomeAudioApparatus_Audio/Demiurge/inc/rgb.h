@@ -1,5 +1,5 @@
 /*
-  Copyright 2020, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,21 +14,27 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
-#ifndef _DEMIURGE_LOG10_H_
-#define _DEMIURGE_LOG10_H_
+#ifndef _DEMIURGE_RGB_H_
+#define _DEMIURGE_RGB_H_
+
 
 #include "signal.h"
 
+
 typedef struct
 {
+    int position;
+    bool registered;
     signal_t me;
     signal_t *input;
-} lg10_t;
+    uint8_t *leds;
+    void (*convert_fn)(float, uint8_t* rgb);
+} rgb_t;
 
-void lg10_init(lg10_t *handle);
+void rgb_init(rgb_t *handle, int position);
 
-void lg10_configure_input(lg10_t *handle, signal_t *input);
+void rgb_configure_input(rgb_t *handle, signal_t *input);
 
-float lg10_read(signal_t *handle, uint64_t time);
+float rgb_read(signal_t *handle, uint64_t time);
 
 #endif

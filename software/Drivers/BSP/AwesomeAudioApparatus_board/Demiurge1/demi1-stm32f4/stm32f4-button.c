@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ bool buttons[4];
 
 void update_buttons()
 {
-	buttons[0] = HAL_GPIO_ReadPin(GPIOB, 10) == GPIO_PIN_SET;
-	buttons[1] = HAL_GPIO_ReadPin(GPIOB, 0) == GPIO_PIN_SET;
-	buttons[2] = HAL_GPIO_ReadPin(GPIOB, 1) == GPIO_PIN_SET;
-	buttons[3] = HAL_GPIO_ReadPin(GPIOB, 2) == GPIO_PIN_SET;
+    buttons[0] = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET;
+    buttons[1] = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == GPIO_PIN_RESET;
+    buttons[2] = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == GPIO_PIN_RESET;
+    buttons[3] = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == GPIO_PIN_RESET;
 }
 
 void init_buttons()

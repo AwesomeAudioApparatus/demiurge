@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
+typedef struct
+{
     signal_t me;
     signal_t *input;
     signal_t *frequency;
@@ -71,4 +72,5 @@ float cfxrbjfilter_read(signal_t *handle, uint64_t time);
 
 void computeCoefficients(cfxrbjfilter_t *filter, uint64_t type, const double frequency, const double q,
                          const double db_gain, bool q_is_bandwidth);
+
 #endif

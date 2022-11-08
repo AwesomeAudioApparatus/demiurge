@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,12 +19,14 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   float *input;
-   signal_t me;
+typedef struct
+{
+    float *input;
+    signal_t me;
 } potentiometer_t;
 
 void potentiometer_init(potentiometer_t *handle, int position);
+
 float potentiometer_read(signal_t *signal, uint64_t time);
 
 #endif

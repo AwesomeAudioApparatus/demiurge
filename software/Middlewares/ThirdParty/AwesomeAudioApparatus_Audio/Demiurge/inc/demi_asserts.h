@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
       limitations under the License.
 */
 
-#ifndef VCO_DEMI_ASSERTS_H
-#define VCO_DEMI_ASSERTS_H
+#ifndef _DEMI_ASSERTS_H
+#define _DEMI_ASSERTS_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -26,4 +26,4 @@ See the License for the specific language governing permissions and
                    __FUNCTION__);                                       \
         };
 
-#endif //VCO_DEMI_ASSERTS_H
+#endif

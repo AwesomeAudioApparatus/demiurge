@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,28 +18,32 @@ See the License for the specific language governing permissions and
 
 #include "clipping.h"
 
-void passthru_init(passthru_t *handle){
-   handle->me.read_fn = passthru_read;
-   handle->me.data = handle;
+void passthru_init(passthru_t *handle)
+{
+    handle->me.read_fn = passthru_read;
+    handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
 }
 
-void passthru_configure_input(passthru_t  *handle, signal_t *input) {
-   handle->input = input;
+void passthru_configure_input(passthru_t *handle, signal_t *input)
+{
+    handle->input = input;
 }
 
-float passthru_read(signal_t *handle, uint64_t time) {
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      passthru_t *passthru = (passthru_t *) handle->data;
-      float input = passthru->input->read_fn(passthru->input, time);
+float passthru_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        passthru_t *passthru = (passthru_t *) handle->data;
+        float input = passthru->input->read_fn(passthru->input, time);
 #ifdef DEMIURGE_POST_FUNCTION
-      input = handle->post_fn(input);
+        input = handle->post_fn(input);
 #endif
-      handle->cached = input;
-      return input;
-   }
-   return handle->cached;
+        handle->cached = input;
+        return input;
+    }
+    return handle->cached;
 }

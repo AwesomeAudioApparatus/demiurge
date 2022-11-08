@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,15 +21,20 @@ See the License for the specific language governing permissions and
 #include "signal.h"
 
 
-typedef struct {
-   int position;
-   bool registered;
-   signal_t me;
-   signal_t *input;
+typedef struct
+{
+    int position;
+    bool registered;
+    signal_t me;
+    signal_t *input;
+    float k;
+    float m;
 } led_t;
 
 void led_init(led_t *handle, int position);
+
 void led_configure_input(led_t *handle, signal_t *input);
+
 float led_read(signal_t *handle, uint64_t time);
 
 #endif

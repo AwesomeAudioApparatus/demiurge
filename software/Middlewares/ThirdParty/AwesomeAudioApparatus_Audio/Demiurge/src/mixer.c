@@ -1,5 +1,5 @@
 /*
- Copyright 2019, Awesome Audio Apparatus.
+ Copyright 2019-2022, Awesome Audio Apparatus.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,43 +22,44 @@
 #include "demi_asserts.h"
 
 void
-mixer_init (mixer_t *handle, int channels)
+mixer_init(mixer_t *handle, int channels)
 {
     handle->me.read_fn = mixer_read;
     handle->me.data = handle;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
     handle->channels = channels;
-    handle->inputs = (signal_t**) calloc (channels, sizeof(signal_t*));
-    handle->volumes = (volume_t**) calloc (channels, sizeof(volume_t*));
+    handle->inputs = (signal_t **) calloc(channels, sizeof(signal_t *));
+    handle->volumes = (volume_t **) calloc(channels, sizeof(volume_t *));
     for (int i = 0; i < channels; i++)
-        {
-            handle->inputs[i] = NULL;
-            handle->volumes[i] = NULL;
-        }
+    {
+        handle->inputs[i] = NULL;
+        handle->volumes[i] = NULL;
+    }
 
 }
+
 void
-mixer_configure_input (mixer_t *handle, int number, signal_t *source,
-                       signal_t *control)
+mixer_configure_input(mixer_t *handle, int number, signal_t *source,
+                      signal_t *control)
 {
     int index = number - 1;
     configASSERT(handle->inputs[index] == NULL)
-    volume_t *v = (volume_t*) malloc (sizeof(volume_t));
+    volume_t *v = (volume_t *) malloc(sizeof(volume_t));
     handle->volumes[index] = v;
-    volume_init (handle->volumes[index]);
+    volume_init(handle->volumes[index]);
     handle->inputs[index] = &v->me;
-    volume_configure (v, source, control);
+    volume_configure(v, source, control);
 }
 
 float
-mixer_read (signal_t *handle, uint64_t time)
+mixer_read(signal_t *handle, uint64_t time)
 {
     if (time > handle->last_calc)
     {
         handle->last_calc = time;
-        mixer_t *mixer = (mixer_t*) handle->data;
+        mixer_t *mixer = (mixer_t *) handle->data;
         float output = 0;
         int counter = 0;
         for (int i = 0; i < mixer->channels; i++)
@@ -66,13 +67,13 @@ mixer_read (signal_t *handle, uint64_t time)
             signal_t *inp = mixer->inputs[i];
             if (inp != NULL)
             {
-               output = output + inp->read_fn (inp, time);
-               counter++;
+                output = output + inp->read_fn(inp, time);
+                counter++;
             }
         }
         output = output / counter;
 #ifdef DEMIURGE_POST_FUNCTION
-      output = handle->post_fn(output);
+        output = handle->post_fn(output);
 #endif
         handle->cached = output;
         return output;

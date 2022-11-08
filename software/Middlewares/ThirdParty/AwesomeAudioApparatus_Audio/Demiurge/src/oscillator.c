@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -27,7 +27,8 @@ See the License for the specific language governing permissions and
 // static bool sine_wave_initialized = false;
 // static float *sine_wave;
 
-void oscillator_init(oscillator_t *handle) {
+void oscillator_init(oscillator_t *handle)
+{
 // Lookup of sine wave function from a table is slower than simply execute sinf() on CH32V307
 //   if (!sine_wave_initialized) {
 //      sine_wave = (float *) calloc(SINEWAVE_SAMPLES, sizeof(float));
@@ -49,14 +50,17 @@ void oscillator_init(oscillator_t *handle) {
     handle->lastTrig = 0;
 }
 
-void oscillator_configure(oscillator_t *handle, signal_t *freqCtrl, signal_t *amplitudeCtrl, signal_t *trigCtrl) {
+void oscillator_configure(oscillator_t *handle, signal_t *freqCtrl, signal_t *amplitudeCtrl, signal_t *trigCtrl)
+{
     oscillator_configure_frequency(handle, freqCtrl);
     oscillator_configure_amplitude(handle, amplitudeCtrl);
     oscillator_configure_trig(handle, trigCtrl);
 }
 
-void oscillator_configure_mode(oscillator_t *handle, oscillator_mode mode) {
-    switch (mode) {
+void oscillator_configure_mode(oscillator_t *handle, oscillator_mode mode)
+{
+    switch (mode)
+    {
         case SAW:
             handle->me.read_fn = oscillator_saw;
             break;
@@ -86,32 +90,41 @@ void oscillator_configure_mode(oscillator_t *handle, oscillator_mode mode) {
     }
 }
 
-void oscillator_configure_frequency(oscillator_t *handle, signal_t *control) {
+void oscillator_configure_frequency(oscillator_t *handle, signal_t *control)
+{
     configASSERT(control != NULL)
     handle->frequency = control;
 }
 
-void oscillator_configure_amplitude(oscillator_t *handle, signal_t *control) {
+void oscillator_configure_amplitude(oscillator_t *handle, signal_t *control)
+{
     configASSERT(control != NULL)
     handle->amplitude = control;
 }
 
-void oscillator_configure_trig(oscillator_t *handle, signal_t *control) {
+void oscillator_configure_trig(oscillator_t *handle, signal_t *control)
+{
     configASSERT(control != NULL)
     handle->trigger = control;
 }
 
-static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
+static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us)
+{
     signal_t *trigControl = osc->trigger;
-    if (trigControl) {
+    if (trigControl)
+    {
         float voltage = trigControl->read_fn(trigControl, time_in_us);
-        if (osc->lastTrig) {
+        if (osc->lastTrig)
+        {
             // at high, check for FALLING
-            if (voltage < 2.0f) {
+            if (voltage < 2.0f)
+            {
                 osc->lastTrig = false;
             }
-        } else {
-            if (voltage > 2.2f) {
+        } else
+        {
+            if (voltage > 2.2f)
+            {
                 osc->lastTrig = true;
                 osc->angular_pos = 0.0f;
             }
@@ -119,7 +132,8 @@ static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
     }
     signal_t *freqControl = osc->frequency;
     float freq;
-    if (freqControl) {
+    if (freqControl)
+    {
         float voltage = freqControl->read_fn(freqControl, time_in_us);
         freq = octave_frequency_of(voltage);
 #ifdef DEMIURGE_DEV
@@ -129,7 +143,8 @@ static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
     }
     handle->extra5 = freq;
 #else
-    } else {
+    } else
+    {
         freq = 440;
     }
 #endif
@@ -142,10 +157,12 @@ static inline float angular_pos(oscillator_t *osc, uint64_t time_in_us) {
 }
 
 // Returns 0-1
-static inline float amplitude(oscillator_t *osc, uint64_t time_in_us) {
+static inline float amplitude(oscillator_t *osc, uint64_t time_in_us)
+{
     signal_t *amplitudeControl = osc->amplitude;
     float amplitude = 2.0f;
-    if (amplitudeControl) {
+    if (amplitudeControl)
+    {
         float voltage = amplitudeControl->read_fn(amplitudeControl, time_in_us);
         amplitude = (voltage + 10) / 20.0f;  // results in 0-1
         // should perhaps be the following, so slow saw tooth can be inverted? Or maybe it should be selectable by programmer.
@@ -160,16 +177,20 @@ static inline float amplitude(oscillator_t *osc, uint64_t time_in_us) {
     return amplitude;
 }
 
-float oscillator_saw_digitized(signal_t *handle, uint64_t time_in_us) {
+float oscillator_saw_digitized(signal_t *handle, uint64_t time_in_us)
+{
     return digitize(oscillator_saw(handle, time_in_us));
 }
 
-float oscillator_saw(signal_t *handle, uint64_t time_in_us) {
-    if (time_in_us > handle->last_calc) {
+float oscillator_saw(signal_t *handle, uint64_t time_in_us)
+{
+    if (time_in_us > handle->last_calc)
+    {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
         float x = angular_pos(osc, time_in_us);  // 0 - 2PI
-        float out = x * 3.183098861f * amplitude(osc, time_in_us) - 10.0f; // multiply to a 0-20V range, subtract to -10V to 10V
+        float out =
+            x * 3.183098861f * amplitude(osc, time_in_us) - 10.0f; // multiply to a 0-20V range, subtract to -10V to 10V
 #ifdef DEMIURGE_POST_FUNCTION
         out = handle->post_fn(out);
 #endif
@@ -184,19 +205,24 @@ float oscillator_saw(signal_t *handle, uint64_t time_in_us) {
     return handle->cached;
 }
 
-float oscillator_triangle_digitized(signal_t *handle, uint64_t time_in_us) {
+float oscillator_triangle_digitized(signal_t *handle, uint64_t time_in_us)
+{
     return digitize(oscillator_triangle(handle, time_in_us));
 }
 
-float oscillator_triangle(signal_t *handle, uint64_t time_in_us) {
-    if (time_in_us > handle->last_calc) {
+float oscillator_triangle(signal_t *handle, uint64_t time_in_us)
+{
+    if (time_in_us > handle->last_calc)
+    {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
         float x = angular_pos(osc, time_in_us);             // 0 to 2PI
         float out;
-        if (x < M_PI) {
-            out = x * (10 / M_PI ) - 5.0f;
-        } else {
+        if (x < M_PI)
+        {
+            out = x * (10 / M_PI) - 5.0f;
+        } else
+        {
             out = -x * (10 / M_PI) + 15.0f;
         }
         out = out * amplitude(osc, time_in_us);
@@ -214,12 +240,15 @@ float oscillator_triangle(signal_t *handle, uint64_t time_in_us) {
     return handle->cached;
 }
 
-float oscillator_sine_digitized(signal_t *handle, uint64_t time_in_us) {
+float oscillator_sine_digitized(signal_t *handle, uint64_t time_in_us)
+{
     return digitize(oscillator_sine(handle, time_in_us));
 }
 
-float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
-    if (time_in_us > handle->last_calc) {
+float oscillator_sine(signal_t *handle, uint64_t time_in_us)
+{
+    if (time_in_us > handle->last_calc)
+    {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
         float x = angular_pos(osc, time_in_us);
@@ -246,12 +275,15 @@ float oscillator_sine(signal_t *handle, uint64_t time_in_us) {
     return handle->cached;
 }
 
-float oscillator_square_digitized(signal_t *handle, uint64_t time_in_us) {
+float oscillator_square_digitized(signal_t *handle, uint64_t time_in_us)
+{
     return digitize(oscillator_square(handle, time_in_us));
 }
 
-float oscillator_square(signal_t *handle, uint64_t time_in_us) {
-    if (time_in_us > handle->last_calc) {
+float oscillator_square(signal_t *handle, uint64_t time_in_us)
+{
+    if (time_in_us > handle->last_calc)
+    {
         handle->last_calc = time_in_us;
         oscillator_t *osc = (oscillator_t *) handle->data;
         float x = angular_pos(osc, time_in_us);

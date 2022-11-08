@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,25 +16,29 @@ See the License for the specific language governing permissions and
 
 #include "demiurge.h"
 
-float clip_none(float value) {
-   return value;
+float clip_none(float value)
+{
+    return value;
 }
 
-float clip_gate(float value) {
-   if (value >= 0.5f) return 10.0f;
-   return -10.0f;
+float clip_gate(float value)
+{
+    if (value >= 0.5f) return 10.0f;
+    return -10.0f;
 }
 
-float clip_cv(float value) {
-   if (value >= 10.0f) return 10.0f;
-   if (value <= -10.0f) return -10.0f;
-   return value;
+float clip_cv(float value)
+{
+    if (value >= 10.0f) return 10.0f;
+    if (value <= -10.0f) return -10.0f;
+    return value;
 }
 
-float clip_audio(float value) {
-   if (value >= 10.0f) return 10.0f;
-   if (value <= -10.0f) return -10.0f;
-   return value;
+float clip_audio(float value)
+{
+    if (value >= 10.0f) return 10.0f;
+    if (value <= -10.0f) return -10.0f;
+    return value;
 }
 
 

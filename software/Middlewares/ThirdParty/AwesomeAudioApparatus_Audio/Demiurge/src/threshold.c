@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,21 +16,25 @@ See the License for the specific language governing permissions and
 
 #include "demiurge.h"
 
-void threshold_init(threshold_t *data, float setp, float hyst) {
-   data->setpoint = setp;
-   data->hysteresis = hyst;
-   data->output = false;
+void threshold_init(threshold_t *data, float setp, float hyst)
+{
+    data->setpoint = setp;
+    data->hysteresis = hyst;
+    data->output = false;
 }
 
-bool threshold_compute(threshold_t *data, float input) {
-   float setpoint = data->setpoint;
-   float hysteresis = data->hysteresis;
-   bool out;
-   if (data->output) {
-      out = input > setpoint - hysteresis;
-   } else {
-      out = input > setpoint + hysteresis;
-   }
-   data->output = out;
-   return out;
+bool threshold_compute(threshold_t *data, float input)
+{
+    float setpoint = data->setpoint;
+    float hysteresis = data->hysteresis;
+    bool out;
+    if (data->output)
+    {
+        out = input > setpoint - hysteresis;
+    } else
+    {
+        out = input > setpoint + hysteresis;
+    }
+    data->output = out;
+    return out;
 }

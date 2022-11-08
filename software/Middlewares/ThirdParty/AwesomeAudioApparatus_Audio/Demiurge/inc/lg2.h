@@ -19,13 +19,16 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   signal_t me;
-   signal_t *input;
+typedef struct
+{
+    signal_t me;
+    signal_t *input;
 } lg2_t;
 
 void lg2_init(lg2_t *handle);
+
 void lg2_configure_input(lg2_t *handle, signal_t *input);
+
 float lg2_read(signal_t *handle, uint64_t time);
 
 #endif

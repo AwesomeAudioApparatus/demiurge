@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,35 +28,56 @@ void stop_testpoints()
 {
 }
 
+void toggle_testpoint(int point)
+{
+    switch (point)
+    {
+        case 1:
+            HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+            break;
+        case 2:
+            HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_4);
+            break;
+        case 3:
+            HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
+            break;
+        default:
+            break;
+    }
+}
+
 void set_testpoint(int point)
 {
-    switch( point )
+    switch (point)
     {
-    case 0:
-        HAL_GPIO_WritePin(GPIOB, 3, GPIO_PIN_SET);
-        break;
-    case 1:
-        HAL_GPIO_WritePin(GPIOB, 4, GPIO_PIN_SET);
-        break;
-    case 2:
-        HAL_GPIO_WritePin(GPIOB, 5, GPIO_PIN_SET);
-        break;
+        case 1:
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
+            break;
+        case 2:
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+            break;
+        case 3:
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+            break;
+        default:
+            break;
     }
 }
 
 void clear_testpoint(int point)
 {
-    switch( point )
+    switch (point)
     {
-    case 0:
-        HAL_GPIO_WritePin(GPIOB, 3, GPIO_PIN_RESET);
-        break;
-    case 1:
-        HAL_GPIO_WritePin(GPIOB, 4, GPIO_PIN_RESET);
-        break;
-    case 2:
-        HAL_GPIO_WritePin(GPIOB, 5, GPIO_PIN_RESET);
-        break;
+        case 1:
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
+            break;
+        case 2:
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+            break;
+        case 3:
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+            break;
+        default:
+            break;
     }
 }
-

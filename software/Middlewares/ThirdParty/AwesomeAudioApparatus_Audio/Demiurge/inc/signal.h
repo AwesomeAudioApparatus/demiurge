@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,28 +32,30 @@ See the License for the specific language governing permissions and
 volatile typedef struct signal_struct signal_t;
 
 typedef float (*float_fn)(float);
+
 typedef float (*signal_fn)(signal_t *, uint64_t);
 
-volatile typedef struct signal_struct {
-   void *data;
-   signal_fn read_fn;
+volatile typedef struct signal_struct
+{
+    void *data;
+    signal_fn read_fn;
 #ifdef DEMIURGE_POST_FUNCTION
-   float_fn post_fn;
+    float_fn post_fn;
 #endif
-   uint64_t last_calc;
-   float cached;
+    uint64_t last_calc;
+    float cached;
 
-   // extraN are debugging variables, used by the demiurge_print_overview and only reasonable
-   // way for a block to communicate with the user.
-   float extra1;        // also used in fixed_signal
+    // extraN are debugging variables, used by the demiurge_print_overview and only reasonable
+    // way for a block to communicate with the user.
+    float extra1;        // also used in fixed_signal
 #ifdef DEMIURGE_DEV
-   float extra2;
-   float extra3;
-   float extra4;
-   float extra5;
-   float extra6;
-   float extra7;
-   float extra8;
+    float extra2;
+    float extra3;
+    float extra4;
+    float extra5;
+    float extra6;
+    float extra7;
+    float extra8;
 #endif
 } signal_t;
 

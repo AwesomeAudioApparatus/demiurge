@@ -20,33 +20,39 @@ See the License for the specific language governing permissions and
 #include "signal.h"
 
 
-void calculator_init(calculator_t *handle) {
-   handle->me.read_fn = calculator_read;
-   handle->me.data = handle;
+void calculator_init(calculator_t *handle, void *parameters)
+{
+    handle->me.read_fn = calculator_read;
+    handle->me.data = handle;
+    handle->parameters = parameters;
 #ifdef DEMIURGE_POST_FUNCTION
-   handle->me.post_fn = clip_none;
+    handle->me.post_fn = clip_none;
 #endif
 }
 
-void calculator_configure_input(calculator_t *handle, signal_t *input) {
-   handle->input = input;
+void calculator_configure_input(calculator_t *handle, signal_t *input)
+{
+    handle->input = input;
 }
 
-void calculator_configure_function(calculator_t *handle, float (*calc_fn)(float)) {
-   handle->calc_fn = calc_fn;
+void calculator_configure_function(calculator_t *handle, float (*calc_fn)(float, void *))
+{
+    handle->calc_fn = calc_fn;
 }
 
-float calculator_read(signal_t *handle, uint64_t time){
-   if (time > handle->last_calc) {
-      handle->last_calc = time;
-      calculator_t *calculator = (calculator_t *) handle->data;
-      float input = calculator->input->read_fn(calculator->input, time);
-      float new_output = calculator->calc_fn(input);
+float calculator_read(signal_t *handle, uint64_t time)
+{
+    if (time > handle->last_calc)
+    {
+        handle->last_calc = time;
+        calculator_t *calculator = (calculator_t *) handle->data;
+        float input = calculator->input->read_fn(calculator->input, time);
+        float new_output = calculator->calc_fn(input, calculator->parameters);
 #ifdef DEMIURGE_POST_FUNCTION
-      new_output = handle->post_fn(new_output);
+        new_output = handle->post_fn(new_output);
 #endif
-      handle->cached = new_output;
-      return new_output;
-   }
-   return handle->cached;
+        handle->cached = new_output;
+        return new_output;
+    }
+    return handle->cached;
 }

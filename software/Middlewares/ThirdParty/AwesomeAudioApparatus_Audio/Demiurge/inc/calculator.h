@@ -19,15 +19,20 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
-typedef struct {
-   signal_t me;
-   signal_t *input;
-   float (*calc_fn)(float input);
+typedef struct
+{
+    signal_t me;
+    signal_t *input;
+    void *parameters;
+    float (*calc_fn)(float input, void *parameters);
 } calculator_t;
 
-void calculator_init(calculator_t *handle);
+void calculator_init(calculator_t *handle, void *parameters);
+
 void calculator_configure_input(calculator_t *handle, signal_t *input);
-void calculator_configure_function(calculator_t *handle, float (*)(float));
+
+void calculator_configure_function(calculator_t *handle, float (*)(float,void *));
+
 float calculator_read(signal_t *handle, uint64_t time);
 
 #endif

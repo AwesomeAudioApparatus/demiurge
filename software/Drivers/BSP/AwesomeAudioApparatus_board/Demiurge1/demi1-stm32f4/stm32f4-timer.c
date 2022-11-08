@@ -1,5 +1,5 @@
 /*
-  Copyright 2019, Awesome Audio Apparatus.
+  Copyright 2019-2022, Awesome Audio Apparatus.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,12 +16,15 @@ See the License for the specific language governing permissions and
 
 #include "demiurge-hardware.h"
 
-void init_timer(int samplerate) {
+void init_timer(int samplerate)
+{
 }
 
-void start_timer() {
+void start_timer()
+{
     HAL_TIM_Base_Start_IT(&htim3);
 }
 
-void stop_timer() {
+void stop_timer()
+{
 }
