@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<IP xmlns="http://mcd.rou.st.com/modules.php?name=mcu" xmlns:ns0="http://www.w3.org/2001/XMLSchema-instance" CodeTemplate="app_Demiurge_c.ftl" DBVersion="V4.0" Name="Demiurge" RootFolder="Packs/AwesomeAudioApparatus/Demiurge/0.4.0/" Version="0.4.0" ns0:schemaLocation="http://mcd.rou.st.com/modules.php?name=mcu ../../../../../../../doc/V4/Development/Specifications/db/thirdPartyDb.xsd">
+    <RefConfig Name="DeviceJjApplication">
+        <Component Name="Device:Application:SDK:$DeviceJjApplication"/>
+        <ConfigFile Name="UserApp"/>
+        <ConfigFile Name="DeviceJjApplication_conf"/>
+    </RefConfig>
+    <RefConfig Name="AudioJjDemiurge">
+        <Component Name="Audio:Demiurge:$AudioJjDemiurge"/>
+    </RefConfig>
+    <RefConfig Name="BoardOoSupportJjDemiurge1">
+        <Component Name="BoardOoSupport:Demiurge1:RevG:$BoardOoSupportJjDemiurge1JjRevG"/>
+        <ConfigFile Name="BoardOoSupportJjDemiurge1_conf"/>
+    </RefConfig>
+    <RefConfigFile Name="RTE_Component" Template="RTE_Components.ftl">
+        <File Category="header" Condition="all" Name="./RTE_Components.h"/>
+    </RefConfigFile>
+    <RefConfigFile Added="true" Description="The user application code goes in here." Name="UserApp" Template="user_c.ftl">
+        <File Category="source" Condition="all" Name="App/user.c"/>
+    </RefConfigFile>
+    <RefConfigFile Added="true" Name="DeviceJjApplication_conf" Template="default_conf.ftl">
+        <File Category="header" Condition="all" Name="./AwesomeAudioApparatus.Demiurge_conf.h"/>
+        <Argument AddressOf="false" Comment="SAMPLERATE" GenericType="simple" Name="SAMPLERATE" OptimizationCondition="equal"/>
+    </RefConfigFile>
+    <RefConfigFile Added="true" Name="BoardOoSupportJjDemiurge1_conf" Template="default_conf.ftl">
+        <File Category="header" Condition="all" Name="./AwesomeAudioApparatus.Demiurge_conf.h"/>
+        <Argument AddressOf="false" Comment="TYPE_INPUT1" GenericType="simple" Name="TYPE_INPUT1" OptimizationCondition="equal"/>
+        <Argument AddressOf="false" Comment="TYPE_INPUT2" GenericType="simple" Name="TYPE_INPUT2" OptimizationCondition="equal"/>
+        <Argument AddressOf="false" Comment="TYPE_INPUT3" GenericType="simple" Name="TYPE_INPUT3" OptimizationCondition="equal"/>
+        <Argument AddressOf="false" Comment="TYPE_INPUT4" GenericType="simple" Name="TYPE_INPUT4" OptimizationCondition="equal"/>
+        <Argument AddressOf="false" Comment="TYPE_OUTPUT1" GenericType="simple" Name="TYPE_OUTPUT1" OptimizationCondition="equal"/>
+        <Argument AddressOf="false" Comment="TYPE_OUTPUT2" GenericType="simple" Name="TYPE_OUTPUT2" OptimizationCondition="equal"/>
+    </RefConfigFile>
+    <RefComponent Cclass="Device" Cgroup="Application" Cversion="0Gg4Gg0">
+        <SubComponent Csub="" Cvariant="SDK:SDK" ModuleName="User">
+            <File Category="doc" Condition="" Name="Projects/User/Applications/SDK/docs/demiurge-sound-processing.doc"/>
+        </SubComponent>
+    </RefComponent>
+    <RefComponent Cclass="Audio" Cgroup="Demiurge" Cversion="0Gg4Gg0">
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/cv_outport.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/clipping.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/gate_inport.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/octave_per_volt.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/pan.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/audio_outport.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/pushbutton.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/demiurge.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/lg2.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/cv_inport.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/lg.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/button.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/adsr.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/threshold.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/demi_asserts.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/inverter.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/gate_outport.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/passthru.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/cfxrbjfilter.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/volume.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/fixed_signal.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/mixer.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/svf.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/scale.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/potentiometer.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/control_pair.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/rgb.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/audio_inport.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/offset.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/calculator.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/averager.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/oscillator.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/led.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/lg10.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/signal.h"/>
+        <File Category="header" Condition="" Name="Middlewares/Third_Party/Demiurge/inc/demiurge-spi.h"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/mixer.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/control_pair.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/inverter.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/lg2.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/gate_outport.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/adsr.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/octave_per_volt.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/pushbutton.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/lg.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/potentiometer.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/pan.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/led.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/demiurge.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/fixed_signal.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/audio_inport.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/cfxrbjfilter.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/offset.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/clipping.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/threshold.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/rgb.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/averager.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/gate_inport.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/audio_outport.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/lg10.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/oscillator.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/calculator.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/button.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/scale.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/volume.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/svf.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/cv_inport.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/passthru.c"/>
+        <File Category="source" Condition="" Name="Middlewares/Third_Party/Demiurge/src/cv_outport.c"/>
+    </RefComponent>
+    <RefComponent Cclass="BoardOoSupport" Cgroup="Demiurge1" Cversion="0Gg4Gg0">
+        <SubComponent Csub="RevG" Cvariant="true" Cversion="0Gg4Gg0">
+            <File Category="header" Condition="" Name="Drivers/BSP/Demiurge1/demiurge-hardware.h"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-timer.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-testpoints.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-pot.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-led.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-gate.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-dac.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-button.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-adc.c"/>
+            <File Category="source" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4.c"/>
+            <File Category="header" Condition="" Name="Drivers/BSP/Demiurge1/demi1-stm32f4/hardware.h"/>
+        </SubComponent>
+    </RefComponent>
+</IP>

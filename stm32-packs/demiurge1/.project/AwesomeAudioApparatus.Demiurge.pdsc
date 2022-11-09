@@ -5,6 +5,7 @@
     <description>Demiurge Sound Processing platform</description>
     <url>https://stm32world.com/packs/demiurge/</url>
     <releases>
+        <release date="2022-11-08" url="https://stm32world.com/packs/demiurge/" version="0.4.0">First release where DACs, ADCs, Buttons and LEDs are functional.</release>
         <release date="2022-11-03" version="0.3.0">Demiurge Sound Processing platform</release>
         <release date="2022-11-01" version="0.2.0">Getting there.</release>
         <release date="2022-10-31" version="0.1.1">User's application file created</release>
@@ -26,83 +27,87 @@
         <description Cclass="Device">Device</description>
     </taxonomy>
     <components>
-        <component Cclass="Device" Cgroup="Application" Cvariant="SDK" Cversion="0.1.2" maxInstances="1">
+        <component Cclass="Device" Cgroup="Application" Cvariant="SDK" Cversion="0.4.0" isDefaultVariant="true" maxInstances="1">
             <description>Demiurge Sound Processing platform</description>
             <files>
                 <file category="doc" name="Projects/User/Applications/SDK/docs/demiurge-sound-processing.doc"/>
             </files>
         </component>
-        <component Cclass="Audio" Cgroup="Demiurge" Cversion="0.1.2" maxInstances="1">
+        <component Cclass="Audio" Cgroup="Demiurge" Cversion="0.4.0" maxInstances="1">
             <description>Demiurge SDK and library files</description>
             <files>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/volume.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/threshold.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/svf.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/signal.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/scale.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/pushbutton.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/potentiometer.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/passthru.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/pan.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/oscillator.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/offset.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/cv_outport.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/clipping.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/gate_inport.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/octave_per_volt.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/mixer.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/lg10.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/pan.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/audio_outport.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/pushbutton.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/demiurge.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/lg2.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/cv_inport.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/lg.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/led.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/button.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/adsr.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/threshold.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/demi_asserts.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/inverter.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/gate_outport.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/gate_inport.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/fixed_signal.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/demiurge-spi.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/demiurge.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/demi_asserts.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/cv_outport.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/cv_inport.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/control_pair.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/clipping.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/passthru.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/cfxrbjfilter.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/volume.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/fixed_signal.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/mixer.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/svf.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/scale.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/potentiometer.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/control_pair.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/rgb.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/audio_inport.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/offset.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/calculator.h"/>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/averager.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/audio_outport.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/audio_inport.h"/>
-                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/adsr.h"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/volume.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/threshold.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/svf.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/scale.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/pushbutton.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/potentiometer.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/passthru.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/pan.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/oscillator.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/offset.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/octave_per_volt.c"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/oscillator.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/led.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/lg10.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/signal.h"/>
+                <file category="header" name="Middlewares/Third_Party/Demiurge/inc/demiurge-spi.h"/>
                 <file category="source" name="Middlewares/Third_Party/Demiurge/src/mixer.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/lg10.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/lg2.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/lg.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/led.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/inverter.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/gate_outport.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/gate_inport.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/fixed_signal.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/demiurge.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/cv_outport.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/cv_inport.c"/>
                 <file category="source" name="Middlewares/Third_Party/Demiurge/src/control_pair.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/clipping.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/cfxrbjfilter.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/calculator.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/averager.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/audio_outport.c"/>
-                <file category="source" name="Middlewares/Third_Party/Demiurge/src/audio_inport.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/inverter.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/lg2.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/gate_outport.c"/>
                 <file category="source" name="Middlewares/Third_Party/Demiurge/src/adsr.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/octave_per_volt.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/pushbutton.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/lg.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/potentiometer.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/pan.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/led.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/demiurge.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/fixed_signal.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/audio_inport.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/cfxrbjfilter.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/offset.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/clipping.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/threshold.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/rgb.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/averager.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/gate_inport.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/audio_outport.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/lg10.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/oscillator.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/calculator.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/button.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/scale.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/volume.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/svf.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/cv_inport.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/passthru.c"/>
+                <file category="source" name="Middlewares/Third_Party/Demiurge/src/cv_outport.c"/>
             </files>
         </component>
-        <component Cclass="Board Support" Cgroup="Demiurge1" Csub="RevG" Cversion="0.1.2" maxInstances="1">
+        <component Cclass="Board Support" Cgroup="Demiurge1" Csub="RevG" Cversion="0.4.0" maxInstances="1">
             <description>Demiurge 1, Rev G sound processing board</description>
             <RTE_Components_h>#define BOARD demi1-stm32f4</RTE_Components_h>
             <files>
@@ -115,10 +120,8 @@
                 <file category="source" name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-dac.c"/>
                 <file category="source" name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-button.c"/>
                 <file category="source" name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4-adc.c"/>
-                <file category="other" name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4.cfg"/>
                 <file category="source" name="Drivers/BSP/Demiurge1/demi1-stm32f4/stm32f4.c"/>
                 <file category="header" name="Drivers/BSP/Demiurge1/demi1-stm32f4/hardware.h"/>
-                <file category="other" name="Drivers/BSP/Demiurge1/demi1-stm32f4/demiurge1.ioc"/>
             </files>
         </component>
     </components>
