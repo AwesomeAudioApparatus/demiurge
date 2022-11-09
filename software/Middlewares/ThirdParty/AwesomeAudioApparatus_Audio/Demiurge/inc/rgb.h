@@ -35,6 +35,8 @@ void rgb_init(rgb_t *handle, int position);
 
 void rgb_configure_input(rgb_t *handle, signal_t *input);
 
+void rgb_configure_conversion( rgb_t *handle, void (*convert_fn)(float, uint8_t* rgb) );
+
 float rgb_read(signal_t *handle, uint64_t time);
 
 #endif

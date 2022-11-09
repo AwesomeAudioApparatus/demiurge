@@ -20,6 +20,7 @@ See the License for the specific language governing permissions and
 
 #include "signal.h"
 
+typedef enum { Red = 0, Green = 1, Blue = 2 } RGB;
 
 typedef struct
 {
@@ -34,6 +35,12 @@ typedef struct
 void led_init(led_t *handle, int position);
 
 void led_configure_input(led_t *handle, signal_t *input);
+
+void led_configure_sensitivity(led_t *handle, float k, float m);
+
+uint16_t led_position_in_rgb(int position, RGB rgb );
+
+void led_release(led_t *handle);
 
 float led_read(signal_t *handle, uint64_t time);
 

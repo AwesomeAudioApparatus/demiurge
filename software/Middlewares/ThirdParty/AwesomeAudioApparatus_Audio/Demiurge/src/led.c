@@ -58,6 +58,11 @@ void led_release(led_t *handle)
     }
 }
 
+uint16_t led_position_in_rgb(int position, RGB rgb )
+{
+    return (position-1) * 3 + rgb;
+}
+
 float led_read(signal_t *handle, uint64_t time)
 {
     if (time > handle->last_calc)
