@@ -5,12 +5,7 @@
     <description>Demiurge Sound Processing platform</description>
     <url>https://stm32world.com/packs/demiurge/</url>
     <releases>
-        <release date="2022-11-08" url="https://stm32world.com/packs/demiurge/" version="0.4.0">First release where DACs, ADCs, Buttons and LEDs are functional.</release>
-        <release date="2022-11-03" version="0.3.0">Demiurge Sound Processing platform</release>
-        <release date="2022-11-01" version="0.2.0">Getting there.</release>
-        <release date="2022-10-31" version="0.1.1">User's application file created</release>
-        <release date="2022-10-31" version="0.1.0">Starting over</release>
-        <release date="2022-10-30" version="0.0.1">sdfsd fsdf s</release>
+        <release date="2022-11-09" version="0.4.3">Demiurge Sound Process Platform - under development	</release>
     </releases>
     <keywords>
         <keyword>CUBE_RULES_COMPLIANT</keyword>
@@ -27,7 +22,7 @@
         <description Cclass="Device">Device</description>
     </taxonomy>
     <components>
-        <component Cclass="Device" Cgroup="Application" Cvariant="SDK" Cversion="0.4.0" isDefaultVariant="true" maxInstances="1">
+        <component Cclass="Device" Cgroup="Application" Cvariant="SDK" Cversion="0.4.0" maxInstances="1">
             <description>Demiurge Sound Processing platform</description>
             <files>
                 <file category="doc" name="Projects/User/Applications/SDK/docs/demiurge-sound-processing.doc"/>

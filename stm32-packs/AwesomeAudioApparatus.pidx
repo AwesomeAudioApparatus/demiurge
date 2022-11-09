@@ -3,8 +3,8 @@
 <index schemaVersion="1.0.0" xs:noNamespaceSchemaLocation="PackIndex.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance">
   <vendor>AwesomeAudioApparatus</vendor>
   <url>https://stm32world.com/packs/</url>
-  <timestamp>2022-11-01T10:25:00+00:00</timestamp>
+  <timestamp>2022-11-09T10:25:00+00:00</timestamp>
   <pindex>
-    <pdsc url="https://stm32world.com/packs/demiurge/" vendor="AwesomeAudioApparatus" name="Demiurge" version="0.4.0"/>
+    <pdsc url="https://stm32world.com/packs/demiurge/" vendor="AwesomeAudioApparatus" name="Demiurge" version="0.4.3"/>
   </pindex>
 </index>
