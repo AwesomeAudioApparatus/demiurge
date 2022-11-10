@@ -60,7 +60,7 @@ void led_release(led_t *handle)
 
 uint16_t led_position_in_rgb(int position, RGB rgb )
 {
-    return (position-1) * 3 + rgb;
+    return ((position-1) * 3 + rgb) + 1;
 }
 
 float led_read(signal_t *handle, uint64_t time)
