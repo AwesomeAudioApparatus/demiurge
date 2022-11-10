@@ -46,7 +46,7 @@ void led_configure_input(led_t *handle, signal_t *input)
 void led_configure_sensitivity(led_t *handle, float k, float m)
 {
     handle->k = k;
-    handle->m = k;
+    handle->m = m;
 }
 
 void led_release(led_t *handle)

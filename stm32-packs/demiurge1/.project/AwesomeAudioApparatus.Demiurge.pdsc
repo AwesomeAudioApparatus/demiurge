@@ -5,6 +5,7 @@
     <description>Demiurge Sound Processing platform</description>
     <url>https://stm32world.com/packs/demiurge/</url>
     <releases>
+        <release date="2022-11-09" version="0.4.4">Fixed missing function prototypes.</release>
         <release date="2022-11-09" version="0.4.3">Demiurge Sound Process Platform - under development	</release>
     </releases>
     <keywords>
@@ -28,7 +29,7 @@
                 <file category="doc" name="Projects/User/Applications/SDK/docs/demiurge-sound-processing.doc"/>
             </files>
         </component>
-        <component Cclass="Audio" Cgroup="Demiurge" Cversion="0.4.0" maxInstances="1">
+        <component Cclass="Audio" Cgroup="Demiurge" Cversion="0.4.1" maxInstances="1">
             <description>Demiurge SDK and library files</description>
             <files>
                 <file category="header" name="Middlewares/Third_Party/Demiurge/inc/cv_outport.h"/>
@@ -102,7 +103,7 @@
                 <file category="source" name="Middlewares/Third_Party/Demiurge/src/cv_outport.c"/>
             </files>
         </component>
-        <component Cclass="Board Support" Cgroup="Demiurge1" Csub="RevG" Cversion="0.4.0" maxInstances="1">
+        <component Cclass="Board Support" Cgroup="Demiurge1" Csub="RevG" Cversion="0.4.1" maxInstances="1">
             <description>Demiurge 1, Rev G sound processing board</description>
             <RTE_Components_h>#define BOARD demi1-stm32f4</RTE_Components_h>
             <files>
