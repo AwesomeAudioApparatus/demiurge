@@ -186,7 +186,7 @@ void init_leds()
 
 void set_led(uint8_t led, int fade)
 {
-    leds_page2[led] = fade;
+    leds_page2[led_reg[led]] = fade;
 }
 
 void set_rgb(uint8_t position, uint8_t r, uint8_t g, uint8_t b)

@@ -99,7 +99,7 @@
       (@) These interfaces allow to manage a sequential transfer with a repeated start condition
           when a direction change during transfer
     [..]
-      (+) A specific option field manage the different output_levels of a sequential transfer
+      (+) A specific option field manage the different steps of a sequential transfer
       (+) Option field values are defined through I2C_XferOptions_definition and are listed below:
       (++) I2C_FIRST_AND_LAST_FRAME: No sequential usage, functional is same as associated interfaces in no sequential mode
       (++) I2C_FIRST_FRAME: Sequential usage, this option allow to manage a sequence with start condition, address

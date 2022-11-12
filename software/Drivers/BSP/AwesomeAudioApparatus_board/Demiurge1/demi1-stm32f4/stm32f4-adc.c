@@ -45,6 +45,23 @@ int16_t initialize_and_calibrate_adc()
     return 0;
 }
 
+// TODO: Is this true for STM32F (written for CH32V307)?
+// The out of order in the "Rank" is due to DMA start transfer when
+// the ADC converts the first value. So when the first ADC is completed
+// the DMA is ready to transfer that to buffer[1], and so on until
+// the 8th ADC conversion is completed and the DMA has reset its memory
+// destination pointer back to buffer[0]
+
+// Jack1 -> AD3 -> PC5 -> ADC_IN15 -> buffer[0]
+// Jack2 -> AD2 -> PC4 -> ADC_IN14 -> buffer[1]
+// Jack3 -> AD1 -> PC3 -> ADC_IN13 -> buffer[2]
+// Jack4 -> AD0 -> PC2 -> ADC_IN12 -> buffer[3]
+
+// RV1 -> AD7 -> PA3 -> ADC_IN3  -> buffer[4]
+// RV2 -> AD6 -> PA2 -> ADC_IN2  -> buffer[5]
+// RV3 -> AD5 -> PA1 -> ADC_IN1  -> buffer[6]
+// RV4 -> AD4 -> PA0 -> ADC_IN0  -> buffer[7]
+
 void init_adc_dma()
 {
 }
@@ -88,21 +105,6 @@ void init_adc(float *scales, float *offsets)
     calibration_adc = initialize_and_calibrate_adc(ADC1);
     printf("ADC1 calibration value: %d\n", (int) calibration_adc);
 
-    // The out of order in the "Rank" is due to DMA start transfer when
-    // the ADC converts the first value. So when the first ADC is completed
-    // the DMA is ready to transfer that to buffer[1], and so on until
-    // the 8th ADC conversion is completed and the DMA has reset its memory
-    // destination pointer back to buffer[0]
-
-    // CV1 -> AD3 -> PB1 -> ADC_IN9  -> buffer[0]
-    // CV2 -> AD2 -> PB0 -> ADC_IN8  -> buffer[1]
-    // CV3 -> AD1 -> PC5 -> ADC_IN15 -> buffer[2]
-    // CV4 -> AD0 -> PC4 -> ADC_IN14 -> buffer[3]
-
-    // RV1 -> AD7 -> PA3 -> ADC_IN3  -> buffer[4]
-    // RV2 -> AD6 -> PA2 -> ADC_IN2  -> buffer[5]
-    // RV3 -> AD5 -> PA1 -> ADC_IN1  -> buffer[6]
-    // RV4 -> AD4 -> PA0 -> ADC_IN0  -> buffer[7]
 
     init_adc_dma();
 }
